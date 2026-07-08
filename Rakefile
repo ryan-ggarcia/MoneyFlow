@@ -27,6 +27,12 @@ namespace :css do
     sh "bundle exec tailwindcss -i #{ENTRADA} -o #{SAIDA} --watch"
   end
 end
+namespace :run do
+  desc "inicia o servidor"
+  task :dev do
+    sh "bundle exec rackup"
+  end
+end
 
 # Atalho curtinho: "rake css" é o mesmo que "rake css:build".
 desc "Atalho para css:build (compila o CSS uma vez)"
