@@ -5,6 +5,7 @@ gem 'sinatra-contrib' #fornece Reloader
 gem 'tailwindcss-ruby', '>= 4.3.1'
 gem 'htmlbeautifier'
 gem 'json', '>= 2.20'
+gem 'mysql2', '>= 0.5.7'
 
 # Sinatra	Define as rotas e o que responder (seu código)
 # Puma	Servidor: escuta a porta e atende as conexões HTTP
