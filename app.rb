@@ -2,8 +2,8 @@ require "sinatra"
 require_relative "db/db.rb"
 # require "sinatra/reloader" if development?
 # carregam todos os models e controllers automaticamente.
-Dir["./Models/*.rb"].each {|f| require f}
-Dir["./Controllers/*.rb"].each {|f| require f}
+Dir["./models/*.rb"].each {|f| require f}
+Dir["./controllers/*.rb"].each {|f| require f}
 
 class App < Sinatra::Base
   configure :development do
