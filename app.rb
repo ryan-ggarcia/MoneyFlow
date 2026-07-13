@@ -1,5 +1,6 @@
 require "sinatra/base"
 require_relative "db/db.rb"
+require "json"
 # require "sinatra/reloader" if development?
 # carregam todos os models automaticamente.
 Dir["./models/*.rb"].each {|f| require f}
