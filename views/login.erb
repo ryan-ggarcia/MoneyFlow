@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>moneyFlow - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/application.css">
+</head>
+
+<body class="bg-background text-on-surface min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-[440px] flex flex-col gap-lg">
+
+        <!-- Cabeçalho / Logo -->
+        <div class="text-center flex flex-col items-center gap-sm">
+            <div class="w-16 h-16 bg-secondary-container rounded-xl flex items-center justify-center mb-base shadow-soft">
+                <span class="material-symbols-outlined text-secondary text-[32px]">account_balance_wallet</span>
+            </div>
+            <h1 class="text-headline-lg text-secondary tracking-tight">MONEYFLOW</h1>
+            <p class="text-body-md text-on-surface-variant">Sua jornada financeira começa aqui!</p>
+            <p class="text-body-md text-on-surface-variant">Gerencie seu <span style="color:#ddb40d;">gastos</span> , <span style="color:#ddb40d;">receitas</span>,<span style="color:#ddb40d;"> faturas </span> e muito mais!</p>
+        </div>
+
+        <!-- Card do formulário -->
+        <div class="bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-soft border border-outline-variant/30">
+            <form class="flex flex-col gap-md" method="post" action="/login">
+
+                <!-- E-mail -->
+                <div class="flex flex-col gap-xs">
+                    <label class="field-label" for="email">E-mail ou Usuário</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined input-icon">mail</span>
+                        <input class="input-field" id="email" name="email" placeholder="nome@exemplo.com" type="text" required>
+                    </div>
+                </div>
+
+                <!-- Senha -->
+                <div class="flex flex-col gap-xs">
+                    <div class="flex justify-between items-center">
+                        <label class="field-label" for="senha">Senha</label>
+                        <a class="link-accent text-label-md" href="#">Esqueci minha senha</a>
+                    </div>
+                    <div class="relative">
+                        <span class="material-symbols-outlined input-icon">lock</span>
+                        <input class="input-field pr-12" id="senha" name="senha" placeholder="••••••••" type="password" required>
+                        <button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors" id="toggle-senha" type="button" aria-label="Mostrar senha">
+                            <span class="material-symbols-outlined">visibility</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Botão de entrar -->
+                <button class="w-full py-4 bg-secondary text-on-secondary text-headline-md rounded-lg shadow-lift flex items-center justify-center gap-base" type="submit">
+                    Entrar
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </form>
+
+            <!-- Divisor -->
+            <div class="relative my-lg">
+                <div class="absolute inset-0 flex items-center">
+                    <span class="w-full border-t border-outline-variant/50"></span>
+                </div>
+                <div class="relative flex justify-center text-label-md">
+                    <span class="bg-surface-container-lowest px-4 text-on-surface-variant font-medium">OU CONTINUE COM</span>
+                </div>
+            </div>
+
+            <!-- Login social -->
+            <div class="grid grid-cols-2 gap-md">
+                <button class="btn-social shadow-lift" type="button">
+                    <svg height="20" viewBox="0 0 24 24" width="20">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335"></path>
+                    </svg>
+                    <span class="text-label-lg text-on-surface">Google</span>
+                </button>
+                <button class="btn-social shadow-lift" type="button">
+                    <svg fill="currentColor" height="20" viewBox="0 0 24 24" width="20">
+                        <path d="M17.05 20.28c-.98.95-2.05 1.61-3.2 1.61-1.12 0-1.52-.68-2.84-.68-1.33 0-1.8.66-2.83.68-1.07.02-2.12-.64-3.11-1.59-2.02-1.93-3.09-5.46-1.16-8.77 1.01-1.74 2.81-2.85 4.71-2.85 1.12 0 2.05.6 2.82.6.76 0 1.95-.74 3.31-.6 1.08.11 2.21.6 2.97 1.48-2.61 1.54-2.19 5.3.43 6.12zM12.44 5.32c-.08-2.01 1.54-3.79 3.38-3.92.21 2.22-2.06 4.14-3.38 3.92z"></path>
+                    </svg>
+                    <span class="text-label-lg text-on-surface">Apple</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <div class="text-center">
+            <p class="text-body-md text-on-surface-variant">
+                Não tem uma conta?
+                <a class="link-accent font-bold ml-1" href="#">Criar conta</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Elementos decorativos de fundo -->
+    <div class="bg-decor top-0 right-0">
+        <span class="material-symbols-outlined text-[300px] text-secondary">payments</span>
+    </div>
+    <div class="bg-decor bottom-0 left-0">
+        <span class="material-symbols-outlined text-[300px] text-primary">trending_up</span>
+    </div>
+
+    <script>
+        // Alterna a visibilidade da senha (mostrar/ocultar)
+        const botaoSenha = document.getElementById('toggle-senha');
+        const campoSenha = document.getElementById('senha');
+        botaoSenha.addEventListener('click', () => {
+            const visivel = campoSenha.type === 'text';
+            campoSenha.type = visivel ? 'password' : 'text';
+            botaoSenha.querySelector('span').textContent = visivel ? 'visibility' : 'visibility_off';
+        });
+    </script>
+</body>
+</html>

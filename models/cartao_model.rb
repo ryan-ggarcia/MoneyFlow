@@ -21,7 +21,7 @@ class Cartao_Model
   end
 
   def self.delete car_id
-    Database.executa_comando("DELETE FROM cartao WHERE car_id = ?" car_id)
+    Database.executa_comando("DELETE FROM cartao WHERE car_id = ?", car_id)
   end
 
   def self.update car_id

@@ -8,26 +8,26 @@ class Fatura_Model
     @cat_id = cat_id
   end
 
-  def insert 
+  def self.insert 
     sql = "INSERT INTO fatura (fat_nome,fat_data,fat_pago,cat_id)
      VALUES (?,?,?,?)"
     Database.executa_comando(sql,@fat_nome,@fat_data,@fat_pago,@cat_id)
   end
 
-  def list
+  def self.list
     Database.executa_select("SELECT * FROM fatura")
   end
 
-  def delete fat_id
+  def self.delete fat_id
     Database.executa_comando("DELETE FROM fatura WHERE fat_id = ?", fat_id)
   end
 
-  def update fat_id
+  def self.update fat_id
     sql = "UPDATE fatura SET fat_nome = ?, fat_data = ?, fat_pago = ?,cat_id = ? WHERE fet_id = ?"
     Database.executa_comando(sql,@fat_nome,@fat_data,@fat_pago,@cat_id,fet_id)
   end
 
-  def search fet_id
+  def self.search fet_id
     Database.executa_select("SELECT + FROM fatura WHERE fat_id = ?", fet_id)
   end
   

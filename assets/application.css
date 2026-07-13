@@ -1,1 +1,151 @@
-@import "tailwindcss"
+/*
+  Fonte dos ícones (Material Symbols). Importada aqui DENTRO da camada "base"
+  de propósito: o CSS do Google define .material-symbols-outlined com
+  font-size: 24px, e se ele ficar fora de camada ele venceria qualquer
+  utilitária do Tailwind (text-[300px], text-[32px]...). Na camada base,
+  as utilitárias passam por cima quando precisarem.
+  (Precisa vir ANTES do import do tailwind: @import só vale no topo do CSS.)
+*/
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap") layer(base);
+
+@import "tailwindcss";
+
+/*
+  Design system do moneyFlow (vindo do Stitch).
+  No Tailwind v4 a configuração do tema é feita aqui no CSS, com @theme:
+  cada variável vira uma classe utilitária (ex: --color-primary -> bg-primary,
+  --spacing-sm -> gap-sm/p-sm, --text-headline-lg -> text-headline-lg).
+*/
+@theme {
+  /* Fonte padrão da página inteira (o preflight aplica no html/body) */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Cores */
+  --color-primary: #006c49;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #10b981;
+  --color-on-primary-container: #00422b;
+  --color-secondary: #af8e0b;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #fed65b;
+  --color-on-secondary-container: #745c00;
+  --color-tertiary: #a83639;
+  --color-on-tertiary: #ffffff;
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-background: #f7f9ff;
+  --color-on-background: #161c22;
+  --color-surface: #f7f9ff;
+  --color-on-surface: #161c22;
+  --color-surface-variant: #dde3eb;
+  --color-on-surface-variant: #3c4a42;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eff4fc;
+  --color-surface-container: #e9eef6;
+  --color-surface-container-high: #e3e9f0;
+  --color-surface-container-highest: #dde3eb;
+  --color-outline: #6c7a71;
+  --color-outline-variant: #bbcabf;
+
+  /* Espaçamentos nomeados (p-md, gap-sm, m-margin...) */
+  --spacing-xs: 4px;
+  --spacing-base: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 24px;
+  --spacing-gutter: 24px;
+  --spacing-margin: 32px;
+  --spacing-lg: 48px;
+  --spacing-xl: 80px;
+
+  /* Tipografia (tamanho / altura de linha / peso) */
+  --text-label-md: 12px;
+  --text-label-md--line-height: 16px;
+  --text-label-md--font-weight: 500;
+  --text-label-lg: 14px;
+  --text-label-lg--line-height: 20px;
+  --text-label-lg--letter-spacing: 0.05em;
+  --text-label-lg--font-weight: 600;
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-md--font-weight: 400;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-lg--font-weight: 400;
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-md--font-weight: 600;
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 40px;
+  --text-headline-lg--font-weight: 600;
+  --text-display-md: 36px;
+  --text-display-md--line-height: 44px;
+  --text-display-md--letter-spacing: -0.02em;
+  --text-display-md--font-weight: 700;
+  --text-display-lg: 48px;
+  --text-display-lg--line-height: 56px;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 700;
+  --text-number-display: 40px;
+  --text-number-display--line-height: 48px;
+  --text-number-display--font-weight: 700;
+
+  /* Sombra suave usada nos cards (vira a utilitária shadow-soft) */
+  --shadow-soft: 0px 4px 20px rgba(52, 58, 64, 0.05);
+}
+
+/*
+  Classes reutilizáveis: só entra aqui estilização que se repete
+  em mais de um lugar. O resto fica como utilitárias direto no HTML.
+*/
+@layer components {
+  /* Base dos ícones do Material Symbols */
+  .material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    vertical-align: middle;
+  }
+
+  /* Efeito de "levantar" no hover (botões e cards clicáveis) */
+  .shadow-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .shadow-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 12px 32px rgba(52, 58, 64, 0.1);
+  }
+
+  /* Rótulo dos campos de formulário */
+  .field-label {
+    @apply text-label-lg text-on-surface;
+  }
+
+  /* Ícone à esquerda dentro dos inputs */
+  .input-icon {
+    @apply absolute left-4 top-1/2 -translate-y-1/2 text-outline;
+  }
+
+  /* Campo de texto (e-mail, senha...) */
+  .input-field {
+    @apply w-full pl-12 pr-4 py-3 bg-surface rounded-lg border border-outline-variant text-body-md text-on-surface placeholder:text-outline-variant transition-all;
+  }
+  .input-field:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(115, 92, 0, 0.15);
+    outline: none;
+  }
+
+  /* Links de apoio (esqueci a senha, criar conta...) */
+  .link-accent {
+    @apply text-secondary transition-all hover:underline;
+  }
+
+  /* Botões de login social (Google, Apple...) */
+  .btn-social {
+    @apply flex items-center justify-center gap-sm py-3 px-4 bg-surface border border-outline-variant rounded-lg transition-colors hover:bg-surface-container-low;
+  }
+
+  /* Ícones decorativos gigantes no fundo da página */
+  .bg-decor {
+    @apply fixed p-margin opacity-10 pointer-events-none;
+  }
+}
