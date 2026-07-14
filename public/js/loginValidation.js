@@ -49,18 +49,25 @@ function validar() {
     fetch('/efetuarLogin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.parse({ user: user, senha: senha })
+        body: JSON.stringify({ user: user.value, senha: senha.value })
     })
-        .then(r => { return r.json() })
-        .then(r => {
-            if (r.ok) {
+        .then(r => r.json() )
+        .then(result => {
+            if (result.ok) {
                 notyf.success({
                     duration: 3000,
                     icon: true,
                     message: "Bem-vindo de volta!",
                     position: { x: 'center', y: 'top' }
                 })
-                .then( window.location.href = '/' )
+                .then(()=>{window.location.href = '/'})
+            }else{
+                notyf.error({
+                    duration: 3000,
+                    icon: true,
+                    message: result.msg,
+                    position: { x: 'center', y: 'top' }
+                })
             }
         })
 

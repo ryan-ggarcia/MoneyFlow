@@ -30,6 +30,6 @@ class Usuario_Model
   end
   
   def self.seach_email usu_email
-    Database.executa_comando("SELECT * FROM usuario WHERE usu_email = ? OR usu_nome = ? ",usu_email)
+    Database.executa_select("SELECT * FROM usuario WHERE usu_email = ? OR usu_nome = ? ",usu_email, usu_email)
   end
 end
