@@ -1,0 +1,195 @@
+<!-- Barra superior com botão de voltar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center px-4 md:px-margin h-16 bg-surface">
+  <a class="mr-4 -ml-2 p-2 text-on-surface-variant hover:opacity-80 transition-opacity" href="/cartoes" aria-label="Voltar">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </a>
+  <h1 class="text-headline-md font-bold text-secondary flex-1">Adicionar Cartão</h1>
+  <div class="icon-circle w-10 h-10 bg-surface-variant text-on-surface-variant border border-outline-variant">
+    <span class="material-symbols-outlined">person</span>
+  </div>
+</header>
+
+<main class="mt-24 pb-32 max-w-[1280px] mx-auto px-4 md:px-margin">
+  <!-- No desktop (lg): preview à esquerda (fixa ao rolar) e formulário à direita.
+       No mobile continua empilhado (preview em cima, form embaixo). -->
+  <div class="lg:grid lg:grid-cols-2 lg:gap-margin lg:items-start">
+  <!-- Pré-visualização ao vivo: espelha o que for digitado no formulário -->
+  <section class="mb-lg lg:mb-0 lg:sticky lg:top-24">
+    <div class="relative w-full aspect-[1.586/1] rounded-xl p-md flex flex-col justify-between shadow-lg overflow-hidden bg-primary text-white transition-all duration-500" id="card-preview">
+      <!-- Padrão hexagonal decorativo por cima da cor -->
+      <div class="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay">
+        <svg height="100%" width="100%">
+          <pattern id="padrao-hex" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M20 0L40 10V30L20 40L0 30V10L20 0Z" fill="white"></path>
+          </pattern>
+          <rect fill="url(#padrao-hex)" height="100%" width="100%"></rect>
+        </svg>
+      </div>
+      <div class="flex justify-between items-start relative z-10">
+        <div class="flex flex-col">
+          <span class="text-label-md opacity-80 uppercase tracking-widest">moneyFlow</span>
+          <h2 class="text-headline-md font-bold mt-1" id="preview-nome">Meu Cartão</h2>
+        </div>
+        <span class="material-symbols-outlined text-[32px]">credit_card</span>
+      </div>
+      <div class="relative z-10">
+        <div class="flex items-center gap-4 mb-4">
+          <!-- Chip do cartão -->
+          <div class="w-10 h-7 bg-secondary-container/30 rounded flex items-center justify-center">
+            <div class="w-6 h-4 border border-white/20 rounded-sm"></div>
+          </div>
+          <div class="flex gap-1 text-xl">
+            <span>••••</span><span>••••</span><span>••••</span>
+            <span class="font-bold" id="preview-digitos">0000</span>
+          </div>
+        </div>
+        <div class="flex justify-between items-end">
+          <div class="flex flex-col">
+            <span class="text-label-md opacity-70">Limite</span>
+            <span class="text-body-lg font-bold" id="preview-limite">R$ 0,00</span>
+          </div>
+          <div class="flex gap-4">
+            <div class="flex flex-col items-end">
+              <span class="text-label-md opacity-70">Fecha</span>
+              <span class="text-body-md font-bold" id="preview-fechamento">01</span>
+            </div>
+            <div class="flex flex-col items-end">
+              <span class="text-label-md opacity-70">Vence</span>
+              <span class="text-body-md font-bold" id="preview-vencimento">01</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulário -->
+  <section class="card">
+    <form class="flex flex-col gap-gutter" id="form-cartao" method="post" action="/cartoes/cadastrar">
+      <!-- Nome -->
+      <div class="flex flex-col gap-base">
+        <label class="field-label" for="nome">Nome do Cartão</label>
+        <input class="form-input" id="nome" name="nome" maxlength="20" placeholder="Ex: Principal Itaú" type="text" required>
+      </div>
+      <!-- Bandeira e dígitos -->
+      <div class="grid grid-cols-2 gap-gutter">
+        <div class="flex flex-col gap-base">
+          <label class="field-label" for="bandeira">Bandeira</label>
+          <select class="form-input" id="bandeira" name="bandeira">
+            <option value="visa">Visa</option>
+            <option value="mastercard">Mastercard</option>
+            <option value="elo">Elo</option>
+            <option value="amex">Amex</option>
+          </select>
+        </div>
+        <div class="flex flex-col gap-base">
+          <label class="field-label" for="digitos">Últimos 4 Dígitos</label>
+          <input class="form-input" id="digitos" name="digitos" maxlength="4" placeholder="0000" type="text" inputmode="numeric" required>
+        </div>
+      </div>
+      <!-- Limite -->
+      <div class="flex flex-col gap-base">
+        <label class="field-label" for="limite">Limite de Crédito</label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60">R$</span>
+          <input class="form-input pl-10" id="limite" name="limite" placeholder="0,00" type="number" step="0.01" min="0" required>
+        </div>
+      </div>
+      <!-- Dias de fechamento e vencimento -->
+      <div class="grid grid-cols-2 gap-gutter">
+        <div class="flex flex-col gap-base">
+          <label class="field-label" for="dia_fechamento">Dia de Fechamento</label>
+          <input class="form-input" id="dia_fechamento" name="dia_fechamento" type="number" min="1" max="31" placeholder="01" required>
+        </div>
+        <div class="flex flex-col gap-base">
+          <label class="field-label" for="dia_vencimento">Dia de Vencimento</label>
+          <input class="form-input" id="dia_vencimento" name="dia_vencimento" type="number" min="1" max="31" placeholder="01" required>
+        </div>
+      </div>
+      <!-- Escolha da cor (a selecionada vai no campo escondido "cor") -->
+      <div class="flex flex-col gap-base">
+        <span class="field-label">Personalizar Cor</span>
+        <div class="flex flex-wrap gap-4 pt-1">
+          <button class="color-swatch bg-primary ring-2 ring-primary" data-cor="bg-primary" type="button" aria-label="Verde"></button>
+          <button class="color-swatch bg-secondary" data-cor="bg-secondary" type="button" aria-label="Dourado"></button>
+          <button class="color-swatch bg-tertiary" data-cor="bg-tertiary" type="button" aria-label="Vermelho"></button>
+          <button class="color-swatch bg-slate-800" data-cor="bg-slate-800" type="button" aria-label="Grafite"></button>
+          <button class="color-swatch bg-indigo-600" data-cor="bg-indigo-600" type="button" aria-label="Índigo"></button>
+          <button class="color-swatch bg-emerald-600" data-cor="bg-emerald-600" type="button" aria-label="Esmeralda"></button>
+        </div>
+        <input type="hidden" id="cor" name="cor" value="bg-primary">
+      </div>
+      <!-- Cartão premium -->
+      <div class="flex items-center justify-between p-3 bg-surface-container rounded-lg">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">stars</span>
+          <div>
+            <p class="text-label-lg">Cartão Premium / Gold</p>
+            <p class="text-[10px] opacity-60">Aplica um acabamento metálico especial</p>
+          </div>
+        </div>
+        <!-- Interruptor (toggle): o input fica invisível e a bolinha anda via peer-checked -->
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input class="sr-only peer" id="premium" name="premium" type="checkbox" value="1">
+          <div class="w-11 h-6 bg-outline-variant rounded-full peer peer-checked:bg-secondary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+        </label>
+      </div>
+      <!-- Salvar -->
+      <button class="w-full py-4 bg-secondary-container text-on-secondary-container font-bold rounded-xl shadow-lift flex items-center justify-center gap-2" type="submit">
+        <span class="material-symbols-outlined">save</span>
+        Salvar Cartão
+      </button>
+    </form>
+  </section>
+  </div>
+</main>
+
+<script>
+  // ===== Pré-visualização ao vivo do cartão =====
+  const preview = document.getElementById('card-preview');
+
+  document.getElementById('nome').addEventListener('input', (e) => {
+    document.getElementById('preview-nome').textContent = e.target.value || 'Meu Cartão';
+  });
+
+  document.getElementById('digitos').addEventListener('input', (e) => {
+    const numeros = e.target.value.replace(/\D/g, '');
+    e.target.value = numeros;
+    document.getElementById('preview-digitos').textContent = numeros.padStart(4, '0');
+  });
+
+  document.getElementById('limite').addEventListener('input', (e) => {
+    const valor = parseFloat(e.target.value);
+    document.getElementById('preview-limite').textContent =
+      isNaN(valor) ? 'R$ 0,00' : `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+  });
+
+  document.getElementById('dia_fechamento').addEventListener('input', (e) => {
+    document.getElementById('preview-fechamento').textContent = e.target.value.padStart(2, '0') || '01';
+  });
+
+  document.getElementById('dia_vencimento').addEventListener('input', (e) => {
+    document.getElementById('preview-vencimento').textContent = e.target.value.padStart(2, '0') || '01';
+  });
+
+  // Troca a cor do cartão e guarda a escolha no campo escondido "cor"
+  const botoesCor = document.querySelectorAll('[data-cor]');
+  botoesCor.forEach(botao => {
+    botao.addEventListener('click', () => {
+      botoesCor.forEach(b => {
+        preview.classList.remove(b.dataset.cor);
+        b.classList.remove('ring-2', 'ring-primary');
+      });
+      preview.classList.add(botao.dataset.cor);
+      botao.classList.add('ring-2', 'ring-primary');
+      document.getElementById('cor').value = botao.dataset.cor;
+    });
+  });
+
+  // Liga/desliga o acabamento dourado premium (troca também a cor do texto)
+  document.getElementById('premium').addEventListener('change', (e) => {
+    preview.classList.toggle('gold-finish', e.target.checked);
+    preview.classList.toggle('text-[#241a00]', e.target.checked);
+    preview.classList.toggle('text-white', !e.target.checked);
+  });
+</script>

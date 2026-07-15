@@ -57,10 +57,12 @@ function validar() {
                 notyf.success({
                     duration: 3000,
                     icon: true,
-                    message: "Bem-vindo de volta!",
+                    message: "Bem-vindo de volta! Você será redirecionado em alguns segundos...",
                     position: { x: 'center', y: 'top' }
                 })
-                .then(()=>{window.location.href = '/'})
+                setTimeout(()=>{
+                    window.location.href = "/"
+                },4000)
             }else{
                 notyf.error({
                     duration: 3000,

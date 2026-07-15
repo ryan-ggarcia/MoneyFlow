@@ -1,0 +1,165 @@
+<!-- Barra superior -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-margin h-16 bg-surface">
+  <div class="flex items-center gap-sm">
+    <div class="icon-circle w-10 h-10 bg-surface-variant text-on-surface-variant overflow-hidden cursor-pointer transition-transform active:scale-90">
+      <span class="material-symbols-outlined">person</span>
+    </div>
+    <span class="text-headline-md font-bold text-secondary">moneyFlow</span>
+  </div>
+  <button class="material-symbols-outlined text-primary p-2 rounded-full hover:opacity-80 transition-opacity active:scale-90" type="button" aria-label="Notificações">notifications</button>
+</header>
+
+<main class="mt-20 pb-32 px-4 md:px-margin max-w-[1280px] mx-auto">
+  <!-- Título da página + botão de adicionar -->
+  <!-- min-w-0 deixa o título encolher/quebrar e shrink-0 fixa o botão, então
+       eles ficam sempre lado a lado sem estourar. Abaixo de 400px o botão
+       vira só o ícone "+" (o texto some, mas o aria-label mantém a acessibilidade). -->
+  <div class="flex justify-between items-end gap-sm mb-md">
+    <div class="min-w-0">
+      <p class="text-label-lg text-secondary uppercase tracking-widest">Meus Ativos</p>
+      <h2 class="text-headline-lg text-on-surface">Gerenciar Cartões</h2>
+    </div>
+    <a class="shrink-0 border-2 border-secondary text-secondary text-label-lg px-4 py-2 rounded-xl flex items-center gap-2 whitespace-nowrap hover:bg-secondary-container/30 transition-colors active:scale-95 duration-200" href="/cartoes/cadastrar" aria-label="Adicionar Cartão">
+      <span class="material-symbols-outlined">add</span>
+      <span class="hidden min-[400px]:inline">Adicionar Cartão</span>
+    </a>
+  </div>
+
+  <!-- Carrossel de cartões -->
+  <section class="card-carousel mb-md">
+    <!-- Cartão Premium (dourado) -->
+    <div class="credit-card gold-finish text-[#241a00]">
+      <div class="flex justify-between items-start">
+        <span class="material-symbols-outlined text-4xl">contactless</span>
+        <span class="font-bold text-xl tracking-tighter">PREMIUM</span>
+      </div>
+      <div>
+        <div class="font-mono text-lg tracking-[0.2em] mb-1">•••• •••• •••• 8842</div>
+        <div class="flex justify-between items-end">
+          <span class="text-label-md uppercase opacity-80">Validade 09/28</span>
+          <div class="flex -space-x-2" aria-label="Mastercard">
+            <div class="w-6 h-6 rounded-full bg-[#eb001b]/70"></div>
+            <div class="w-6 h-6 rounded-full bg-[#f79e1b]/70"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Cartão Standard (grafite) -->
+    <div class="credit-card bg-[#2b3137] text-white">
+      <div class="flex justify-between items-start opacity-50">
+        <span class="material-symbols-outlined text-4xl">contactless</span>
+        <span class="font-bold text-xl tracking-tighter">STANDARD</span>
+      </div>
+      <div>
+        <div class="font-mono text-lg tracking-[0.2em] mb-1">•••• •••• •••• 4119</div>
+        <div class="flex justify-between items-end">
+          <span class="text-label-md uppercase opacity-60">Validade 12/26</span>
+          <span class="italic font-bold text-xl tracking-tight">VISA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abaixo do carrossel: no mobile empilha; no desktop (lg) vira 2 colunas
+       (esquerda = uso do limite + datas, direita = últimas compras). -->
+  <div class="grid gap-md lg:grid-cols-2 lg:items-start">
+    <!-- Coluna esquerda: uso do limite + datas -->
+    <div class="flex flex-col gap-md">
+    <!-- Uso do limite -->
+    <div class="card">
+      <div class="flex items-center justify-between flex-wrap gap-xs mb-sm">
+        <h3 class="text-headline-md text-on-surface">Uso do Limite</h3>
+        <div class="flex items-center gap-1 text-tertiary px-3 py-1 bg-error-container rounded-full">
+          <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">warning</span>
+          <span class="text-label-md">Alerta: próximo ao limite</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-base">
+        <div class="flex justify-between text-on-surface-variant">
+          <span class="text-label-lg">Limite Utilizado</span>
+          <span class="text-label-lg font-bold">R$ 14.820,00</span>
+        </div>
+        <!-- Barra de progresso -->
+        <div class="h-3 w-full bg-surface-variant rounded-full overflow-hidden">
+          <div class="h-full bg-tertiary rounded-full transition-all duration-1000 ease-out" style="width: 82%;"></div>
+        </div>
+        <div class="flex justify-between text-on-surface-variant">
+          <span class="text-label-md">Disponível: R$ 3.180,00</span>
+          <span class="text-label-md">Total: R$ 18.000,00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datas de fechamento e vencimento -->
+    <div class="grid grid-cols-2 gap-gutter">
+      <div class="card flex flex-col gap-xs">
+        <span class="material-symbols-outlined text-secondary">event_repeat</span>
+        <p class="text-label-md text-on-surface-variant uppercase">Fechamento</p>
+        <p class="text-headline-md text-on-surface">Todo dia 12</p>
+      </div>
+      <div class="card flex flex-col gap-xs">
+        <span class="material-symbols-outlined text-error">calendar_today</span>
+        <p class="text-label-md text-on-surface-variant uppercase">Vencimento</p>
+        <p class="text-headline-md text-on-surface">Todo dia 19</p>
+      </div>
+    </div>
+    </div>
+
+    <!-- Coluna direita: últimas compras do cartão -->
+    <div class="card">
+      <div class="flex justify-between items-center mb-md">
+        <h3 class="text-headline-md text-on-surface">Últimas Compras</h3>
+        <button class="link-accent text-label-lg" type="button">Ver tudo</button>
+      </div>
+      <div class="flex flex-col gap-sm">
+        <div class="flex items-center gap-4 py-2">
+          <div class="icon-circle rounded-lg w-10 h-10 bg-surface-container text-on-surface-variant">
+            <span class="material-symbols-outlined">shopping_cart</span>
+          </div>
+          <div class="flex-1">
+            <p class="text-label-lg text-on-surface">Apple Store Brasil</p>
+            <p class="text-label-md text-on-surface-variant">Hoje, 14:20</p>
+          </div>
+          <p class="text-label-lg font-bold text-on-surface">- R$ 12.499,00</p>
+        </div>
+        <div class="h-px bg-surface-variant w-full"></div>
+        <div class="flex items-center gap-4 py-2">
+          <div class="icon-circle rounded-lg w-10 h-10 bg-surface-container text-on-surface-variant">
+            <span class="material-symbols-outlined">restaurant</span>
+          </div>
+          <div class="flex-1">
+            <p class="text-label-lg text-on-surface">Restaurante Fasano</p>
+            <p class="text-label-md text-on-surface-variant">Ontem, 21:05</p>
+          </div>
+          <p class="text-label-lg font-bold text-on-surface">- R$ 450,00</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Destaca o cartão que está no centro do carrossel enquanto o usuário rola:
+  // o central ganha sombra forte e escala; os outros ficam apagados
+  const carrossel = document.querySelector('.card-carousel');
+  const cartoes = document.querySelectorAll('.credit-card');
+
+  function destacarCartaoCentral() {
+    const centroVisivel = carrossel.scrollLeft + carrossel.offsetWidth / 2;
+    cartoes.forEach(cartao => {
+      // offsetLeft do cartão é medido a partir do body, então subtrai o do carrossel
+      const centroCartao = (cartao.offsetLeft - carrossel.offsetLeft) + cartao.offsetWidth / 2;
+      const distancia = Math.abs(centroVisivel - centroCartao);
+      if (distancia < cartao.offsetWidth / 2) {
+        cartao.classList.add('card-active-shadow', 'scale-105');
+        cartao.classList.remove('shadow-soft', 'opacity-70');
+      } else {
+        cartao.classList.remove('card-active-shadow', 'scale-105');
+        cartao.classList.add('shadow-soft', 'opacity-70');
+      }
+    });
+  }
+
+  carrossel.addEventListener('scroll', destacarCartaoCentral);
+  window.addEventListener('load', destacarCartaoCentral);
+</script>
