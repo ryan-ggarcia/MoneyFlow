@@ -1,0 +1,112 @@
+<!-- Barra superior -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-margin h-16 bg-surface">
+  <span class="text-headline-md font-bold text-secondary">moneyFlow</span>
+  <div class="flex items-center gap-4">
+    <button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-90" type="button" aria-label="Notificações">notifications</button>
+    <div class="icon-circle w-10 h-10 bg-surface-variant text-on-surface-variant border-2 border-primary cursor-pointer transition-transform active:scale-90">
+      <span class="material-symbols-outlined">person</span>
+    </div>
+  </div>
+</header>
+
+<main class="mt-20 pb-32 px-4 md:px-margin max-w-[1280px] mx-auto">
+  <!-- Título -->
+  <div class="mb-md">
+    <p class="text-label-lg text-secondary uppercase tracking-widest">Meus Ativos</p>
+    <h2 class="text-headline-lg text-on-surface">Minhas Contas</h2>
+  </div>
+
+  <!-- No mobile empilha; no desktop (lg) Ações Rápidas vira uma barra lateral
+       (1/3) e "Suas Contas" ocupa os 2/3 restantes. -->
+  <div class="grid gap-md lg:grid-cols-3 lg:items-start">
+    <!-- Ações Rápidas -->
+    <section class="card lg:col-span-1 lg:sticky lg:top-24">
+      <h3 class="text-headline-md text-on-surface mb-md">Ações Rápidas</h3>
+      <div class="grid grid-cols-2 gap-4">
+        <button class="flex flex-col items-center justify-center p-4 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:border-secondary transition-all group" type="button">
+          <div class="icon-circle w-12 h-12 bg-secondary-container mb-2 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-on-secondary-container">swap_horiz</span>
+          </div>
+          <span class="text-label-lg text-center">Transferir</span>
+        </button>
+        <button class="flex flex-col items-center justify-center p-4 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:border-primary transition-all group" type="button">
+          <div class="icon-circle w-12 h-12 bg-primary-container mb-2 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-white">payments</span>
+          </div>
+          <span class="text-label-lg text-center">Pagar</span>
+        </button>
+      </div>
+      <a class="w-full mt-6 py-4 px-6 bg-secondary text-white text-label-lg rounded-xl flex items-center justify-center gap-2 shadow-lift active:scale-[0.98]" href="/contas/cadastrar">
+        <span class="material-symbols-outlined">add_circle</span>
+        Adicionar Conta
+      </a>
+    </section>
+
+    <!-- Suas Contas -->
+    <section class="lg:col-span-2">
+      <h3 class="text-headline-md text-on-surface mb-md">Suas Contas</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+        <!-- Nubank -->
+        <div class="card shadow-lift border-l-4 border-l-[#8A05BE] cursor-pointer">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-10 h-10 rounded-lg bg-[#8A05BE] flex items-center justify-center text-white font-bold shrink-0">Nu</div>
+              <div class="min-w-0">
+                <h4 class="text-body-lg font-bold text-on-surface truncate">Nubank</h4>
+                <p class="text-label-md text-on-surface-variant">Conta Corrente</p>
+              </div>
+            </div>
+            <button class="material-symbols-outlined text-on-surface-variant shrink-0" type="button" aria-label="Opções da conta">more_vert</button>
+          </div>
+          <div class="mt-md">
+            <p class="text-label-md text-on-surface-variant">Saldo Atual</p>
+            <p class="text-headline-md text-primary-container">R$ 12.450,80</p>
+          </div>
+        </div>
+
+        <!-- Itaú -->
+        <div class="card shadow-lift border-l-4 border-l-[#FF7000] cursor-pointer">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-10 h-10 rounded-lg bg-[#FF7000] flex items-center justify-center text-white font-bold shrink-0">It</div>
+              <div class="min-w-0">
+                <h4 class="text-body-lg font-bold text-on-surface truncate">Itaú</h4>
+                <p class="text-label-md text-on-surface-variant">Conta Salário</p>
+              </div>
+            </div>
+            <button class="material-symbols-outlined text-on-surface-variant shrink-0" type="button" aria-label="Opções da conta">more_vert</button>
+          </div>
+          <div class="mt-md">
+            <p class="text-label-md text-on-surface-variant">Saldo Atual</p>
+            <p class="text-headline-md text-primary-container">R$ 32.120,00</p>
+          </div>
+        </div>
+
+        <!-- Dinheiro / Carteira -->
+        <div class="card shadow-lift border-l-4 border-l-secondary cursor-pointer">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-white shrink-0">
+                <span class="material-symbols-outlined">wallet</span>
+              </div>
+              <div class="min-w-0">
+                <h4 class="text-body-lg font-bold text-on-surface truncate">Dinheiro</h4>
+                <p class="text-label-md text-on-surface-variant">Carteira Física</p>
+              </div>
+            </div>
+            <button class="material-symbols-outlined text-on-surface-variant shrink-0" type="button" aria-label="Opções da conta">more_vert</button>
+          </div>
+          <div class="mt-md">
+            <p class="text-label-md text-on-surface-variant">Saldo Atual</p>
+            <p class="text-headline-md text-primary-container">R$ 629,20</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- Botão flutuante (só no mobile; no desktop o "Adicionar Conta" já aparece em Ações Rápidas) -->
+<a class="fixed bottom-24 right-6 w-14 h-14 bg-secondary text-white rounded-full shadow-lg flex items-center justify-center lg:hidden transition-transform active:scale-90 z-40" href="/contas/cadastrar" aria-label="Adicionar Conta">
+  <span class="material-symbols-outlined">add</span>
+</a>

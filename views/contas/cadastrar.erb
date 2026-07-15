@@ -1,0 +1,144 @@
+<!-- Barra superior com botão de voltar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center px-4 md:px-margin h-16 bg-surface">
+  <a class="mr-4 -ml-2 p-2 text-on-surface-variant hover:opacity-80 transition-opacity" href="/contas" aria-label="Voltar">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </a>
+  <h1 class="text-headline-md font-bold text-secondary flex-1">Adicionar Conta</h1>
+  <div class="icon-circle w-10 h-10 bg-surface-variant text-on-surface-variant border border-outline-variant">
+    <span class="material-symbols-outlined">person</span>
+  </div>
+</header>
+
+<main class="mt-24 pb-32 max-w-[1280px] mx-auto px-4 md:px-margin">
+  <!-- No desktop (lg): preview à esquerda (fixo ao rolar) e formulário à direita.
+       No mobile continua empilhado (preview em cima, form embaixo). -->
+  <div class="lg:grid lg:grid-cols-2 lg:gap-margin lg:items-start">
+    <!-- Pré-visualização ao vivo da conta -->
+    <section class="mb-lg lg:mb-0 lg:sticky lg:top-24">
+      <div class="relative w-full aspect-[1.6/1] rounded-xl p-md flex flex-col justify-between overflow-hidden shadow-[0px_12px_32px_rgba(52,58,64,0.15)] bg-primary-container text-on-primary transition-all duration-500" id="conta-preview">
+        <!-- Formas decorativas -->
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
+        <!-- Topo: instituição + ícone -->
+        <div class="flex justify-between items-start relative z-10">
+          <div class="flex flex-col">
+            <span class="text-label-md text-on-primary/70 uppercase tracking-widest">moneyFlow Account</span>
+            <h2 class="text-headline-md text-on-primary mt-1" id="preview-nome">Instituição</h2>
+          </div>
+          <span class="material-symbols-outlined text-on-primary text-4xl">account_balance</span>
+        </div>
+        <!-- Saldo -->
+        <div class="relative z-10">
+          <span class="text-label-md text-on-primary/80">Saldo Disponível</span>
+          <div class="text-number-display font-bold text-on-primary" id="preview-saldo">R$ 0,00</div>
+        </div>
+        <!-- Rodapé: tipo + "chip" -->
+        <div class="flex justify-between items-end relative z-10">
+          <div class="px-3 py-1 bg-white/20 rounded-full text-label-md text-on-primary backdrop-blur-sm" id="preview-tipo">Conta Corrente</div>
+          <div class="flex gap-1">
+            <div class="w-8 h-5 bg-white/30 rounded-sm"></div>
+            <div class="w-8 h-5 bg-white/20 rounded-sm"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formulário -->
+    <section class="card">
+      <form class="flex flex-col gap-gutter" id="form-conta" method="post" action="/contas/cadastrar">
+        <!-- Nome da instituição -->
+        <div class="flex flex-col gap-base">
+          <label class="field-label" for="nome">Nome da Instituição</label>
+          <div class="relative">
+            <span class="material-symbols-outlined input-icon">account_balance</span>
+            <input class="input-field" id="nome" name="nome" maxlength="30" placeholder="Ex: Nubank, Itaú..." type="text" required>
+          </div>
+        </div>
+        <!-- Tipo de conta -->
+        <div class="flex flex-col gap-base">
+          <label class="field-label" for="tipo">Tipo de Conta</label>
+          <div class="relative">
+            <span class="material-symbols-outlined input-icon">category</span>
+            <select class="input-field pr-12 appearance-none" id="tipo" name="tipo">
+              <option value="Conta Corrente">Conta Corrente</option>
+              <option value="Poupança">Poupança</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+          </div>
+        </div>
+        <!-- Saldo inicial -->
+        <div class="flex flex-col gap-base">
+          <label class="field-label" for="saldo">Saldo Inicial</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-outline">R$</span>
+            <input class="input-field" id="saldo" name="saldo" placeholder="0,00" type="number" step="0.01" min="0" required>
+          </div>
+        </div>
+        <!-- Identidade visual (cor da conta) -->
+        <div class="flex flex-col gap-base">
+          <span class="field-label">Identidade Visual</span>
+          <div class="flex justify-between items-center bg-surface-container p-3 rounded-lg">
+            <div class="flex gap-3">
+              <button class="color-bubble w-8 h-8 rounded-full bg-primary-container border-2 border-white shadow-sm ring-2 ring-secondary" data-cor="#10b981" type="button" aria-label="Verde"></button>
+              <button class="color-bubble w-8 h-8 rounded-full bg-secondary-container border-2 border-white shadow-sm" data-cor="#d4af37" type="button" aria-label="Dourado"></button>
+              <button class="color-bubble w-8 h-8 rounded-full bg-tertiary-container border-2 border-white shadow-sm" data-cor="#a83639" type="button" aria-label="Vermelho"></button>
+              <button class="color-bubble w-8 h-8 rounded-full bg-on-surface-variant border-2 border-white shadow-sm" data-cor="#3c4a42" type="button" aria-label="Grafite"></button>
+              <button class="color-bubble w-8 h-8 rounded-full bg-blue-500 border-2 border-white shadow-sm" data-cor="#4a90e2" type="button" aria-label="Azul"></button>
+            </div>
+            <span class="material-symbols-outlined text-outline">palette</span>
+          </div>
+          <input type="hidden" id="cor" name="cor" value="#10b981">
+        </div>
+        <!-- Conta principal -->
+        <div class="flex items-center justify-between p-3 bg-surface-container rounded-lg">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+            <div>
+              <p class="text-label-lg text-on-surface">Conta Principal</p>
+              <p class="text-[10px] opacity-60">Usar como padrão para transações</p>
+            </div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input class="sr-only peer" id="principal" name="principal" type="checkbox" value="1">
+            <div class="w-11 h-6 bg-outline-variant rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+          </label>
+        </div>
+        <!-- Salvar -->
+        <button class="w-full py-4 bg-secondary text-on-secondary font-bold rounded-xl shadow-lift flex items-center justify-center gap-2" type="submit">
+          <span class="material-symbols-outlined">save</span>
+          Salvar Conta
+        </button>
+      </form>
+    </section>
+  </div>
+</main>
+
+<script>
+  // ===== Pré-visualização ao vivo da conta =====
+  const contaPreview = document.getElementById('conta-preview');
+
+  document.getElementById('nome').addEventListener('input', (e) => {
+    document.getElementById('preview-nome').textContent = e.target.value || 'Instituição';
+  });
+
+  document.getElementById('tipo').addEventListener('change', (e) => {
+    document.getElementById('preview-tipo').textContent = e.target.value;
+  });
+
+  document.getElementById('saldo').addEventListener('input', (e) => {
+    const valor = parseFloat(e.target.value);
+    document.getElementById('preview-saldo').textContent =
+      isNaN(valor) ? 'R$ 0,00' : valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  });
+
+  // Troca a cor do cartão da conta e guarda o valor no campo escondido "cor"
+  const bolhasCor = document.querySelectorAll('.color-bubble');
+  bolhasCor.forEach(bolha => {
+    bolha.addEventListener('click', () => {
+      bolhasCor.forEach(b => b.classList.remove('ring-2', 'ring-secondary'));
+      bolha.classList.add('ring-2', 'ring-secondary');
+      contaPreview.style.backgroundColor = bolha.dataset.cor;
+      document.getElementById('cor').value = bolha.dataset.cor;
+    });
+  });
+</script>

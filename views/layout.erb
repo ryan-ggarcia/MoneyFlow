@@ -17,9 +17,9 @@
     <span class="material-symbols-outlined" style="<%= preenchido if request.path_info == '/' %>">home</span>
     <span class="text-label-md">Início</span>
   </a>
-  <a class="nav-item" href="#">
-    <span class="material-symbols-outlined">account_balance_wallet</span>
-    <span class="text-label-md">Despesas</span>
+  <a class="nav-item <%= ativo if request.path_info.start_with?('/contas') %>" href="/contas">
+    <span class="material-symbols-outlined" style="<%= preenchido if request.path_info.start_with?('/contas') %>">account_balance_wallet</span>
+    <span class="text-label-md">Contas</span>
   </a>
   <a class="nav-item <%= ativo if request.path_info.start_with?('/cartoes') %>" href="/cartoes">
     <span class="material-symbols-outlined" style="<%= preenchido if request.path_info.start_with?('/cartoes') %>">credit_card</span>
