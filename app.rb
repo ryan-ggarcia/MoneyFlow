@@ -7,6 +7,8 @@ Dir["./models/*.rb"].each {|f| require f}
 
 
 class App < Sinatra::Base
+  enable :sessions
+  set :sesion_secret,'diwdiwqjdjiwqdiqjdajidjlslkdjkl\zljidakwljdoisjdlkadjlajjdasdklasjdl'
   configure :development do
     # recarrega o código automaticamente em desenvolvimento, sem precisar reiniciar o servidor.
     require "sinatra/reloader"
