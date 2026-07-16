@@ -10,12 +10,18 @@ class App < Sinatra::Base
     nome = dados['nome']
     tipo = dados['tipo']
     saldo = dados['saldo']
-    pix = dados['pix']
+    pix = dados['pix'] || 'Sem chave'
 
-    if !nome.empty? && !tipo.empty? && !saldo.empty? && !pix.empty?
+    if !nome.empty? && !tipo.empty? && !saldo.empty?
+      conta = Conta_Model.new(0,nome,saldo,tipo,pix,session[:usu_login])
+      conta.insert
+      if conta
+        {ok:true}.to_json
+      else
+        {ok:false,msg:'Não foi possível cadastrar a conta.'}.to_json
+      end
+    else
       {ok:false,msg:'Os campos não foram preenchidos corretamente'}.to_json
-    # else
-    #   Conta_model(0,nome,saldo,tipo,pix,)
     end
   end
 end

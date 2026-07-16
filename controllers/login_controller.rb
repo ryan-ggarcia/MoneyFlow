@@ -15,7 +15,7 @@ class App < Sinatra::Base
       model = Usuario_Model.seach_email(email)
       # p model
       if !model.empty? && model.first['usu_senha'] == senha
-        
+        session[:usu_login] = model.first['usu_id']
         {ok:true}.to_json
       else
         {ok:false, msg:'Email ou senha incorreto!'}.to_json

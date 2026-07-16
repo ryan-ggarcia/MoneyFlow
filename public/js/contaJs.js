@@ -21,7 +21,7 @@ function validar() {
     const inputPix = pix.value.trim() === ""
 
 
-    if (inputNome && inputTipo && inputPix && inputSaldo) {
+    if (inputNome && inputTipo && inputSaldo) {
         nome.style.borderColor = "red"
         tipo.style.borderColor = "red"
         saldo.style.borderColor = "red"
@@ -33,7 +33,7 @@ function validar() {
             position: { x: 'center', y: 'top' }
         })
     }
-    if (inputNome || inputTipo || inputPix || inputSaldo) {
+    if (inputNome || inputTipo || inputSaldo) {
         notfy.error({
             message: "Os campos destacados não foram preenchidos corretamente!",
             icon: true,
@@ -42,11 +42,10 @@ function validar() {
         })
         if (inputNome) nome.style.borderColor = "red"
         if (inputTipo) tipo.style.borderColor = "red"
-        if (inputPix) pix.style.borderColor = "red"
         if (inputSaldo) saldo.style.borderColor = "red"
     }
 
-    if (!inputNome && !inputPix && !inputSaldo && !inputTipo) {
+    if (!inputNome && !inputSaldo && !inputTipo) {
         fetch('/contas/efetuarCadastro', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
