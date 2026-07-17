@@ -8,6 +8,8 @@ function validar() {
     let tipo = document.getElementById("tipo")
     let saldo = document.getElementById("saldo")
     let pix = document.getElementById("pix")
+    let cor = document.getElementById("cor")
+   
     const notfy = new Notyf()
 
     nome.style.borderColor = "green"
@@ -53,7 +55,8 @@ function validar() {
                 nome: nome.value,
                 tipo: tipo.value,
                 pix: pix.value,
-                saldo: saldo.value
+                saldo: saldo.value,
+                cor: cor.value
             })
         })
             .then(r => r.json())

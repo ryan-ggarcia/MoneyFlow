@@ -21,7 +21,7 @@ class Database
   def self.executa_select(sql,*values)
     comando = DB.prepare(sql)
     if values.empty?
-      return comando.execute(sql).to_a #executa sem o valores
+      return comando.execute.to_a #executa sem o valores
     else
       return comando.execute(*values).to_a #execulta com valores e retorna um array
     end

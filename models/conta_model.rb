@@ -1,19 +1,20 @@
 class Conta_Model
-  attr_accessor :con_id, :con_nome, :con_saldo, :con_tipo, :con_chave, :usu_id
-  def initialize(con_id,con_nome,con_saldo,con_tipo,con_chave,usu_id)
+  attr_accessor :con_id, :con_nome, :con_saldo, :con_tipo, :con_chave, :usu_id, :con_cor
+  def initialize(con_id,con_nome,con_saldo,con_tipo,con_chave,usu_id,con_cor)
     @con_id = con_id
     @con_nome = con_nome
     @con_saldo = con_saldo
     @con_tipo = con_tipo
     @con_chave = con_chave
     @usu_id = usu_id
+    @con_cor = con_cor
   end
   
   # CRUD
   def insert
-    sql = "INSERT INTO conta (con_nome, con_saldo, con_tipo, con_chave, usu_id)
-     VALUES (?, ?, ?, ?, ?)"
-    Database.executa_comando(sql, @con_nome, @con_saldo, @con_tipo, @con_chave, @usu_id)
+    sql = "INSERT INTO conta (con_nome, con_saldo, con_tipo, con_chave, usu_id,con_cor)
+     VALUES (?, ?, ?, ?, ?, ?)"
+    Database.executa_comando(sql, @con_nome, @con_saldo, @con_tipo, @con_chave, @usu_id,@con_cor)
   end
   
   def self.list

@@ -46,61 +46,31 @@
     <section class="lg:col-span-2">
       <h3 class="text-headline-md text-on-surface mb-md">Suas Contas</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
-        <!-- Nubank -->
-        <div class="card shadow-lift border-l-4 border-l-[#8A05BE] cursor-pointer">
-          <div class="flex justify-between items-start mb-4">
-            <div class="flex items-center gap-3 min-w-0">
-              <div class="w-10 h-10 rounded-lg bg-[#8A05BE] flex items-center justify-center text-white font-bold shrink-0">Nu</div>
-              <div class="min-w-0">
-                <h4 class="text-body-lg font-bold text-on-surface truncate">Nubank</h4>
-                <p class="text-label-md text-on-surface-variant">Conta Corrente</p>
+        <!-- Card Contas -->
+        <% if !@contas.empty? %>
+          <% @contas.each do |c| %>
+            <div class="card shadow-lift border-l-4 cursor-pointer" style="border-left-color: <%= c['con_cor'] %>">
+              <div class="flex justify-between items-start mb-4">
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold shrink-0" style="background-color: <%= c['con_cor'] %>">Nu</div>
+                  <div class="min-w-0">
+                    <h4 class="text-body-lg font-bold text-on-surface truncate"><%= c['con_nome'] %></h4>
+                    <p class="text-label-md text-on-surface-variant"> <%= c['con_tipo'] == 'CORRENTE' ? 'Conta Corrente' : 'Conta Poupança' %> </p>
+                  </div>
+                </div>
+                <button class="material-symbols-outlined text-on-surface-variant shrink-0" type="button" aria-label="Opções da conta">more_vert</button>
+              </div>
+              <div class="mt-md">
+                <p class="text-label-md text-on-surface-variant">Saldo Atual</p>
+                <p class="text-headline-md text-primary-container">R$ <%= c['con_saldo'].to_f %> </p>
               </div>
             </div>
-            <button class="material-symbols-outlined text-on-surface-variant shrink-0" type="button" aria-label="Opções da conta">more_vert</button>
+          <% end %>
+        <% else %>
+          <div>
+            <span>Erro...</span>
           </div>
-          <div class="mt-md">
-            <p class="text-label-md text-on-surface-variant">Saldo Atual</p>
-            <p class="text-headline-md text-primary-container">R$ 12.450,80</p>
-          </div>
-        </div>
-
-        <!-- Itaú -->
-        <div class="card shadow-lift border-l-4 border-l-[#FF7000] cursor-pointer">
-          <div class="flex justify-between items-start mb-4">
-            <div class="flex items-center gap-3 min-w-0">
-              <div class="w-10 h-10 rounded-lg bg-[#FF7000] flex items-center justify-center text-white font-bold shrink-0">It</div>
-              <div class="min-w-0">
-                <h4 class="text-body-lg font-bold text-on-surface truncate">Itaú</h4>
-                <p class="text-label-md text-on-surface-variant">Conta Salário</p>
-              </div>
-            </div>
-            <button class="material-symbols-outlined text-on-surface-variant shrink-0" type="button" aria-label="Opções da conta">more_vert</button>
-          </div>
-          <div class="mt-md">
-            <p class="text-label-md text-on-surface-variant">Saldo Atual</p>
-            <p class="text-headline-md text-primary-container">R$ 32.120,00</p>
-          </div>
-        </div>
-
-        <!-- Dinheiro / Carteira -->
-        <div class="card shadow-lift border-l-4 border-l-secondary cursor-pointer">
-          <div class="flex justify-between items-start mb-4">
-            <div class="flex items-center gap-3 min-w-0">
-              <div class="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-white shrink-0">
-                <span class="material-symbols-outlined">wallet</span>
-              </div>
-              <div class="min-w-0">
-                <h4 class="text-body-lg font-bold text-on-surface truncate">Dinheiro</h4>
-                <p class="text-label-md text-on-surface-variant">Carteira Física</p>
-              </div>
-            </div>
-            <button class="material-symbols-outlined text-on-surface-variant shrink-0" type="button" aria-label="Opções da conta">more_vert</button>
-          </div>
-          <div class="mt-md">
-            <p class="text-label-md text-on-surface-variant">Saldo Atual</p>
-            <p class="text-headline-md text-primary-container">R$ 629,20</p>
-          </div>
-        </div>
+        <% end %>
       </div>
     </section>
   </div>
