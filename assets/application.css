@@ -229,4 +229,43 @@
   .color-swatch {
     @apply w-10 h-10 rounded-full border-4 border-white shadow-sm hover:shadow-md transition-all cursor-pointer;
   }
+
+  /* =========================================================
+     Modal "folha" que sobe do rodapé (bottom sheet).
+     Usado na lista de contas: clica nos três pontinhos do card e a
+     folha desliza de baixo pra cima, ocupando metade da tela.
+     O JS só adiciona/remove a classe .is-open pra abrir e fechar.
+     z-index 60/61 pra ficar por cima da barra de navegação (z-50).
+     ========================================================= */
+
+  /* Fundo escurecido atrás da folha. Começa invisível e sem captar
+     cliques; .is-open (posto pelo JS) o revela e o torna clicável. */
+  .sheet-backdrop {
+    @apply fixed inset-0 opacity-0 pointer-events-none transition-opacity duration-200;
+    z-index: 60;
+    background-color: rgba(22, 28, 34, 0.4); /* on-surface translúcido */
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  .sheet-backdrop.is-open {
+    @apply opacity-100 pointer-events-auto;
+  }
+
+  /* A folha em si: presa no rodapé, largura total, cantos arredondados só
+     no topo. translate-y-full a esconde embaixo da tela; .is-open a traz
+     pra cima (translate-y-0) com uma transição suave. */
+  .bottom-sheet {
+    @apply fixed bottom-0 left-0 w-full flex flex-col rounded-t-xl bg-surface-container-lowest translate-y-full transition-transform duration-300 ease-out;
+    z-index: 61;
+    height: 50vh;                               /* "até a metade da tela" */
+    box-shadow: 0px -4px 20px rgba(52, 58, 64, 0.08);
+  }
+  .bottom-sheet.is-open {
+    @apply translate-y-0;
+  }
+
+  /* Alcinha cinza no topo da folha (enfeite que indica que dá pra arrastar/fechar) */
+  .sheet-handle {
+    @apply w-12 h-1 mx-auto mt-3 mb-2 rounded-full bg-outline-variant shrink-0;
+  }
 }

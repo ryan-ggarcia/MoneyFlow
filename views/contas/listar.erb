@@ -58,7 +58,17 @@
                     <p class="text-label-md text-on-surface-variant"> <%= c['con_tipo'] == 'CORRENTE' ? 'Conta Corrente' : 'Conta Poupança' %> </p>
                   </div>
                 </div>
-                <button class="material-symbols-outlined text-on-surface-variant shrink-0" type="button" aria-label="Opções da conta">more_vert</button>
+                <button
+                  class="js-opcoes-conta material-symbols-outlined text-on-surface-variant shrink-0 cursor-pointer hover:opacity-80 transition-opacity active:scale-90"
+                  type="button"
+                  aria-label="Opções da conta"
+                  data-id="<%= c['con_id'] %>"
+                  data-nome="<%= c['con_nome'] %>"
+                  data-tipo="<%= c['con_tipo'] %>"
+                  data-saldo="<%= c['con_saldo'].to_f %>"
+                  data-pix="<%= c['con_chave'] %>"
+                  data-cor="<%= c['con_cor'] %>"
+                >more_vert</button>
               </div>
               <div class="mt-md">
                 <p class="text-label-md text-on-surface-variant">Saldo Atual</p>
@@ -80,3 +90,151 @@
 <a class="fixed bottom-24 right-6 w-14 h-14 bg-secondary text-white rounded-full shadow-lg flex items-center justify-center lg:hidden transition-transform active:scale-90 z-40" href="/contas/cadastrar" aria-label="Adicionar Conta">
   <span class="material-symbols-outlined">add</span>
 </a>
+
+<div class="sheet-backdrop" id="conta-backdrop"></div>
+
+<section class="bottom-sheet" id="conta-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-titulo" aria-hidden="true">
+  <!-- Alcinha (só enfeite, sinaliza que dá pra fechar) -->
+  <div class="sheet-handle"></div>
+
+  <!-- Cabeçalho -->
+  <div class="flex items-center justify-between px-md pb-sm shrink-0">
+    <h3 class="text-headline-md text-on-surface" id="sheet-titulo">Editar conta</h3>
+    <button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-90 cursor-pointer" type="button" id="conta-fechar" aria-label="Fechar">close</button>
+  </div>
+
+  <!-- Corpo rolável com os campos -->
+  <form class="flex flex-col gap-gutter px-md pb-md overflow-y-auto flex-1" id="form-editar-conta">
+    <!-- Guarda o id da conta que está sendo editada (o JS preenche) -->
+    <input type="hidden" id="edit-id" name="id">
+
+    <!-- Nome -->
+    <div class="flex flex-col gap-base">
+      <label class="field-label" for="edit-nome">Nome da Instituição</label>
+      <div class="relative">
+        <span class="material-symbols-outlined input-icon">account_balance</span>
+        <input class="input-field" id="edit-nome" name="nome" maxlength="30" placeholder="Ex: Nubank, Itaú..." type="text">
+      </div>
+    </div>
+
+    <!-- Tipo de conta -->
+    <div class="flex flex-col gap-base">
+      <label class="field-label" for="edit-tipo">Tipo de Conta</label>
+      <div class="relative">
+        <span class="material-symbols-outlined input-icon">category</span>
+        <select class="input-field pr-12 appearance-none" id="edit-tipo" name="tipo">
+          <option value="CORRENTE">Conta Corrente</option>
+          <option value="POUPANCA">Poupança</option>
+        </select>
+        <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+      </div>
+    </div>
+
+    <!-- Saldo -->
+    <div class="flex flex-col gap-base">
+      <label class="field-label" for="edit-saldo">Saldo</label>
+      <div class="relative">
+        <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-outline">R$</span>
+        <input class="input-field" id="edit-saldo" name="saldo" placeholder="0,00" type="number" step="0.01" min="0">
+      </div>
+    </div>
+
+    <!-- Chave pix -->
+    <div class="flex flex-col gap-base">
+      <label class="field-label" for="edit-pix">Chave pix</label>
+      <div class="relative">
+        <span class="material-symbols-outlined input-icon">key</span>
+        <input class="input-field" id="edit-pix" name="pix" placeholder="Cpf, número, email..." type="text">
+      </div>
+    </div>
+
+    <!-- Identidade visual (cor da conta) — o JS marca a bolinha da cor atual ao abrir -->
+    <div class="flex flex-col gap-base">
+      <span class="field-label">Identidade Visual</span>
+      <div class="flex justify-between items-center bg-surface-container p-3 rounded-lg">
+        <div class="flex gap-3">
+          <button class="js-edit-cor w-8 h-8 rounded-full bg-primary-container border-2 border-white shadow-sm" data-cor="#10b981" type="button" aria-label="Verde"></button>
+          <button class="js-edit-cor w-8 h-8 rounded-full bg-secondary-container border-2 border-white shadow-sm" data-cor="#d4af37" type="button" aria-label="Dourado"></button>
+          <button class="js-edit-cor w-8 h-8 rounded-full bg-tertiary-container border-2 border-white shadow-sm" data-cor="#a83639" type="button" aria-label="Vermelho"></button>
+          <button class="js-edit-cor w-8 h-8 rounded-full bg-on-surface-variant border-2 border-white shadow-sm" data-cor="#3c4a42" type="button" aria-label="Grafite"></button>
+          <button class="js-edit-cor w-8 h-8 rounded-full bg-blue-500 border-2 border-white shadow-sm" data-cor="#4a90e2" type="button" aria-label="Azul"></button>
+        </div>
+        <span class="material-symbols-outlined text-outline">palette</span>
+      </div>
+      <input type="hidden" id="edit-cor" name="cor" value="#10b981">
+    </div>
+
+    <!-- Ações: salvar alteração e excluir.
+         No mobile o Salvar preenche a largura (flex-1); no desktop (lg:) ele
+         para de esticar (lg:flex-none) e o par de botões alinha à direita. -->
+    <div class="flex gap-sm pt-1 lg:justify-end">
+      <button class="flex-1 lg:flex-none lg:px-10 py-4 bg-secondary text-on-secondary font-bold rounded-xl shadow-lift flex items-center justify-center gap-2" id="btn-salvar-edicao" type="submit">
+        <span class="material-symbols-outlined">save</span>
+        Salvar
+      </button>
+      <button class="py-4 px-6 bg-tertiary text-white font-bold rounded-xl shadow-lift flex items-center justify-center gap-2" id="btn-excluir-conta" type="button">
+        <span class="material-symbols-outlined">delete</span>
+        Excluir
+      </button>
+    </div>
+  </form>
+</section>
+
+<script>
+  (function () {
+    const backdrop  = document.getElementById('conta-backdrop');
+    const sheet     = document.getElementById('conta-sheet');
+    const bolhasCor = document.querySelectorAll('.js-edit-cor');
+
+    // Marca a bolinha da cor escolhida (ring) e guarda o valor no #edit-cor escondido
+    function marcarCor(cor) {
+      document.getElementById('edit-cor').value = cor || '';
+      bolhasCor.forEach(function (b) {
+        const selecionada = b.dataset.cor === cor;
+        b.classList.toggle('ring-2', selecionada);
+        b.classList.toggle('ring-secondary', selecionada);
+      });
+    }
+
+    // Abre a folha e joga os dados do card clicado (data-*) nos campos
+    function abrir(dados) {
+      document.getElementById('edit-id').value    = dados.id    || '';
+      document.getElementById('edit-nome').value  = dados.nome  || '';
+      document.getElementById('edit-tipo').value  = dados.tipo  || 'CORRENTE';
+      document.getElementById('edit-saldo').value = dados.saldo || '';
+      document.getElementById('edit-pix').value   = dados.pix   || '';
+      marcarCor(dados.cor || '#10b981');
+      backdrop.classList.add('is-open');
+      sheet.classList.add('is-open');
+      sheet.setAttribute('aria-hidden', 'false');
+    }
+
+    function fechar() {
+      backdrop.classList.remove('is-open');
+      sheet.classList.remove('is-open');
+      sheet.setAttribute('aria-hidden', 'true');
+    }
+
+    // Cada botão de três pontinhos carrega os dados da conta em data-*
+    document.querySelectorAll('.js-opcoes-conta').forEach(function (botao) {
+      botao.addEventListener('click', function (e) {
+        e.stopPropagation(); // não deixa o clique "vazar" pro card
+        abrir(botao.dataset);
+      });
+    });
+
+    // Troca a cor ao clicar numa bolinha do modal
+    bolhasCor.forEach(function (bolha) {
+      bolha.addEventListener('click', function () {
+        marcarCor(bolha.dataset.cor);
+      });
+    });
+
+    // Fecha ao clicar no X, no fundo escuro ou apertar Esc
+    document.getElementById('conta-fechar').addEventListener('click', fechar);
+    backdrop.addEventListener('click', fechar);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') fechar();
+    });
+  })();
+</script>

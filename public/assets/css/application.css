@@ -604,6 +604,9 @@
   .overflow-hidden {
     overflow: hidden;
   }
+  .overflow-y-auto {
+    overflow-y: auto;
+  }
   .rounded {
     border-radius: 0.25rem;
   }
@@ -822,6 +825,9 @@
   .px-base {
     padding-inline: var(--spacing-base);
   }
+  .px-md {
+    padding-inline: var(--spacing-md);
+  }
   .px-sm {
     padding-inline: var(--spacing-sm);
   }
@@ -848,6 +854,12 @@
   }
   .pb-32 {
     padding-bottom: calc(var(--spacing) * 32);
+  }
+  .pb-md {
+    padding-bottom: var(--spacing-md);
+  }
+  .pb-sm {
+    padding-bottom: var(--spacing-sm);
   }
   .pl-10 {
     padding-left: calc(var(--spacing) * 10);
@@ -1348,6 +1360,11 @@
       display: none;
     }
   }
+  .lg\:flex-none {
+    @media (width >= 64rem) {
+      flex: none;
+    }
+  }
   .lg\:grid-cols-2 {
     @media (width >= 64rem) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1363,9 +1380,19 @@
       align-items: flex-start;
     }
   }
+  .lg\:justify-end {
+    @media (width >= 64rem) {
+      justify-content: flex-end;
+    }
+  }
   .lg\:gap-margin {
     @media (width >= 64rem) {
       gap: var(--spacing-margin);
+    }
+  }
+  .lg\:px-10 {
+    @media (width >= 64rem) {
+      padding-inline: calc(var(--spacing) * 10);
     }
   }
 }
@@ -1621,6 +1648,62 @@
         box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
       }
     }
+  }
+  .sheet-backdrop {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    opacity: 0%;
+    transition-property: opacity;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+    --tw-duration: 200ms;
+    transition-duration: 200ms;
+    z-index: 60;
+    background-color: rgba(22, 28, 34, 0.4);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  .sheet-backdrop.is-open {
+    pointer-events: auto;
+    opacity: 100%;
+  }
+  .bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    --tw-translate-y: 100%;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+    flex-direction: column;
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
+    background-color: var(--color-surface-container-lowest);
+    transition-property: transform, translate, scale, rotate;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+    --tw-duration: 300ms;
+    transition-duration: 300ms;
+    --tw-ease: var(--ease-out);
+    transition-timing-function: var(--ease-out);
+    z-index: 61;
+    height: 50vh;
+    box-shadow: 0px -4px 20px rgba(52, 58, 64, 0.08);
+  }
+  .bottom-sheet.is-open {
+    --tw-translate-y: 0;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .sheet-handle {
+    margin-inline: auto;
+    margin-top: calc(var(--spacing) * 3);
+    margin-bottom: calc(var(--spacing) * 2);
+    height: var(--spacing);
+    width: calc(var(--spacing) * 12);
+    flex-shrink: 0;
+    border-radius: calc(infinity * 1px);
+    background-color: var(--color-outline-variant);
   }
 }
 @property --tw-translate-x {
