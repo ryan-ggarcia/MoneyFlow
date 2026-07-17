@@ -155,7 +155,7 @@ O que o banco devolve depende do tipo de comando executado:
         └────┬─────┘            └─────┬──────┘           │ DELETE     │
              │                        │                  └─────┬──────┘
              ▼                        ▼                        ▼
-      linhas em hashes         DB.last_id               DB.affected_rows
+      linhas em hashes      banco.last_id            banco.affected_rows
       [{"id"=>1, ...}]      (id gerado, ex: 42)      (nº de linhas, ex: 1)
 ```
 
@@ -165,7 +165,87 @@ como `0`/`1`. Para receber `true`/`false` direto, usa-se a opção
 
 ---
 
-## 7. Como testar a conexão
+## 7. Cliente (`DB`) vs Statement (`banco`) — de onde vêm os metadados
+
+Um ponto que costuma confundir: dentro do `Database`, existem **dois objetos
+diferentes**, e cada um guarda o seu próprio estado.
+
+```ruby
+banco = DB.prepare(sql)   # DB = conexão  |  banco = comando preparado
+banco.execute(*values)
+```
+
+| Variável | O que é de verdade                          | Classe              |
+| -------- | ------------------------------------------- | ------------------- |
+| `DB`     | A **conexão** com o MariaDB (o cano aberto) | `Mysql2::Client`    |
+| `banco`  | Um **comando SQL preparado** nessa conexão  | `Mysql2::Statement` |
+
+> ⚠️ O nome `banco` engana: ele *parece* ser "o banco de dados", mas na real é
+> um **statement** (um comando). Quem é a conexão/banco é o `DB`. Ler
+> mentalmente como `comando = DB.prepare(sql)` deixa tudo mais claro.
+
+### Por que o estado é separado
+
+O MySQL tem **dois caminhos** para rodar SQL, e cada um guarda o resultado num
+lugar diferente:
+
+```
+ 1) Query direta (protocolo texto)     2) Prepared statement (protocolo binário)
+ ─────────────────────────────         ──────────────────────────────────────
+ DB.query("INSERT ...")                banco = DB.prepare("INSERT ... (?, ?)")
+ DB.affected_rows   ✅                  banco.execute(a, b)
+ DB.last_id         ✅                  banco.affected_rows   ✅
+                                       banco.last_id         ✅
+ metadados ficam NA conexão (DB)       metadados ficam NO statement (banco)
+```
+
+Quando o comando roda por um prepared statement, perguntar `DB.affected_rows`
+retorna `-1` no nível do MySQL (a conexão em si não rodou "query" nenhuma), e a
+gem `mysql2` transforma esse `-1` num `Mysql2::Error` **de mensagem vazia**:
+
+```ruby
+banco = DB.prepare("INSERT INTO conta (...) VALUES (?, ?)")
+banco.execute("Nubank", 100)
+
+banco.affected_rows   # ✅ 1  — número certo, veio do statement
+DB.affected_rows      # ❌ Mysql2::Error:  (mensagem em branco)
+```
+
+### A analogia
+
+Pensa no `DB` como um **balcão de atendimento** e no `banco`/statement como um
+**formulário** que você pega nesse balcão:
+
+- Falou direto no balcão (`DB.query`) → o **balcão** anota o que aconteceu.
+- Preencheu e entregou o formulário (`banco.execute`) → o **comprovante** fica
+  com o **formulário**, não com o balcão.
+
+Perguntar `DB.affected_rows` depois de usar o statement é como perguntar ao
+atendente quantas linhas o *seu formulário* afetou — não foi ele que processou,
+então ele não sabe.
+
+### O bônus: preparar uma vez, executar várias
+
+Separar o estado assim tem um motivo prático — o mesmo statement pode ser
+executado várias vezes, e cada um mantém o próprio placar:
+
+```ruby
+banco = DB.prepare("INSERT INTO conta (con_nome, con_saldo) VALUES (?, ?)")
+banco.execute("Nubank", 100)
+banco.execute("Itaú",   200)   # mesmo statement, outra execução
+banco.affected_rows            # se refere à ÚLTIMA execução
+```
+
+Se esse placar ficasse todo na conexão `DB`, dois statements diferentes
+atropelariam o resultado um do outro.
+
+> **Regra prática:** ao usar `DB.prepare(...)`, leia os metadados **do objeto
+> que o `prepare` devolveu** — `banco.affected_rows`, `banco.last_id` — e nunca
+> do `DB`.
+
+---
+
+## 8. Como testar a conexão
 
 Com o XAMPP (módulo MySQL) rodando, basta executar o arquivo direto:
 

@@ -11,7 +11,7 @@ class App < Sinatra::Base
     tipo = dados['tipo']
     saldo = dados['saldo']
     pix = dados['pix'] || 'Sem chave'
-
+    
     if !nome.empty? && !tipo.empty? && !saldo.empty?
       conta = Conta_Model.new(0,nome,saldo,tipo,pix,session[:usu_login])
       conta.insert

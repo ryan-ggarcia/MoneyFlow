@@ -65,6 +65,7 @@ function validar() {
                         duration: 3000,
                         position: { x: 'center', y: 'top' }
                     })
+                    setTimeout(()=>{ window.location.href = '/contas' }, 4000)
                 } else {
                     notfy.error({
                         message: r.msg,

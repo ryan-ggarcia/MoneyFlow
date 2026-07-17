@@ -10,7 +10,7 @@ class Conta_Model
   end
   
   # CRUD
-  def self.insert
+  def insert
     sql = "INSERT INTO conta (con_nome, con_saldo, con_tipo, con_chave, usu_id)
      VALUES (?, ?, ?, ?, ?)"
     Database.executa_comando(sql, @con_nome, @con_saldo, @con_tipo, @con_chave, @usu_id)
