@@ -1,9 +1,9 @@
-document.addEventListener('DOMContentLoaded',function(){
-    document.getElementById('btn-salvar-edicao').addEventListener('click', alterar )
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('btn-salvar-edicao').addEventListener('click', alterar)
     document.getElementById('btn-excluir-conta').addEventListener('click', deletar)
 })
 
-function alterar(){
+function alterar() {
     let id = document.getElementById('edit-id')
     let nome = document.getElementById('edit-nome')
     let tipo = document.getElementById('edit-tipo')
@@ -70,7 +70,7 @@ function alterar(){
                         duration: 3000,
                         position: { x: 'center', y: 'top' }
                     })
-                    setTimeout(()=>{ window.location.reload()}, 3000)
+                    setTimeout(() => { window.location.reload() }, 3000)
                 } else {
                     notfy.error({
                         message: r.msg,
@@ -84,6 +84,42 @@ function alterar(){
 
 }
 
-function deletar(){
-
+function deletar() {
+    let id = document.getElementById('edit-id')
+    Swal.fire({
+        title: "Tem certeza?",
+        text: "Você não conseguirá reverter isso!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, deletar!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/contas/deletar', {
+                method: 'POST',
+                headers: { 'Content-type': 'applicatin/json' },
+                body: JSON.stringify({ id: id.value })
+            })
+                .then(r => r.json())
+                .then(r => {
+                    if (r.ok) {
+                        Swal.fire({
+                            title: `Conta ${r.conta} excluida!`,
+                            text: `A conta foi deletada com sucesso.`,
+                            icon: "success"
+                        });
+                        setTimeout(()=>{
+                            window.location.reload()
+                        },3000)
+                    }else{
+                        Swal.fire({
+                            title:"Erro ao excluir conta...",
+                            text:r.msg,
+                            icon:"error"
+                        })
+                    }
+                })
+        }
+    });
 }
