@@ -1,3 +1,4 @@
+<script src="/js/conta/alterar.js" ></script>
 <!-- Barra superior -->
 <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-margin h-16 bg-surface">
   <span class="text-headline-md font-bold text-secondary">moneyFlow</span>
@@ -163,12 +164,8 @@
       </div>
       <input type="hidden" id="edit-cor" name="cor" value="#10b981">
     </div>
-
-    <!-- Ações: salvar alteração e excluir.
-         No mobile o Salvar preenche a largura (flex-1); no desktop (lg:) ele
-         para de esticar (lg:flex-none) e o par de botões alinha à direita. -->
     <div class="flex gap-sm pt-1 lg:justify-end">
-      <button class="flex-1 lg:flex-none lg:px-10 py-4 bg-secondary text-on-secondary font-bold rounded-xl shadow-lift flex items-center justify-center gap-2" id="btn-salvar-edicao" type="submit">
+      <button class="flex-1 lg:flex-none lg:px-10 py-4 bg-secondary text-on-secondary font-bold rounded-xl shadow-lift flex items-center justify-center gap-2" id="btn-salvar-edicao" type="button">
         <span class="material-symbols-outlined">save</span>
         Salvar
       </button>

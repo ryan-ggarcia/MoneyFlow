@@ -26,8 +26,8 @@ class Conta_Model
   end
 
   def update con_id
-    Database.executa_comando("UPDATE conta SET con_nome = ?, con_saldo = ?, con_tipo = ?, con_chave = ?,usu_id = ? WHERE con_id = ?",
-     @con_nome, @con_saldo, @con_tipo, @con_chave, @usu_id, con_id)
+    Database.executa_comando("UPDATE conta SET con_nome = ?, con_saldo = ?, con_tipo = ?, con_chave = ?,usu_id = ?, con_cor =? WHERE con_id = ?",
+     @con_nome, @con_saldo, @con_tipo, @con_chave, @usu_id, @con_cor, con_id)
   end
 
   def self.search con_id
