@@ -1,9 +1,14 @@
 {
-  "files.associations": {
-    "*.erb": "erb"
-  },
-  "emmet.includeLanguages": {
-    "erb": "html"
-  },
-  "emmet.triggerExpansionOnTab": true
+  "files.associations": { "*.erb": "erb" },
+  "emmet.includeLanguages": { "erb": "html" },
+  "emmet.triggerExpansionOnTab": true,
+
+  // ---- Ruby LSP ----
+  "rubyLsp.rubyVersionManager": { "identifier": "none" },
+  "rubyLsp.formatter": "rubocop",
+  "rubyLsp.linters": ["rubocop"],
+  "[ruby]": {
+    "editor.defaultFormatter": "Shopify.ruby-lsp",
+    "editor.formatOnSave": true
+  }
 }

@@ -1,5 +1,6 @@
 AllCops:
-  TargetRubyVersion: 4.0.5
+  TargetRubyVersion: 3.4
+  ParserEngine: parser_whitequark   # <-- adicionar
   NewCops: enable
   SuggestExtensions: false
 
@@ -23,4 +24,4 @@ Style/StringLiterals:
   EnforcedStyle: double_quotes
 
 Layout/EndOfLine:
-  EnforcedStyle: lf
+  EnforcedStyle: native

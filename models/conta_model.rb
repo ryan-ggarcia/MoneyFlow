@@ -1,4 +1,4 @@
-class Conta_Model
+class ContaModel
   attr_accessor :con_id, :con_nome, :con_saldo, :con_tipo, :con_chave, :usu_id, :con_cor
 
   def initialize(con_id, con_nome, con_saldo, con_tipo, con_chave, usu_id, con_cor)
@@ -18,20 +18,20 @@ class Conta_Model
     Database.executa_comando(sql, @con_nome, @con_saldo, @con_tipo, @con_chave, @usu_id, @con_cor)
   end
 
-  def self.list
-    Database.executa_select("SELECT * FROM conta")
+  def self.list(usu_id)
+    Database.executa_select("SELECT * FROM conta WHERE usu_id = ?", usu_id)
   end
 
-  def self.delete(con_id)
-    Database.executa_comando("DELETE FROM conta WHERE con_id = ?", con_id)
+  def self.delete(con_id, usu_id)
+    Database.executa_comando("DELETE FROM conta WHERE con_id = ? AND usu_id = ? ", con_id, usu_id)
   end
 
-  def update(con_id)
-    Database.executa_comando("UPDATE conta SET con_nome = ?, con_saldo = ?, con_tipo = ?, con_chave = ?,usu_id = ?, con_cor =? WHERE con_id = ?",
-                             @con_nome, @con_saldo, @con_tipo, @con_chave, @usu_id, @con_cor, con_id)
+  def update(con_id, usu_id)
+    Database.executa_comando("UPDATE conta SET con_nome = ?, con_saldo = ?, con_tipo = ?, con_chave = ?,usu_id = ?, con_cor =? WHERE con_id = ? AND usu_id = ? ",
+                             @con_nome, @con_saldo, @con_tipo, @con_chave, @usu_id, @con_cor, con_id, usu_id)
   end
 
-  def self.search(con_id)
-    Database.executa_select("SELECT * FROM conta WHERE con_id = ?", con_id).first
+  def self.search(con_id, usu_id)
+    Database.executa_select("SELECT * FROM conta WHERE con_id = ? AND usu_id = ?", con_id, usu_id).first
   end
 end

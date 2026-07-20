@@ -16,4 +16,5 @@ class App < Sinatra::Base
   end
 end
 # carregam todos as controllers automaticamente.
+Dir["./helpers/*.rb"].each { |f| require f }
 Dir["./controllers/*.rb"].each { |f| require f }

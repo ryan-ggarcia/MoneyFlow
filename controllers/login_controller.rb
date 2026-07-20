@@ -14,7 +14,7 @@ class App < Sinatra::Base
     if !email.empty? && !senha.empty?
       model = Usuario_Model.seach_email(email)
       # p model
-      if !model.empty? && model.first["usu_senha"] == senha
+      if !model.empty? && BCrypt::Password.new(model.first["usu_senha"]) == senha
         session[:usu_login] = model.first["usu_id"]
         { ok: true }.to_json
       else

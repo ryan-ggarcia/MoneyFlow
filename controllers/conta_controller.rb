@@ -8,23 +8,17 @@ class App < Sinatra::Base
     erb :"contas/cadastrar"
   end
   post "/contas/efetuarCadastro" do
-    dados = JSON.parse(request.body.read)
-    # p dados
-    nome = dados["nome"]
-    tipo = dados["tipo"]
-    saldo = dados["saldo"]
-    pix = dados["pix"] || "Sem chave"
-    cor = dados["cor"]
-
+    resultado = ContaModel::Cadastrar(corpo_json, session[:usu_login])
+    resultado.ok? ? sucesso : erro(resultado.msg)
     if !nome.empty? && !tipo.empty? && !saldo.empty?
       conta = Conta_Model.new(0, nome, saldo, tipo, pix, session[:usu_login], cor)
       if conta.insert
-        { ok: true }.to_json
+        sucesso
       else
-        { ok: false, msg: "Não foi possível cadastrar a conta." }.to_json
+        erro("Não foi possível cadastrar a conta.")
       end
     else
-      { ok: false, msg: "Os campos não foram preenchidos corretamente" }.to_json
+      erro("Os campos não foram preenchidos corretamente")
     end
   end
   post "/contas/alterar" do
@@ -37,14 +31,13 @@ class App < Sinatra::Base
     cor = dados["cor"]
     if !nome.to_s.empty? && !tipo.empty? && !saldo.empty? && !id.empty?
       conta = Conta_Model.new(id, nome, saldo, tipo, pix, session[:usu_login], cor)
-      conta.update(id)
-      if conta
-        { ok: true }.to_json
+      if conta.update(id)
+        sucesso
       else
-        { ok: false, msg: "Não foi possível alterar a conta. Tente novamente mais tarde" }.to_json
+        erro("Não foi possível alterar a conta. Tente novamente mais tarde")
       end
     else
-      { ok: false, msg: "Preencha todos os campos para proseguir." }.to_json
+      erro("Preencha todos os campos para proseguir.")
     end
   end
   post "/contas/deletar" do
@@ -54,9 +47,9 @@ class App < Sinatra::Base
     nome = list["con_nome"]
     conta = Conta_Model.delete(id)
     if conta
-      { ok: true, conta: nome }.to_json
+      sucesso
     else
-      { ok: false, msg: "Não foi possível excluir a conta" }.to_json
+      erro("Não foi possível excluir a conta")
     end
   end
 end
