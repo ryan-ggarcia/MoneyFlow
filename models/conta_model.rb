@@ -26,9 +26,10 @@ class ContaModel
     Database.executa_comando("DELETE FROM conta WHERE con_id = ? AND usu_id = ? ", con_id, usu_id)
   end
 
-  def update(con_id, usu_id)
-    Database.executa_comando("UPDATE conta SET con_nome = ?, con_saldo = ?, con_tipo = ?, con_chave = ?,usu_id = ?, con_cor =? WHERE con_id = ? AND usu_id = ? ",
-                             @con_nome, @con_saldo, @con_tipo, @con_chave, @usu_id, @con_cor, con_id, usu_id)
+  def update
+    Database.executa_comando("UPDATE conta SET con_nome = ?, con_saldo = ?, con_tipo = ?, con_chave = ?, con_cor =?
+                              WHERE con_id = ? AND usu_id = ? ",
+                             @con_nome, @con_saldo, @con_tipo, @con_chave, @con_cor, @con_id, @usu_id)
   end
 
   def self.search(con_id, usu_id)

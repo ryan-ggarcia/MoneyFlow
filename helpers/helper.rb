@@ -9,7 +9,7 @@ class App < Sinatra::Base
 
     def sucesso(extra = {})
       # retorna o ok e junta o parametro caso tenha um
-      { ok: true }.merge(extra).json
+      { ok: true }.merge(extra).to_json
     end
 
     def erro(msg)

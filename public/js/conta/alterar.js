@@ -105,7 +105,7 @@ function deletar() {
                 .then(r => {
                     if (r.ok) {
                         Swal.fire({
-                            title: `Conta ${r.conta} excluida!`,
+                            title: `Conta excluida!`,
                             text: `A conta foi deletada com sucesso.`,
                             icon: "success"
                         });

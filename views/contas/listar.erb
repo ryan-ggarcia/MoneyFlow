@@ -73,13 +73,29 @@
               </div>
               <div class="mt-md">
                 <p class="text-label-md text-on-surface-variant">Saldo Atual</p>
-                <p class="text-headline-md text-primary-container">R$ <%= c['con_saldo'].to_f %> </p>
+                <p class="text-headline-md text-primary-container"> <%= moeda(c['con_saldo']) %> </p>
+              </div>
+              <div class="mt-md">
+                <p class="text-label-md text-on-surface-variant">Chave pix</p>
+                <p class="text-headline-md text-primary-container"> <%= c['con_chave'] %> </p>
               </div>
             </div>
           <% end %>
         <% else %>
-          <div>
-            <span>Erro...</span>
+          <!-- Estado vazio: aparece quando o usuário ainda não tem contas.
+               sm:col-span-2 faz o bloco ocupar as duas colunas da grade. -->
+          <div class="sm:col-span-2 flex flex-col items-center justify-center text-center gap-base py-xl px-md rounded-xl border-2 border-dashed border-outline-variant/50 bg-surface-container-low/40">
+            <div class="icon-circle w-20 h-20 bg-secondary-container/40 mb-sm">
+              <span class="material-symbols-outlined text-secondary text-[40px]">account_balance_wallet</span>
+            </div>
+            <h4 class="text-headline-md text-on-surface">Nenhuma conta por aqui ainda</h4>
+            <p class="text-body-md text-on-surface-variant max-w-[360px]">
+              Parece que você não tem contas cadastradas... Clique no botão abaixo para adicionar a sua conta!
+            </p>
+            <a class="mt-sm py-4 px-6 bg-secondary text-white text-label-lg rounded-xl flex items-center justify-center gap-2 shadow-lift active:scale-[0.98]" href="/contas/cadastrar">
+              <span class="material-symbols-outlined">add_circle</span>
+              Adicionar Conta
+            </a>
           </div>
         <% end %>
       </div>

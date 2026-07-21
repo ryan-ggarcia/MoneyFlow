@@ -1,10 +1,10 @@
 require "sinatra/base"
 require_relative "db/db"
 require "json"
+require "bcrypt"
 # require "sinatra/reloader" if development?
 # carregam todos os models automaticamente.
 Dir["./models/*.rb"].each { |f| require f }
-
 
 class App < Sinatra::Base
   enable :sessions
@@ -17,4 +17,5 @@ class App < Sinatra::Base
 end
 # carregam todos as controllers automaticamente.
 Dir["./helpers/*.rb"].each { |f| require f }
+Dir["./service/**/*.rb"].each { |f| require f }
 Dir["./controllers/*.rb"].each { |f| require f }
