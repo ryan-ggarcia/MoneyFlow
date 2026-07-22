@@ -9,7 +9,7 @@ module ContaService
       erro = validacao
       return Resultado.erro(erro) if erro
 
-      conta = ContaModel.new(0, @dados["saldo"], @dados["saldo"], @dados["tipo"], @dados["pix"] || "Sem chave pix",
+      conta = ContaModel.new(0, @dados["nome"], @dados["saldo"], @dados["tipo"], @dados["pix"] || "Sem chave pix",
                              @usu_id, @dados["cor"])
 
       return Resultado.erro("Não foi possível cadastrar a conta.") unless conta.insert
