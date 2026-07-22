@@ -93,6 +93,11 @@
               <button class="color-bubble w-8 h-8 rounded-full bg-tertiary-container border-2 border-white shadow-sm" data-cor="#a83639" type="button" aria-label="Vermelho"></button>
               <button class="color-bubble w-8 h-8 rounded-full bg-on-surface-variant border-2 border-white shadow-sm" data-cor="#3c4a42" type="button" aria-label="Grafite"></button>
               <button class="color-bubble w-8 h-8 rounded-full bg-blue-500 border-2 border-white shadow-sm" data-cor="#4a90e2" type="button" aria-label="Azul"></button>
+              <!-- Cor personalizada: clique abre o seletor nativo e escolhe qualquer cor -->
+              <label id="bubble-custom" class="w-8 h-8 rounded-full border-2 border-white shadow-sm relative overflow-hidden cursor-pointer" aria-label="Escolher outra cor"
+                     style="background: conic-gradient(from 90deg, #ff2d55, #ffcc00, #34c759, #00c7be, #007aff, #af52de, #ff2d55);">
+                <input type="color" id="cor-custom" value="#10b981" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+              </label>
             </div>
             <span class="material-symbols-outlined text-outline">palette</span>
           </div>
@@ -142,12 +147,24 @@
 
   // Troca a cor do cartão da conta e guarda o valor no campo escondido "cor"
   const bolhasCor = document.querySelectorAll('.color-bubble');
+  const corCustom = document.getElementById('cor-custom');       // seletor de cor livre
+  const bubbleCustom = document.getElementById('bubble-custom');
+
   bolhasCor.forEach(bolha => {
     bolha.addEventListener('click', () => {
       bolhasCor.forEach(b => b.classList.remove('ring-2', 'ring-secondary'));
+      bubbleCustom.classList.remove('ring-2', 'ring-secondary');
       bolha.classList.add('ring-2', 'ring-secondary');
       contaPreview.style.backgroundColor = bolha.dataset.cor;
       document.getElementById('cor').value = bolha.dataset.cor;
     });
+  });
+
+  // Cor personalizada: aplica o hex escolhido direto no cartão da conta
+  corCustom.addEventListener('input', (e) => {
+    bolhasCor.forEach(b => b.classList.remove('ring-2', 'ring-secondary'));
+    bubbleCustom.classList.add('ring-2', 'ring-secondary');
+    contaPreview.style.backgroundColor = e.target.value;
+    document.getElementById('cor').value = e.target.value;
   });
 </script>

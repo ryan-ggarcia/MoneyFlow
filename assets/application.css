@@ -225,9 +225,17 @@
     outline: none;
   }
 
-  /* Bolinha de escolha de cor do cartão (a selecionada ganha ring-2 ring-primary) */
+  /* Bolinha de escolha de cor do cartão (a selecionada ganha .is-selected) */
   .color-swatch {
     @apply w-10 h-10 rounded-full border-4 border-white shadow-sm hover:shadow-md transition-all cursor-pointer;
+  }
+  /* Cor escolhida: cresce um pouco e ganha um anel escuro com um respiro
+     branco em volta. Fica visível em qualquer cor — inclusive no verde,
+     onde o antigo "ring-primary" sumia por ser da mesma cor da bolinha. */
+  .color-swatch.is-selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px var(--color-surface-container-lowest),
+                0 0 0 4px var(--color-on-surface);
   }
 
   /* =========================================================

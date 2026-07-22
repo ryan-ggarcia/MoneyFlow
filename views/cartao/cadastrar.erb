@@ -31,7 +31,7 @@
           <span class="text-label-md opacity-80 uppercase tracking-widest">moneyFlow</span>
           <h2 class="text-headline-md font-bold mt-1" id="preview-nome">Meu Cartão</h2>
         </div>
-        <span class="material-symbols-outlined text-[32px]">credit_card</span>
+        <span class="text-lg font-bold italic tracking-tight uppercase whitespace-nowrap" id="preview-bandeira">Visa</span>
       </div>
       <div class="relative z-10">
         <div class="flex items-center gap-4 mb-4">
@@ -70,31 +70,43 @@
       <!-- Nome -->
       <div class="flex flex-col gap-base">
         <label class="field-label" for="nome">Nome do Cartão</label>
-        <input class="form-input" id="nome" name="nome" maxlength="20" placeholder="Ex: Principal Itaú" type="text" required>
+        <div class="relative">
+          <span class="material-symbols-outlined input-icon">credit_card</span>
+          <input class="input-field" id="nome" name="nome" maxlength="20" placeholder="Ex: Principal Itaú" type="text" required>
+        </div>
       </div>
-      <!-- Bandeira e dígitos -->
-      <div class="grid grid-cols-2 gap-gutter">
-        <div class="flex flex-col gap-base">
-          <label class="field-label" for="bandeira">Bandeira</label>
-          <select class="form-input" id="bandeira" name="bandeira">
+      <!-- Bandeira -->
+      <div class="flex flex-col gap-base">
+        <label class="field-label" for="bandeira">Bandeira</label>
+        <div class="relative">
+          <span class="material-symbols-outlined input-icon">payments</span>
+          <select class="input-field pr-12 appearance-none" id="bandeira" name="bandeira">
             <option value="visa">Visa</option>
             <option value="mastercard">Mastercard</option>
             <option value="elo">Elo</option>
             <option value="amex">Amex</option>
           </select>
+          <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
         </div>
-         <div class="flex flex-col gap-base">
-          <label class="field-label" for="tipo">Tipo</label>
-          <select class="form-input" id="tipo" name="tipo">
+      </div>
+      <!-- Tipo -->
+      <div class="flex flex-col gap-base">
+        <label class="field-label" for="tipo">Tipo</label>
+        <div class="relative">
+          <span class="material-symbols-outlined input-icon">category</span>
+          <select class="input-field pr-12 appearance-none" id="tipo" name="tipo">
             <option value="DEBITO">Débito</option>
             <option value="CREDITO">Crédito</option>
           </select>
+          <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
         </div>
       </div>
       <!-- Selecionar conta -->
       <div class="flex flex-col gap-base">
         <label class="field-label" for="conta">Conta</label>
-          <select class="form-input" id="conta" name="conta">
+        <div class="relative">
+          <span class="material-symbols-outlined input-icon">account_balance</span>
+          <select class="input-field pr-12 appearance-none" id="conta" name="conta">
             <option value="0">--Selecionar--</option>
             <% if !@conta.empty? %>
               <% @conta.each do |c| %>
@@ -104,36 +116,52 @@
               <span>Sem contas cadastradas.</span>
             <%end%>
           </select>
+          <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+        </div>
       </div>
       <!-- Limite -->
       <div class="flex flex-col gap-base">
         <label class="field-label" for="limite">Limite de Crédito</label>
         <div class="relative">
-          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60">R$</span>
-          <input class="form-input pl-10" id="limite" name="limite" placeholder="0,00" type="number" step="0.01" min="0" required>
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-outline">R$</span>
+          <input class="input-field" id="limite" name="limite" placeholder="0,00" type="number" step="0.01" min="0" required>
         </div>
       </div>
       <!-- Dias de fechamento e vencimento -->
       <div class="grid grid-cols-2 gap-gutter">
         <div class="flex flex-col gap-base">
           <label class="field-label" for="dia_fechamento">Dia de Fechamento</label>
-          <input class="form-input" id="dia_fechamento" name="dia_fechamento" type="number" min="1" max="31" placeholder="01" required>
+          <div class="relative">
+            <span class="material-symbols-outlined input-icon">event_repeat</span>
+            <input class="input-field" id="dia_fechamento" name="dia_fechamento" type="number" min="1" max="31" placeholder="01" required>
+          </div>
         </div>
         <div class="flex flex-col gap-base">
           <label class="field-label" for="dia_vencimento">Dia de Vencimento</label>
-          <input class="form-input" id="dia_vencimento" name="dia_vencimento" type="number" min="1" max="31" placeholder="01" required>
+          <div class="relative">
+            <span class="material-symbols-outlined input-icon">calendar_today</span>
+            <input class="input-field" id="dia_vencimento" name="dia_vencimento" type="number" min="1" max="31" placeholder="01" required>
+          </div>
         </div>
       </div>
       <!-- Escolha da cor (a selecionada vai no campo escondido "cor") -->
       <div class="flex flex-col gap-base">
         <span class="field-label">Personalizar Cor</span>
-        <div class="flex flex-wrap gap-4 pt-1">
-          <button class="color-swatch bg-primary ring-2 ring-primary" data-cor="bg-primary" type="button" aria-label="Verde"></button>
-          <button class="color-swatch bg-secondary" data-cor="bg-secondary" type="button" aria-label="Dourado"></button>
-          <button class="color-swatch bg-tertiary" data-cor="bg-tertiary" type="button" aria-label="Vermelho"></button>
-          <button class="color-swatch bg-slate-800" data-cor="bg-slate-800" type="button" aria-label="Grafite"></button>
-          <button class="color-swatch bg-indigo-600" data-cor="bg-indigo-600" type="button" aria-label="Índigo"></button>
-          <button class="color-swatch bg-emerald-600" data-cor="bg-emerald-600" type="button" aria-label="Esmeralda"></button>
+        <div class="flex items-center justify-between gap-3 bg-surface-container p-3 rounded-lg">
+          <div class="flex flex-wrap items-center gap-3">
+            <button class="color-swatch bg-primary is-selected" data-cor="bg-primary" type="button" aria-label="Verde"></button>
+            <button class="color-swatch bg-secondary" data-cor="bg-secondary" type="button" aria-label="Dourado"></button>
+            <button class="color-swatch bg-tertiary" data-cor="bg-tertiary" type="button" aria-label="Vermelho"></button>
+            <button class="color-swatch bg-slate-800" data-cor="bg-slate-800" type="button" aria-label="Grafite"></button>
+            <button class="color-swatch bg-indigo-600" data-cor="bg-indigo-600" type="button" aria-label="Índigo"></button>
+            <button class="color-swatch bg-emerald-600" data-cor="bg-emerald-600" type="button" aria-label="Esmeralda"></button>
+            <!-- Cor personalizada: clique abre o seletor nativo e escolhe qualquer cor -->
+            <label id="swatch-custom" class="color-swatch relative overflow-hidden cursor-pointer" aria-label="Escolher outra cor"
+                   style="background: conic-gradient(from 90deg, #ff2d55, #ffcc00, #34c759, #00c7be, #007aff, #af52de, #ff2d55);">
+              <input type="color" id="cor-custom" value="#006c49" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+            </label>
+          </div>
+          <span class="material-symbols-outlined text-outline shrink-0">palette</span>
         </div>
         <input type="hidden" id="cor" name="cor" value="bg-primary">
       </div>
@@ -142,7 +170,7 @@
         <div class="flex items-center gap-3">
           <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">stars</span>
           <div>
-            <p class="text-label-lg">Cartão Premium / Gold</p>
+            <p class="text-label-lg text-on-surface">Cartão Premium / Gold</p>
             <p class="text-[10px] opacity-60">Aplica um acabamento metálico especial</p>
           </div>
         </div>
@@ -153,7 +181,7 @@
         </label>
       </div>
       <!-- Salvar -->
-      <button class="w-full py-4 bg-secondary-container text-on-secondary-container font-bold rounded-xl shadow-lift flex items-center justify-center gap-2" id="btn" type="button">
+      <button class="w-full py-4 bg-secondary text-on-secondary font-bold rounded-xl shadow-lift flex items-center justify-center gap-2" id="btn" type="button">
         <span class="material-symbols-outlined">save</span>
         Salvar Cartão
       </button>
@@ -164,44 +192,65 @@
 
 <script>
   // ===== Pré-visualização ao vivo do cartão =====
-  // const preview = document.getElementById('card-preview');
+  // Espelha no card, em tempo real, o que for digitado no formulário.
+  // (também é usado ao trocar a cor e no acabamento premium)
+  const preview = document.getElementById('card-preview');
 
-  // document.getElementById('nome').addEventListener('input', (e) => {
-  //   document.getElementById('preview-nome').textContent = e.target.value || 'Meu Cartão';
-  // });
+  document.getElementById('nome').addEventListener('input', (e) => {
+    document.getElementById('preview-nome').textContent = e.target.value || 'Meu Cartão';
+  });
 
-  // document.getElementById('digitos').addEventListener('input', (e) => {
-  //   const numeros = e.target.value.replace(/\D/g, '');
-  //   e.target.value = numeros;
-  //   document.getElementById('preview-digitos').textContent = numeros.padStart(4, '0');
-  // });
+  document.getElementById('bandeira').addEventListener('change', (e) => {
+    document.getElementById('preview-bandeira').textContent = e.target.selectedOptions[0].textContent.trim();
+  });
 
-  // document.getElementById('limite').addEventListener('input', (e) => {
-  //   const valor = parseFloat(e.target.value);
-  //   document.getElementById('preview-limite').textContent =
-  //     isNaN(valor) ? 'R$ 0,00' : `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-  // });
+  document.getElementById('limite').addEventListener('input', (e) => {
+    const valor = parseFloat(e.target.value);
+    document.getElementById('preview-limite').textContent =
+      isNaN(valor) ? 'R$ 0,00' : `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+  });
 
-  // document.getElementById('dia_fechamento').addEventListener('input', (e) => {
-  //   document.getElementById('preview-fechamento').textContent = e.target.value.padStart(2, '0') || '01';
-  // });
+  document.getElementById('dia_fechamento').addEventListener('input', (e) => {
+    document.getElementById('preview-fechamento').textContent = e.target.value ? e.target.value.padStart(2, '0') : '01';
+  });
 
-  // document.getElementById('dia_vencimento').addEventListener('input', (e) => {
-  //   document.getElementById('preview-vencimento').textContent = e.target.value.padStart(2, '0') || '01';
-  // });
+  document.getElementById('dia_vencimento').addEventListener('input', (e) => {
+    document.getElementById('preview-vencimento').textContent = e.target.value ? e.target.value.padStart(2, '0') : '01';
+  });
 
-  // Troca a cor do cartão e guarda a escolha no campo escondido "cor"
-  const botoesCor = document.querySelectorAll('[data-cor]');
+  // Troca a cor do cartão e guarda a escolha no campo escondido "cor".
+  const inputCor = document.getElementById('cor');            // valor enviado ao back-end
+  const botoesCor = document.querySelectorAll('[data-cor]');  // bolinhas prontas
+  const corCustom = document.getElementById('cor-custom');    // seletor de cor livre
+  const swatchCustom = document.getElementById('swatch-custom');
+
+  // Tira o destaque de todas as bolinhas (prontas + personalizada)
+  function limparSelecao() {
+    botoesCor.forEach(b => b.classList.remove('is-selected'));
+    swatchCustom.classList.remove('is-selected');
+  }
+
+  // Bolinhas prontas: aplicam uma classe bg-* do tema no card
   botoesCor.forEach(botao => {
     botao.addEventListener('click', () => {
-      botoesCor.forEach(b => {
-        preview.classList.remove(b.dataset.cor);
-        b.classList.remove('ring-2', 'ring-primary');
-      });
+      botoesCor.forEach(b => preview.classList.remove(b.dataset.cor));
+      preview.style.backgroundColor = '';   // limpa uma cor livre anterior, se houver
       preview.classList.add(botao.dataset.cor);
-      botao.classList.add('ring-2', 'ring-primary');
-      document.getElementById('cor').value = botao.dataset.cor;
+
+      limparSelecao();
+      botao.classList.add('is-selected');
+      inputCor.value = botao.dataset.cor;
     });
+  });
+
+  // Seletor de cor livre: aplica o hex escolhido direto no card
+  corCustom.addEventListener('input', (e) => {
+    botoesCor.forEach(b => preview.classList.remove(b.dataset.cor));
+    preview.style.backgroundColor = e.target.value;
+
+    limparSelecao();
+    swatchCustom.classList.add('is-selected');
+    inputCor.value = e.target.value;
   });
 
   // Liga/desliga o acabamento dourado premium (troca também a cor do texto)
