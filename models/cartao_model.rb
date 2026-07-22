@@ -12,11 +12,16 @@ class CartaoModel
     @car_fechamento = car_fechamento
   end
 
-  def insert
+  def insert_credito
     sql = "INSERT INTO cartao (car_nome,car_limite,car_tipo,car_status,car_validade,con_id,car_fechamento)
       VALUES (?,?,?,?,?,?,?)"
     Database.executa_comando(sql, @car_nome, @car_limite, @car_tipo, @car_status, @car_validade, @con_id,
                              @car_fechamento)
+  end
+
+  def insert_debito
+    sql = "INSERT INTO cartao (car_nome,car_tipo,car_status,con_id) VALUES (?,?,?,?)"
+    Database.executa_comando(sql, @car_nome, @car_tipo, @car_status, @con_id)
   end
 
   def self.list(usu_id)

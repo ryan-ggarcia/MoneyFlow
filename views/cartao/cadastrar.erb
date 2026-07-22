@@ -83,6 +83,27 @@
             <option value="amex">Amex</option>
           </select>
         </div>
+         <div class="flex flex-col gap-base">
+          <label class="field-label" for="tipo">Tipo</label>
+          <select class="form-input" id="tipo" name="tipo">
+            <option value="DEBITO">Débito</option>
+            <option value="CREDITO">Crédito</option>
+          </select>
+        </div>
+      </div>
+      <!-- Selecionar conta -->
+      <div class="flex flex-col gap-base">
+        <label class="field-label" for="conta">Conta</label>
+          <select class="form-input" id="conta" name="conta">
+            <option value="0">--Selecionar--</option>
+            <% if !@conta.empty? %>
+              <% @conta.each do |c| %>
+                <option value="<%= c["con_id"] %>"> <%= c["con_nome"] %> </option>
+              <%end%>
+            <%else%>
+              <span>Sem contas cadastradas.</span>
+            <%end%>
+          </select>
       </div>
       <!-- Limite -->
       <div class="flex flex-col gap-base">
@@ -143,31 +164,31 @@
 
 <script>
   // ===== Pré-visualização ao vivo do cartão =====
-  const preview = document.getElementById('card-preview');
+  // const preview = document.getElementById('card-preview');
 
-  document.getElementById('nome').addEventListener('input', (e) => {
-    document.getElementById('preview-nome').textContent = e.target.value || 'Meu Cartão';
-  });
+  // document.getElementById('nome').addEventListener('input', (e) => {
+  //   document.getElementById('preview-nome').textContent = e.target.value || 'Meu Cartão';
+  // });
 
-  document.getElementById('digitos').addEventListener('input', (e) => {
-    const numeros = e.target.value.replace(/\D/g, '');
-    e.target.value = numeros;
-    document.getElementById('preview-digitos').textContent = numeros.padStart(4, '0');
-  });
+  // document.getElementById('digitos').addEventListener('input', (e) => {
+  //   const numeros = e.target.value.replace(/\D/g, '');
+  //   e.target.value = numeros;
+  //   document.getElementById('preview-digitos').textContent = numeros.padStart(4, '0');
+  // });
 
-  document.getElementById('limite').addEventListener('input', (e) => {
-    const valor = parseFloat(e.target.value);
-    document.getElementById('preview-limite').textContent =
-      isNaN(valor) ? 'R$ 0,00' : `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-  });
+  // document.getElementById('limite').addEventListener('input', (e) => {
+  //   const valor = parseFloat(e.target.value);
+  //   document.getElementById('preview-limite').textContent =
+  //     isNaN(valor) ? 'R$ 0,00' : `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+  // });
 
-  document.getElementById('dia_fechamento').addEventListener('input', (e) => {
-    document.getElementById('preview-fechamento').textContent = e.target.value.padStart(2, '0') || '01';
-  });
+  // document.getElementById('dia_fechamento').addEventListener('input', (e) => {
+  //   document.getElementById('preview-fechamento').textContent = e.target.value.padStart(2, '0') || '01';
+  // });
 
-  document.getElementById('dia_vencimento').addEventListener('input', (e) => {
-    document.getElementById('preview-vencimento').textContent = e.target.value.padStart(2, '0') || '01';
-  });
+  // document.getElementById('dia_vencimento').addEventListener('input', (e) => {
+  //   document.getElementById('preview-vencimento').textContent = e.target.value.padStart(2, '0') || '01';
+  // });
 
   // Troca a cor do cartão e guarda a escolha no campo escondido "cor"
   const botoesCor = document.querySelectorAll('[data-cor]');
