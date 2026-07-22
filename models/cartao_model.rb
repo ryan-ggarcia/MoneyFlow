@@ -1,37 +1,40 @@
-class Cartao_Model
-  attr_accessor :car_id, :car_nome, :car_limite, :car_tipo, :car_status, :car_validade, :con_id
+class CartaoModel
+  attr_accessor :car_id, :car_nome, :car_limite, :car_tipo, :car_status, :car_validade, :con_id, :car_fechamento
 
-  def initialize(car_id, car_nome, car_limite, _car_tipo, car_status, car_validade, can_id)
+  def initialize(car_id, car_nome, car_limite, car_tipo, car_status, car_validade, con_id, car_fechamento)
     @car_id = car_id
     @car_nome = car_nome
     @car_limite = car_limite
-    @car_tipo = car_tip
+    @car_tipo = car_tipo
     @car_status = car_status
     @car_validade = car_validade
-    @can_id = can_id
+    @con_id = con_id
+    @car_fechamento = car_fechamento
   end
 
-  def self.insert
-    sql = `INSERT INTO cartao (car_nome,car_limite,car_tipo,car_status,car_validade,can_id)
-      VALUES (?,?,?,?,?,?)`
-    Database.executa_comando(sql, @car_nome, @car_limite, @car_tipo, @car_status, @car_validade, @can_id)
+  def insert
+    sql = "INSERT INTO cartao (car_nome,car_limite,car_tipo,car_status,car_validade,con_id,car_fechamento)
+      VALUES (?,?,?,?,?,?,?)"
+    Database.executa_comando(sql, @car_nome, @car_limite, @car_tipo, @car_status, @car_validade, @con_id,
+                             @car_fechamento)
   end
 
-  def self.list
-    Database.executa_select("SELECT * FROM cartao")
+  def self.list(usu_id)
+    Database.executa_select("SELECT * FROM cartao WHERE usu_id = ?", usu_id)
   end
 
-  def self.delete(car_id)
-    Database.executa_comando("DELETE FROM cartao WHERE car_id = ?", car_id)
+  def self.delete(car_id, usu_id)
+    Database.executa_comando("DELETE FROM cartao WHERE car_id = ? AND usu_id = ?", car_id, usu_id)
   end
 
-  def self.update(car_id)
-    sql = `UPDATE cartao SET car_nome = ?, car_limite = ?, car_tipo = ?, car_status = ? car_validade = ?, can_id = ?
-    WHERE car_id = ? `
-    Database.executa_comando(sql, @car_nome, @car_limite, @car_tipo, @car_status, @car_validade, @can_id, car_id)
+  def update(car_id, usu_id)
+    sql = `UPDATE cartao SET car_nome = ?, car_limite = ?, car_tipo = ?, car_status = ? car_validade = ?, con_id = ?
+    WHERE car_id = ? AND usu_id = ? `
+    Database.executa_comando(sql, @car_nome, @car_limite, @car_tipo, @car_status, @car_validade, @con_id, car_id,
+                             usu_id)
   end
 
-  def self.search(car_id)
-    Database.executa_select("SELECT * FROM cartao WHERE car_id = ?", car_id).first
+  def self.search(car_id, usu_id)
+    Database.executa_select("SELECT * FROM cartao WHERE car_id = ? AND usu_id", car_id, usu_id).first
   end
 end

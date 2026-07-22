@@ -6,20 +6,18 @@ module ContaService
     end
 
     def call
-      erro = validacao
-      return Resultado.erro(erro) if erro
+      # erro = validacao
+      # return Resultado.erro(erro) if erro
+      return Resultado.erro("Não foi possível excluir a conta") unless ContaModel.delete(@dados["id"].to_i, @usu_id)
 
-      conta = ContaModel.new(@dados["id"], @usu_id)
-      return Resultado.erro("Não foi possível excluir a conta...") unless conta.update
-
-      Resultado.ok(conta)
+      Resultado.ok
     end
 
-    def validacao
-      return "Erro...Tente novamente mais tarde" if @dados["id"].to_i.empty?
-      return "Opas... Ouve algum problema" if @usu_id.to_i.empty?
+    # def validacao
+    #   return "Erro...Tente novamente mais tarde" if @dados["id"].to_i.empty?
+    #   return "Opas... Ouve algum problema" if @usu_id.to_i.empty?
 
-      nil
-    end
+    #   nil
+    # end
   end
 end
