@@ -8,6 +8,6 @@ class App < Sinatra::Base
   end
   post "/cartao/efetuarCadastro" do
     resultado = CartaoService::Cadastrar.new(corpo_json, session[:usu_login]).call
-    resultado.ok? ? sucesso : erro(resultado.erro)
+    resultado.ok? ? sucesso : erro(resultado.msg)
   end
 end

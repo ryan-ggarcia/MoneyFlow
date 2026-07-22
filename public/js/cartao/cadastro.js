@@ -19,7 +19,7 @@ function register() {
 
     const inputNome = nome.value.trim() === ""
     const inputTipo = tipo.value.trim() === ""
-    const inputConta = conta.value.trim() === ""
+    const inputConta = conta.value === "0"
     const inputLimite = limite.value.trim() === ""
     const inputClouse = diaFechamento.value.trim() === ""
     const inputVencimento = diaVencimento.value.trim() === ""
