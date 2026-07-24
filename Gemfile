@@ -7,7 +7,7 @@ gem "sinatra", ">= 4.2.1"
 gem "sinatra-contrib" # fornece Reloader
 gem "tailwindcss-ruby", ">= 4.3.1"
 gem 'bcrypt', '>= 3.1.22'
-gem 'dontenv'
+gem 'dotenv'
 
 # Sinatra	Define as rotas e o que responder (seu código)
 # Puma	Servidor: escuta a porta e atende as conexões HTTP

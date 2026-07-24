@@ -2,12 +2,12 @@ require "mysql2"
 # Teste de conexão ruby db/db.rb
 ## SSL/TLS  => conexão criptografada (SSL/TLS) por padrão
 DB = Mysql2::Client.new(
-  host: ENV.fecth("DB_HOST"),
-  username: ENV.fecth("DB_NOME"),
-  password: ENV.fecth("DB_PASSWORD"),
-  database: ENV.fecth("DB_DATABASE"),
-  port: ENV.fecth("DB_PORT").to_i,
-  sslca: ENV.fecth("DB_SSL_CA") # confia no certificado local do servidor
+  host: ENV.fetch("DB_HOST"),
+  username: ENV.fetch("DB_NAME"),
+  password: ENV.fetch("DB_PASSWORD"),
+  database: ENV.fetch("DB_DATABASE"),
+  port: ENV.fetch("DB_PORT").to_i,
+  sslca: ENV.fetch("DB_SSL_CA") # confia no certificado local do servidor
 )
 
 class Database
