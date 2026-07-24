@@ -1,4 +1,4 @@
-class Compra_Model
+class CompraModel
   attr_accessor :com_id, :com_nome, :com_valorTotal, :com_data, :com_parcelas, :usu_id, :cat_id
 
   def initialize(com_id, com_nome, com_valorTotal, com_data, com_parcelas, usu_id, cat_id)

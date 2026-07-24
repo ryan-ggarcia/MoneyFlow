@@ -1,3 +1,4 @@
+require "dotenv/load"
 require "sinatra/base"
 require_relative "db/db"
 require "json"
@@ -8,7 +9,7 @@ Dir["./models/*.rb"].each { |f| require f }
 
 class App < Sinatra::Base
   enable :sessions
-  set :session_secret, 'diwdiwqjdjiwqdiqjdajidjlslkdjkl\zljidakwljdoisjdlkadjlajjdasdklasjdl'
+  set :session_secret, ENV.fecth("SESSION_SECRET")
   configure :development do
     # recarrega o código automaticamente em desenvolvimento, sem precisar reiniciar o servidor.
     require "sinatra/reloader"
