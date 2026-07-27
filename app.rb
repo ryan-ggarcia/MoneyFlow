@@ -15,6 +15,16 @@ class App < Sinatra::Base
     require "sinatra/reloader"
     register Sinatra::Reloader
   end
+  ROTAS_PUBLICAS = ["/login", "/efetuarLogin"].freeze
+
+  before do
+    pass if ROTAS_PUBLICAS.include?(request.path_info)
+    # sem sessão? manda pro login
+    unless session[:usu_login]
+      halt 401, erro("Sessão expirada") if request.content_type.to_s.include?("json")
+      redirect "/login"
+    end
+  end
 end
 # carregam todos as controllers automaticamente.
 Dir["./helpers/*.rb"].each { |f| require f }
