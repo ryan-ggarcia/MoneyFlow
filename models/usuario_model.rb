@@ -1,4 +1,4 @@
-class Usuario_Model
+class UsuarioModel
   attr_accessor :usu_id, :usu_nome, :usu_email, :usu_senha
 
   def initialize(usu_id, usu_nome, usu_senha, usu_email)
@@ -9,13 +9,13 @@ class Usuario_Model
   end
 
   # CRUD
-  def self.insert
+  def insert
     sql = `INSERT INTO usuario (usu_nome,usu_senha,usu_email) VALUES (?,?,?)`
     Database.executa_comando(sql, @usu_nome, @usu_senha, @usu_email)
   end
 
   def self.list
-    Database.executa_select("SELECT * FROM usuario")
+    Database.executa_select("SELECT * FROM usuario WHERE usu_id = ?")
   end
 
   def self.delete(usu_id)

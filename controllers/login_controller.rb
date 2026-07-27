@@ -12,7 +12,7 @@ class App < Sinatra::Base
     # ou
     # if URI::MailTo::EMAIL_REGEXP.match?(email)
     if !email.empty? && !senha.empty?
-      model = Usuario_Model.seach_email(email)
+      model = UsuarioModel.seach_email(email)
       # p model
       if !model.empty? && BCrypt::Password.new(model.first["usu_senha"]) == senha
         session[:usu_login] = model.first["usu_id"]
