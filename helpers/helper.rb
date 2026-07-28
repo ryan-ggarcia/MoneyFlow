@@ -22,5 +22,9 @@ class App < Sinatra::Base
     rescue JSON::ParserError
       {}
     end
+
+    def sub_nome(nome)
+      "#{nome[0]}#{nome[1]}"
+    end
   end
 end
