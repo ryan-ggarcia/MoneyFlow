@@ -24,17 +24,17 @@ class CartaoModel
     Database.executa_comando(sql, @car_nome, @car_tipo, @car_status, @con_id)
   end
 
-  def self.list(usu_id)
-    Database.executa_select("SELECT * FROM cartao WHERE usu_id = ?", usu_id)
-  end
+  # def self.list(con_id)
+  #   Database.executa_select("SELECT * FROM cartao WHERE usu_id = ?", con_id)
+  # end
 
   def self.delete(car_id, usu_id)
     Database.executa_comando("DELETE FROM cartao WHERE car_id = ? AND usu_id = ?", car_id, usu_id)
   end
 
   def update(car_id, usu_id)
-    sql = `UPDATE cartao SET car_nome = ?, car_limite = ?, car_tipo = ?, car_status = ? car_validade = ?, con_id = ?
-    WHERE car_id = ? AND usu_id = ? `
+    sql = "UPDATE cartao SET car_nome = ?, car_limite = ?, car_tipo = ?, car_status = ? car_validade = ?, con_id = ?
+    WHERE car_id = ? AND usu_id = ? "
     Database.executa_comando(sql, @car_nome, @car_limite, @car_tipo, @car_status, @car_validade, @con_id, car_id,
                              usu_id)
   end

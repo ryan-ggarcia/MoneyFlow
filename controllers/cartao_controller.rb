@@ -1,6 +1,6 @@
 class App < Sinatra::Base
   get "/cartoes" do
-    @cartao = CartaoModel.list(session[:usu_login])
+    # @cartao = CartaoModel.list(session[:usu_login])
     erb :"cartao/listar"
   end
   get "/cartoes/cadastrar" do
