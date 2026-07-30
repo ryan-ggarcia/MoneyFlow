@@ -29,6 +29,10 @@
         <span class="material-symbols-outlined" style="<%= preenchido if request.path_info.start_with?('/cartoes') %>">credit_card</span>
         <span class="text-label-md">Cartões</span>
       </a>
+      <a class="nav-item <%= ativo if request.path_info.start_with?('/categorias') %>" href="/categorias">
+        <span class="material-symbols-outlined" style="<%= preenchido if request.path_info.start_with?('/categorias') %>">credit_card</span>
+        <span class="text-label-md">Categorias</span>
+      </a>
       <a class="nav-item <%= ativo if request.path_info.start_with?('/receitas') %>" href="/receitas">
         <span class="material-symbols-outlined" style="<%= preenchido if request.path_info.start_with?('/receitas') %>">credit_card</span>
         <span class="text-label-md">receita</span>

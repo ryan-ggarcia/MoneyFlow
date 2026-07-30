@@ -274,6 +274,47 @@
     @apply text-primary font-bold;
   }
 
+  /* =========================================================
+     Telas de categoria
+     ========================================================= */
+
+  /* Aba "Despesas"/"Receitas": a ativa ganha .is-selected e a risca dourada */
+  .tab-categoria {
+    @apply text-label-lg py-2 relative text-on-surface-variant transition-all duration-200 cursor-pointer;
+  }
+  .tab-categoria:hover {
+    @apply text-on-surface;
+  }
+  .tab-categoria.is-selected {
+    @apply text-secondary;
+  }
+  .tab-categoria.is-selected::after {
+    content: "";
+    @apply absolute left-0 w-full;
+    bottom: -1px;
+    height: 2px;
+    background-color: var(--color-secondary);
+  }
+
+  /* Quadradinho de escolha do ícone da categoria */
+  .icone-opcao {
+    @apply p-3 rounded-xl border border-surface-container text-on-surface-variant transition-all cursor-pointer;
+  }
+  .icone-opcao:hover {
+    @apply bg-surface-container-low;
+  }
+  .icone-opcao.is-selected {
+    @apply border-secondary text-secondary bg-surface-container-high/30;
+  }
+
+  /* Bolinha de cor da categoria (a escolhida ganha o anel) */
+  .cor-opcao {
+    @apply w-10 h-10 rounded-full cursor-pointer transition-all;
+  }
+  .cor-opcao.is-selected {
+    @apply ring-2 ring-offset-2 ring-primary;
+  }
+
   /* Bolinha de escolha de cor do cartão (a selecionada ganha .is-selected) */
   .color-swatch {
     @apply w-10 h-10 rounded-full border-4 border-white shadow-sm hover:shadow-md transition-all cursor-pointer;
