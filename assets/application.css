@@ -251,29 +251,6 @@
     outline: none;
   }
 
-  /* Botão de categoria da receita. A escolhida ganha .is-selected pelo JS,
-     e é a classe do botão que pinta o ícone e o texto dentro dele. */
-  .cat-btn {
-    @apply flex flex-col items-center gap-2 p-3 rounded-2xl bg-surface-container-lowest border border-outline-variant transition-all cursor-pointer active:scale-95;
-  }
-  .cat-icone {
-    @apply w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center transition-colors;
-  }
-  .cat-nome {
-    @apply text-on-surface-variant transition-colors;
-  }
-  .cat-btn:hover,
-  .cat-btn.is-selected {
-    border-color: var(--color-primary);
-    background-color: color-mix(in oklab, var(--color-primary-container) 10%, transparent);
-  }
-  .cat-btn.is-selected .cat-icone {
-    @apply bg-primary text-white;
-  }
-  .cat-btn.is-selected .cat-nome {
-    @apply text-primary font-bold;
-  }
-
   /* =========================================================
      Telas de categoria
      ========================================================= */

@@ -11,17 +11,14 @@
   </div>
 </header>
 
-<!-- No mobile pb-48 (192px) reserva o espaço do botão fixo (~100px) + a barra de
-     navegação do layout (~72px), senão o último campo fica escondido embaixo.
-     No desktop (lg) o botão volta pro fluxo do formulário e essa folga some. -->
+
 <main class="mt-16 pb-48 lg:pb-md px-4 md:px-margin max-w-[576px] lg:max-w-[1280px] mx-auto">
-  <!-- No desktop (lg): preview à esquerda (fixa ao rolar) e formulário à direita.
-       No mobile continua empilhado (preview em cima, form embaixo). -->
+
   <div class="lg:grid lg:grid-cols-2 lg:gap-margin lg:items-start">
-  <!-- Pré-visualização ao vivo: espelha o nome e o valor digitados no formulário -->
+
   <section class="py-md lg:sticky lg:top-24">
     <div class="relative overflow-hidden h-48 lg:h-64 rounded-xl bg-primary-container p-md flex flex-col justify-between text-on-primary-container shadow-lg animate-float">
-      <!-- Manchas de luz decorativas -->
+
       <div class="absolute -right-12 -top-12 w-48 h-48 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-secondary-container/20 rounded-full blur-3xl pointer-events-none"></div>
       <div class="relative z-10 flex justify-between items-start gap-sm">
@@ -41,9 +38,9 @@
     </div>
   </section>
 
-  <!-- Formulário (no desktop ganha o fundo de card, igual às outras telas) -->
+ 
   <form class="flex flex-col gap-gutter lg:bg-surface-container-lowest lg:rounded-xl lg:p-md lg:shadow-soft lg:border lg:border-outline-variant/20" id="form-receita">
-    <!-- Nome -->
+
     <div class="flex flex-col gap-xs">
       <label class="field-label text-on-surface-variant ml-1" for="nome">Nome da Receita</label>
       <input class="campo-receita text-body-lg" id="nome" name="nome" maxlength="100" placeholder="Ex: Salário, Freelance..." type="text">
@@ -69,37 +66,37 @@
         <div class="relative">
           <select class="campo-receita pr-10 text-body-md appearance-none" id="conta" name="conta">
             <option value="0">--Selecionar--</option>
+            <% if !@contas.empty? %>
+              <% @contas.each do |c| %>
+                <option value="<%= c["con_id"] %>"> <%= c["con_nome"] %> </option>
+              <% end %>
+            <% else %>
+              <span>Nem um conta cadastrada</span>
+            <% end %>
           </select>
           <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
         </div>
       </div>
     </div>
 
-    <!-- Categoria: a escolhida ganha .is-selected (o JS cuida da troca) -->
-    <div class="flex flex-col gap-md">
-      <div class="flex justify-between items-center gap-sm px-1">
-        <span class="field-label text-on-surface-variant">Categoria</span>
-        <button class="link-accent text-label-lg text-primary" type="button">Ver todas</button>
+    <!-- Categoria -->
+    <div class="flex flex-col gap-xs">
+      <label class="field-label text-on-surface-variant ml-1" for="categoria">Categoria</label>
+      <div class="relative">
+        <select class="campo-receita pr-10 text-body-md appearance-none" id="categoria" name="categoria">
+          <option value="0">--Selecionar--</option>
+          <% if !@categorias.empty? %>
+            <% @categorias.each do |c| %>
+              <% if c["cat_tipo"] == "RECEITA" %>
+              <option value="<%= c["cat_id"] %>"> <%= c["cat_nome"] %> </option>
+              <% end %>
+            <% end %>
+          <% else %>
+            <option value="0" disabled>Nenhuma categoria cadastrada</option>
+          <% end %>
+        </select>
+        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
       </div>
-      <div class="grid grid-cols-4 gap-4" id="categorias">
-        <button class="cat-btn is-selected" data-categoria="Salário" type="button">
-          <span class="cat-icone"><span class="material-symbols-outlined">payments</span></span>
-          <span class="cat-nome text-label-md">Salário</span>
-        </button>
-        <button class="cat-btn" data-categoria="Investimentos" type="button">
-          <span class="cat-icone"><span class="material-symbols-outlined">query_stats</span></span>
-          <span class="cat-nome text-label-md">Invest.</span>
-        </button>
-        <button class="cat-btn" data-categoria="Presente" type="button">
-          <span class="cat-icone"><span class="material-symbols-outlined">card_giftcard</span></span>
-          <span class="cat-nome text-label-md">Presente</span>
-        </button>
-        <button class="cat-btn" data-categoria="Outros" type="button">
-          <span class="cat-icone"><span class="material-symbols-outlined">more_horiz</span></span>
-          <span class="cat-nome text-label-md">Outros</span>
-        </button>
-      </div>
-      <input type="hidden" id="categoria" name="categoria" value="Salário">
     </div>
 
     <!-- Notas -->
@@ -110,9 +107,12 @@
 
     <!-- Salvar: no celular fica preso no rodapé, logo acima da barra de navegação;
          no desktop (lg) volta pro fluxo, como último item do formulário. -->
-    <div class="fixed bottom-[72px] left-0 w-full px-4 md:px-margin pt-6 pb-3 bg-gradient-to-t from-background via-background to-transparent z-40 pointer-events-none
-                lg:static lg:px-0 lg:pt-0 lg:pb-0 lg:bg-none lg:z-auto lg:pointer-events-auto">
-      <div class="max-w-[576px] lg:max-w-none mx-auto pointer-events-auto">
+    <div class="fixed bottom-[72px] left-0 w-full pt-6 pb-3 bg-gradient-to-t from-background via-background to-transparent z-40 pointer-events-none
+                lg:static lg:pt-0 lg:pb-0 lg:bg-none lg:z-auto lg:pointer-events-auto">
+      <!-- Mesmo max-w E mesmo padding do <main>: é isso que faz o botão ter
+           exatamente a largura do formulário. Se o padding ficar no pai e o
+           max-w aqui, o botão sai 64px mais largo entre md e lg. -->
+      <div class="max-w-[576px] mx-auto px-4 md:px-margin pointer-events-auto lg:max-w-none lg:px-0">
         <button class="w-full h-16 rounded-2xl bg-secondary text-on-secondary flex items-center justify-center gap-3 shadow-lift active:scale-[0.98] transition-all group" id="btn" type="button">
           <span class="text-headline-md">Salvar Receita</span>
           <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -134,17 +134,5 @@
     const valor = parseFloat(e.target.value);
     document.getElementById('preview-valor').textContent =
       isNaN(valor) ? '0,00' : valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-  });
-
-  // ===== Escolha da categoria =====
-  // Só uma fica marcada por vez; a escolhida vai no campo escondido "categoria".
-  const botoesCategoria = document.querySelectorAll('.cat-btn');
-
-  botoesCategoria.forEach(botao => {
-    botao.addEventListener('click', () => {
-      botoesCategoria.forEach(b => b.classList.remove('is-selected'));
-      botao.classList.add('is-selected');
-      document.getElementById('categoria').value = botao.dataset.categoria;
-    });
   });
 </script>
