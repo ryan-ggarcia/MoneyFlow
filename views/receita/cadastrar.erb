@@ -1,0 +1,150 @@
+<!-- Barra superior com botão de voltar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-margin h-16 bg-surface">
+  <div class="flex items-center gap-4 min-w-0">
+    <a class="-ml-2 p-2 rounded-full flex items-center justify-center text-primary hover:opacity-80 transition-opacity active:scale-90" href="/receitas" aria-label="Voltar">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <h1 class="text-headline-md text-primary truncate">Adicionar Receita</h1>
+  </div>
+  <div class="icon-circle w-10 h-10 bg-surface-variant text-on-surface-variant border-2 border-secondary/20 shrink-0">
+    <span class="material-symbols-outlined">person</span>
+  </div>
+</header>
+
+<!-- No mobile pb-48 (192px) reserva o espaço do botão fixo (~100px) + a barra de
+     navegação do layout (~72px), senão o último campo fica escondido embaixo.
+     No desktop (lg) o botão volta pro fluxo do formulário e essa folga some. -->
+<main class="mt-16 pb-48 lg:pb-md px-4 md:px-margin max-w-[576px] lg:max-w-[1280px] mx-auto">
+  <!-- No desktop (lg): preview à esquerda (fixa ao rolar) e formulário à direita.
+       No mobile continua empilhado (preview em cima, form embaixo). -->
+  <div class="lg:grid lg:grid-cols-2 lg:gap-margin lg:items-start">
+  <!-- Pré-visualização ao vivo: espelha o nome e o valor digitados no formulário -->
+  <section class="py-md lg:sticky lg:top-24">
+    <div class="relative overflow-hidden h-48 lg:h-64 rounded-xl bg-primary-container p-md flex flex-col justify-between text-on-primary-container shadow-lg animate-float">
+      <!-- Manchas de luz decorativas -->
+      <div class="absolute -right-12 -top-12 w-48 h-48 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-secondary-container/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex justify-between items-start gap-sm">
+        <div class="min-w-0">
+          <p class="text-label-md opacity-80 uppercase tracking-widest">Nova Receita</p>
+          <h2 class="text-headline-lg mt-1 truncate" id="preview-nome">Nome da Receita</h2>
+        </div>
+        <span class="material-symbols-outlined text-4xl opacity-50 shrink-0">trending_up</span>
+      </div>
+      <div class="relative z-10">
+        <p class="text-label-md opacity-80 mb-1">Valor Estimado</p>
+        <div class="flex items-baseline gap-2">
+          <span class="text-headline-md opacity-80">R$</span>
+          <span class="text-display-md" id="preview-valor">0,00</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulário (no desktop ganha o fundo de card, igual às outras telas) -->
+  <form class="flex flex-col gap-gutter lg:bg-surface-container-lowest lg:rounded-xl lg:p-md lg:shadow-soft lg:border lg:border-outline-variant/20" id="form-receita">
+    <!-- Nome -->
+    <div class="flex flex-col gap-xs">
+      <label class="field-label text-on-surface-variant ml-1" for="nome">Nome da Receita</label>
+      <input class="campo-receita text-body-lg" id="nome" name="nome" maxlength="100" placeholder="Ex: Salário, Freelance..." type="text">
+    </div>
+
+    <!-- Valor -->
+    <div class="flex flex-col gap-xs">
+      <label class="field-label text-on-surface-variant ml-1" for="valor">Valor</label>
+      <div class="relative flex items-center">
+        <span class="absolute left-md text-headline-md text-primary/60 pointer-events-none">R$</span>
+        <input class="campo-receita pl-16 text-headline-md text-primary" id="valor" name="valor" placeholder="0,00" type="number" step="0.01" min="0">
+      </div>
+    </div>
+
+    <!-- Data e conta lado a lado -->
+    <div class="grid grid-cols-2 gap-gutter">
+      <div class="flex flex-col gap-xs">
+        <label class="field-label text-on-surface-variant ml-1" for="data">Data</label>
+        <input class="campo-receita text-body-md" id="data" name="data" type="date">
+      </div>
+      <div class="flex flex-col gap-xs">
+        <label class="field-label text-on-surface-variant ml-1" for="conta">Conta</label>
+        <div class="relative">
+          <select class="campo-receita pr-10 text-body-md appearance-none" id="conta" name="conta">
+            <option value="0">--Selecionar--</option>
+          </select>
+          <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categoria: a escolhida ganha .is-selected (o JS cuida da troca) -->
+    <div class="flex flex-col gap-md">
+      <div class="flex justify-between items-center gap-sm px-1">
+        <span class="field-label text-on-surface-variant">Categoria</span>
+        <button class="link-accent text-label-lg text-primary" type="button">Ver todas</button>
+      </div>
+      <div class="grid grid-cols-4 gap-4" id="categorias">
+        <button class="cat-btn is-selected" data-categoria="Salário" type="button">
+          <span class="cat-icone"><span class="material-symbols-outlined">payments</span></span>
+          <span class="cat-nome text-label-md">Salário</span>
+        </button>
+        <button class="cat-btn" data-categoria="Investimentos" type="button">
+          <span class="cat-icone"><span class="material-symbols-outlined">query_stats</span></span>
+          <span class="cat-nome text-label-md">Invest.</span>
+        </button>
+        <button class="cat-btn" data-categoria="Presente" type="button">
+          <span class="cat-icone"><span class="material-symbols-outlined">card_giftcard</span></span>
+          <span class="cat-nome text-label-md">Presente</span>
+        </button>
+        <button class="cat-btn" data-categoria="Outros" type="button">
+          <span class="cat-icone"><span class="material-symbols-outlined">more_horiz</span></span>
+          <span class="cat-nome text-label-md">Outros</span>
+        </button>
+      </div>
+      <input type="hidden" id="categoria" name="categoria" value="Salário">
+    </div>
+
+    <!-- Notas -->
+    <div class="flex flex-col gap-xs">
+      <label class="field-label text-on-surface-variant ml-1" for="notas">Notas (Opcional)</label>
+      <textarea class="campo-receita h-auto p-md text-body-md resize-none" id="notas" name="notas" rows="3" placeholder="Adicione detalhes sobre esta receita..."></textarea>
+    </div>
+
+    <!-- Salvar: no celular fica preso no rodapé, logo acima da barra de navegação;
+         no desktop (lg) volta pro fluxo, como último item do formulário. -->
+    <div class="fixed bottom-[72px] left-0 w-full px-4 md:px-margin pt-6 pb-3 bg-gradient-to-t from-background via-background to-transparent z-40 pointer-events-none
+                lg:static lg:px-0 lg:pt-0 lg:pb-0 lg:bg-none lg:z-auto lg:pointer-events-auto">
+      <div class="max-w-[576px] lg:max-w-none mx-auto pointer-events-auto">
+        <button class="w-full h-16 rounded-2xl bg-secondary text-on-secondary flex items-center justify-center gap-3 shadow-lift active:scale-[0.98] transition-all group" id="btn" type="button">
+          <span class="text-headline-md">Salvar Receita</span>
+          <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+  </form>
+  </div>
+</main>
+
+<script>
+  // ===== Pré-visualização ao vivo =====
+  // Espelha no card verde o nome e o valor digitados no formulário.
+  document.getElementById('nome').addEventListener('input', (e) => {
+    document.getElementById('preview-nome').textContent = e.target.value || 'Nome da Receita';
+  });
+
+  document.getElementById('valor').addEventListener('input', (e) => {
+    const valor = parseFloat(e.target.value);
+    document.getElementById('preview-valor').textContent =
+      isNaN(valor) ? '0,00' : valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+  });
+
+  // ===== Escolha da categoria =====
+  // Só uma fica marcada por vez; a escolhida vai no campo escondido "categoria".
+  const botoesCategoria = document.querySelectorAll('.cat-btn');
+
+  botoesCategoria.forEach(botao => {
+    botao.addEventListener('click', () => {
+      botoesCategoria.forEach(b => b.classList.remove('is-selected'));
+      botao.classList.add('is-selected');
+      document.getElementById('categoria').value = botao.dataset.categoria;
+    });
+  });
+</script>

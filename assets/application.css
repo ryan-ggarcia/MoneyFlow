@@ -93,6 +93,19 @@
 
   /* Sombra suave usada nos cards (vira a utilitária shadow-soft) */
   --shadow-soft: 0px 4px 20px rgba(52, 58, 64, 0.05);
+
+  /* Flutuação lenta do card de pré-visualização (vira a utilitária animate-float).
+     No v4 os @keyframes moram aqui dentro do @theme junto com a variável. */
+  --animate-float: float 6s ease-in-out infinite;
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
 }
 
 /*
@@ -223,6 +236,42 @@
     border-color: var(--color-secondary);
     box-shadow: 0 0 0 3px rgba(115, 92, 0, 0.15);
     outline: none;
+  }
+
+  /* =========================================================
+     Formulário de receita: campos altos, cantos bem arredondados
+     e sem ícone dentro (diferente do .input-field, que tem).
+     ========================================================= */
+  .campo-receita {
+    @apply w-full h-14 px-md rounded-xl bg-surface-container-lowest border border-outline-variant text-on-surface placeholder:text-outline-variant transition-all;
+  }
+  .campo-receita:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(115, 92, 0, 0.15);
+    outline: none;
+  }
+
+  /* Botão de categoria da receita. A escolhida ganha .is-selected pelo JS,
+     e é a classe do botão que pinta o ícone e o texto dentro dele. */
+  .cat-btn {
+    @apply flex flex-col items-center gap-2 p-3 rounded-2xl bg-surface-container-lowest border border-outline-variant transition-all cursor-pointer active:scale-95;
+  }
+  .cat-icone {
+    @apply w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center transition-colors;
+  }
+  .cat-nome {
+    @apply text-on-surface-variant transition-colors;
+  }
+  .cat-btn:hover,
+  .cat-btn.is-selected {
+    border-color: var(--color-primary);
+    background-color: color-mix(in oklab, var(--color-primary-container) 10%, transparent);
+  }
+  .cat-btn.is-selected .cat-icone {
+    @apply bg-primary text-white;
+  }
+  .cat-btn.is-selected .cat-nome {
+    @apply text-primary font-bold;
   }
 
   /* Bolinha de escolha de cor do cartão (a selecionada ganha .is-selected) */

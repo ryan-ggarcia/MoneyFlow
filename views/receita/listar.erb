@@ -1,0 +1,145 @@
+<!-- Barra superior -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-margin h-16 bg-surface">
+  <div class="flex items-center gap-sm">
+    <div class="icon-circle w-10 h-10 bg-surface-variant text-on-surface-variant overflow-hidden cursor-pointer transition-transform active:scale-90">
+      <span class="material-symbols-outlined">person</span>
+    </div>
+    <span class="text-headline-md font-bold text-secondary">moneyFlow</span>
+  </div>
+  <button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-90" type="button" aria-label="Notificações">notifications</button>
+</header>
+
+<main class="mt-20 pb-32 px-4 md:px-margin max-w-[1280px] mx-auto">
+  <!-- Título -->
+  <div class="mb-md">
+    <p class="text-label-lg text-secondary uppercase tracking-widest">Minhas Entradas</p>
+    <h2 class="text-headline-lg text-on-surface">Minhas Receitas</h2>
+  </div>
+
+  <!-- Destaque: total do mês -->
+  <section class="mb-md">
+    <div class="card">
+      <p class="text-label-lg text-on-surface-variant mb-xs">Receita Total do Mês</p>
+      <div class="flex items-end flex-wrap gap-sm">
+        <h1 class="text-number-display text-primary"></h1>
+        <!-- Comparativo com o mês passado: ainda é enfeite, não vem do banco -->
+        <div class="flex items-center gap-1 text-primary-container text-label-md mb-2 bg-primary-container/10 px-2 py-0.5 rounded-full">
+          <span class="material-symbols-outlined text-[16px]">trending_up</span>
+          <span>12%</span>
+        </div>
+      </div>
+      <p class="text-body-md text-outline mt-2">vs. R$ 11.116,00 no mês passado</p>
+    </div>
+  </section>
+
+  <!-- No mobile empilha; no desktop (md) o gráfico ocupa 2/3 e o card da meta 1/3 -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-lg">
+    <!-- Evolução mensal (as alturas ainda são fixas, igual ao gráfico do dashboard) -->
+    <div class="card md:col-span-2 flex flex-col">
+      <div class="flex justify-between items-center gap-sm mb-md">
+        <h3 class="text-headline-md text-on-surface">Evolução Mensal</h3>
+        <select class="bg-transparent border-none text-label-md text-outline cursor-pointer focus:outline-none">
+          <option>Últimos 6 meses</option>
+          <option>Este Ano</option>
+        </select>
+      </div>
+      <!-- As barras são filhas DIRETAS de um container com altura fixa (h-40):
+           é isso que faz o h-[..%] de cada uma ter uma referência pra calcular. -->
+      <div class="flex items-end justify-between h-40 gap-2">
+        <div class="js-barra flex-1 bg-surface-container-high rounded-t-lg transition-all duration-500 h-[40%] hover:bg-primary-container/30"></div>
+        <div class="js-barra flex-1 bg-surface-container-high rounded-t-lg transition-all duration-500 h-[55%] hover:bg-primary-container/30"></div>
+        <div class="js-barra flex-1 bg-surface-container-high rounded-t-lg transition-all duration-500 h-[45%] hover:bg-primary-container/30"></div>
+        <div class="js-barra flex-1 bg-surface-container-high rounded-t-lg transition-all duration-500 h-[70%] hover:bg-primary-container/30"></div>
+        <div class="js-barra flex-1 bg-surface-container-high rounded-t-lg transition-all duration-500 h-[65%] hover:bg-primary-container/30"></div>
+        <div class="js-barra flex-1 bg-primary-container rounded-t-lg transition-all duration-500 h-[90%]"></div>
+      </div>
+      <!-- Os meses ficam fora da área das barras pra não roubar altura delas -->
+      <div class="flex justify-between gap-2 mt-2">
+        <span class="flex-1 text-center text-label-md text-outline">Jan</span>
+        <span class="flex-1 text-center text-label-md text-outline">Fev</span>
+        <span class="flex-1 text-center text-label-md text-outline">Mar</span>
+        <span class="flex-1 text-center text-label-md text-outline">Abr</span>
+        <span class="flex-1 text-center text-label-md text-outline">Mai</span>
+        <span class="flex-1 text-center text-label-md text-primary font-bold">Jun</span>
+      </div>
+    </div>
+
+    <!-- Card da meta -->
+    <div class="card bg-secondary-container flex flex-col justify-between overflow-hidden relative">
+      <div class="relative z-10">
+        <h3 class="text-headline-md text-on-secondary-container">Meta Batida!</h3>
+        <p class="text-body-md text-on-secondary-container/80 mt-2">Você atingiu 105% da sua meta de renda para este mês.</p>
+      </div>
+      <div class="relative z-10 mt-md">
+        <button class="bg-on-secondary-container text-surface px-md py-2 rounded-lg text-label-lg transition-transform active:scale-95" type="button">Ver Detalhes</button>
+      </div>
+      <!-- Ícone gigante de enfeite no canto -->
+      <span class="material-symbols-outlined absolute -bottom-4 -right-4 text-[120px] text-on-secondary-container/10 select-none pointer-events-none">military_tech</span>
+    </div>
+  </section>
+
+  <!-- Lista de receitas -->
+  <section>
+    <div class="flex justify-between items-center gap-sm mb-md">
+      <h3 class="text-headline-md text-on-surface">Receitas Recentes</h3>
+      <button class="link-accent text-label-lg" type="button">Ver Todas</button>
+    </div>
+
+    <div class="flex flex-col gap-gutter">
+     
+          <!-- no celular o card fica mais apertado (padding/ícone/gap menores)
+               pra sobrar linha pro nome da receita antes do truncate -->
+          <div class="card p-4 sm:p-md shadow-lift flex items-center justify-between gap-sm cursor-pointer">
+            <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+              <div class="icon-circle w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 text-primary shrink-0">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+              </div>
+              <div class="min-w-0">
+                <p class="text-label-lg text-on-surface truncate"></p>
+                <p class="text-label-md text-outline"></p>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <!-- no celular o valor entra menor, senão sobra pouca linha pro nome -->
+              <p class="text-body-lg font-bold sm:text-headline-md text-primary whitespace-nowrap">+</p>
+              <!-- A conta só aparece se a query trouxer con_nome (JOIN com conta) -->
+                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-surface-container-high text-on-surface-variant"></span>
+            </div>
+          </div>
+       
+        <!-- Estado vazio: aparece quando o usuário ainda não lançou receitas -->
+        <div class="flex flex-col items-center justify-center text-center gap-base py-xl px-md rounded-xl border-2 border-dashed border-outline-variant/50 bg-surface-container-low/40">
+          <div class="icon-circle w-20 h-20 bg-primary-container/20 mb-sm">
+            <span class="material-symbols-outlined text-primary text-[40px]">savings</span>
+          </div>
+          <h4 class="text-headline-md text-on-surface">Nenhuma receita por aqui ainda</h4>
+          <p class="text-body-md text-on-surface-variant max-w-[360px]">
+            Parece que você não lançou nenhuma entrada... Clique no botão abaixo para registrar a sua primeira receita!
+          </p>
+          <a class="mt-sm py-4 px-6 bg-secondary text-white text-label-lg rounded-xl flex items-center justify-center gap-2 shadow-lift active:scale-[0.98]" href="/receitas/cadastrar">
+            <span class="material-symbols-outlined">add_circle</span>
+            Adicionar Receita
+          </a>
+        </div>
+    
+    </div>
+  </section>
+</main>
+
+<!-- Botão flutuante de nova receita -->
+<a class="fixed bottom-24 right-6 w-14 h-14 bg-secondary-container text-on-secondary-container rounded-full shadow-lg flex items-center justify-center transition-transform active:scale-90 z-40" href="/receitas/cadastrar" aria-label="Adicionar Receita">
+  <span class="material-symbols-outlined text-[32px]">add</span>
+</a>
+
+<script>
+  // Animação de entrada das barras: começam em 0% e crescem até a altura
+  // definida na classe h-[..%] de cada uma (limpar o style devolve a altura da classe)
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.js-barra').forEach((barra, i) => {
+      barra.style.height = '0%';
+      setTimeout(() => {
+        barra.style.height = '';
+      }, 100 + i * 100);
+    });
+  });
+</script>

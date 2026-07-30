@@ -1,14 +1,14 @@
-class Receita_Model
+class ReceitaModel
   attr_accessor :res_id, :res_nome, :res_valor, :res_data, :usu_id, :car_id, :con_id
 
-  def initialize(res_id, res_nome, res_valor, res_data, usu_id, car_id, _con_id)
+  def initialize(res_id, res_nome, res_valor, res_data, usu_id, car_id, con_id)
     @res_id = res_id
     @res_nome = res_nome
     @res_valor = res_valor
     @res_data = res_data
     @usu_id = usu_id
     @car_id = car_id
-    @con_id = can_id
+    @con_id = con_id
   end
 
   def self.insert
