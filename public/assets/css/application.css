@@ -675,6 +675,9 @@
   .gap-xs {
     gap: var(--spacing-xs);
   }
+  .gap-x-\[1\] {
+    column-gap: 1;
+  }
   .-space-x-2 {
     :where(& > :not(:last-child)) {
       --tw-space-x-reverse: 0;

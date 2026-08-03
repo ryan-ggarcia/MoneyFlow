@@ -1,7 +1,7 @@
 class ReceitaModel
-  attr_accessor :res_id, :res_nome, :res_valor, :res_data, :usu_id, :cat_id, :con_id
+  attr_accessor :res_id, :res_nome, :res_valor, :res_data, :usu_id, :cat_id, :con_id, :cat_nome, :con_nome
 
-  def initialize(res_id, res_nome, res_valor, res_data, usu_id, cat_id, con_id)
+  def initialize(res_id, res_nome, res_valor, res_data, usu_id, cat_id, con_id, cat_nome, con_nome)
     @res_id = res_id
     @res_nome = res_nome
     @res_valor = res_valor
@@ -9,6 +9,8 @@ class ReceitaModel
     @usu_id = usu_id
     @cat_id = cat_id
     @con_id = con_id
+    @cat_nome = cat_nome
+    @con_nome = con_nome
   end
 
   def insert
@@ -18,7 +20,10 @@ class ReceitaModel
   end
 
   def self.list(usu_id)
-    Database.executa_select("SELECT * FROM receita WHERE usu_id = ?", usu_id)
+    Database.executa_select("SELECT r.res_id, r.res_nome, r.res_valor, r.res_data, c.cat_nome, con.con_nome FROM receita r 
+                            INNER JOIN categoria c ON c.cat_id = r.cat_id 
+                            INNER JOIN conta con ON con.con_id = r.con_id 
+                            WHERE r.usu_id = ?", usu_id)
   end
 
   def self.delete(res_id)

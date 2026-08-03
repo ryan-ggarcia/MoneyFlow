@@ -1,5 +1,6 @@
 class App < Sinatra::Base
   get "/receitas" do
+    @receitas = ReceitaModel.list(session[:usu_login])
     erb :"receita/listar"
   end
   get "/receitas/cadastrar" do

@@ -10,7 +10,7 @@ module ReceitaService
       return Resultado.erro(erro) if erro
 
       receita = ReceitaModel.new(0, @dados["nome"], @dados["valor"], @dados["data"], @usu_id, @dados["categoria"],
-                                 @dados["conta"])
+                                 @dados["conta"], 0, 0)
       return Resultado.erro("Não foi possível cadastrar a reveita") unless receita.insert
 
       Resultado.ok(receita)
