@@ -9,7 +9,7 @@ module MovimentacaoService
       erro = valida
       return Resultado.erro(erro) if erro
 
-      receita = MovimentacaoModel.new(0, @dados["nome"], @dados["valor"], @dados["data"], "RECEITA", 1, @usu_id,
+      receita = MovimentacaoModel.new(0, @dados["nome"], @dados["valor"], @dados["data"], @dados["tipo"], 1, @usu_id,
                                       @dados["categoria"], @dados["conta"], nil, nil)
       return Resultado.erro("Não foi possível cadastrar a reveita") unless receita.insert
 

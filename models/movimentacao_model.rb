@@ -23,14 +23,14 @@ class MovimentacaoModel
                              @con_id, @fat_id, @com_id)
   end
 
-  def self.list(usu_id, mov_tipo)
+  def self.list(usu_id)
     Database.executa_select("SELECT m.mov_id, m.mov_nome, m.mov_valor, m.mov_data, m.mov_tipo, m.mov_parcela,
                                     m.cat_id, m.con_id, c.cat_nome, con.con_nome
                              FROM movimentacao m
                              LEFT JOIN categoria c ON c.cat_id = m.cat_id
                              LEFT JOIN conta con ON con.con_id = m.con_id
-                             WHERE m.usu_id = ? AND m.mov_tipo = ?
-                             ORDER BY m.mov_data DESC, m.mov_id DESC", usu_id, mov_tipo)
+                             WHERE m.usu_id = ?
+                             ORDER BY m.mov_data DESC, m.mov_id DESC", usu_id)
   end
 
   def self.extrato(usu_id)

@@ -1,6 +1,6 @@
 class App < Sinatra::Base
   get "/movimentacoes" do
-    @receitas = MovimentacaoModel.list(session[:usu_login], "RECEITA")
+    @receitas = MovimentacaoModel.list(session[:usu_login])
     @contas = ContaModel.list(session[:usu_login])
     @categorias = CategoriaModel.list
     erb :"movimentacoes/listar"

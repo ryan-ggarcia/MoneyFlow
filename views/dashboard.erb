@@ -1,3 +1,4 @@
+<script src="/js/movimentacoes/modal.js"></script>
 <!-- Barra superior -->
 <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-margin h-16 bg-surface">
   <div class="flex items-center gap-sm">
@@ -71,55 +72,71 @@
 
   <!-- Últimas transações -->
   <section>
-    <div class="flex justify-between items-center mb-md px-base">
-      <h2 class="text-headline-md text-on-surface">Últimas Transações</h2>
-      <button class="link-accent text-label-lg" type="button">Ver tudo</button>
+    <div class="flex justify-between items-center gap-sm mb-md">
+      <h3 class="text-headline-md text-on-surface">Transações Recentes</h3>
+      <button class="link-accent text-label-lg" type="button">Ver Todas</button>
     </div>
-    <div class="flex flex-col gap-sm">
-      <div class="card shadow-lift flex items-center justify-between cursor-pointer">
-        <div class="flex items-center gap-md">
-          <div class="icon-circle w-12 h-12 bg-surface-container text-on-surface">
-            <span class="material-symbols-outlined">shopping_cart</span>
+
+    <div class="flex flex-col gap-gutter">
+      <% if !@receitas.empty? %>
+        <% @receitas.each do |r| %>
+          <div class="card p-4 sm:p-md shadow-lift flex items-center justify-between gap-sm cursor-pointer">
+            <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+              <div class="icon-circle w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 text-primary shrink-0">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+              </div>
+             <div class="min-w-0">
+                <p class="text-label-lg text-on-surface truncate"> <%= r["mov_nome"] %> </p>
+                <p class="text-label-md text-outline"> <%= r["mov_data"] %> </p>
+              </div>
+            </div>
+           <div class="text-right shrink-0">
+            <p class="text-body-lg font-bold sm:text-headline-md <%= r["mov_tipo"] == "RECEITA" ? "text-primary" : "text-tertiary" %> whitespace-nowrap">
+              <%= r["mov_tipo"] == "RECEITA" ? "+" : "-" %> <%= moeda(r["mov_valor"]) %>
+              </p>
+               <span class="text-label-md text-outline gap-x-[1]"> 
+                  <%= r["con_nome"] %>
+                  <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-surface-container-high text-on-surface-variant">
+                     <%= r["cat_nome"] %> 
+                  </span>
+               </span>
+            </div>
+            <button
+                  class="js-opcoes-movimentacao material-symbols-outlined text-on-surface-variant shrink-0 cursor-pointer hover:opacity-80 transition-opacity active:scale-90"
+                  type="button"
+                  aria-label="Opções da receita"
+                  data-id="<%= r['mov_id'] %>"
+                  data-nome="<%= r['mov_nome'] %>"
+                  data-data="<%= r['mov_data'] %>"
+                  data-valor="<%= r['mov_valor'].to_f %>"
+                  data-conta="<%= r['con_id'] %>"
+                  data-categoria="<%= r['cat_id'] %>"
+                >more_vert</button>
           </div>
-          <div>
-            <p class="text-body-md text-on-surface font-semibold">Supermercado Silva</p>
-            <p class="text-label-md text-on-surface-variant">Hoje, 14:32 • Alimentação</p>
+        <% end %>
+      <% else %>
+        <div class="flex flex-col items-center justify-center text-center gap-base py-xl px-md rounded-xl border-2 border-dashed border-outline-variant/50 bg-surface-container-low/40">
+          <div class="icon-circle w-20 h-20 bg-primary-container/20 mb-sm">
+            <span class="material-symbols-outlined text-primary text-[40px]">savings</span>
           </div>
+          <h4 class="text-headline-md text-on-surface">Nenhuma receita por aqui ainda</h4>
+          <p class="text-body-md text-on-surface-variant max-w-[360px]">
+            Parece que você não lançou nenhuma entrada... Clique no botão abaixo para registrar a sua primeira receita!
+          </p>
+          <a class="mt-sm py-4 px-6 bg-secondary text-white text-label-lg rounded-xl flex items-center justify-center gap-2 shadow-lift active:scale-[0.98]" href="/movimentacoes/cadastrar">
+            <span class="material-symbols-outlined">add_circle</span>
+            Adicionar Receita
+          </a>
         </div>
-        <p class="text-headline-md text-tertiary">- R$ 185,20</p>
-      </div>
-      <div class="card shadow-lift flex items-center justify-between cursor-pointer">
-        <div class="flex items-center gap-md">
-          <div class="icon-circle w-12 h-12 bg-surface-container text-on-surface">
-            <span class="material-symbols-outlined">payments</span>
-          </div>
-          <div>
-            <p class="text-body-md text-on-surface font-semibold">Salário Mensal</p>
-            <p class="text-label-md text-on-surface-variant">Ontem, 09:00 • Renda</p>
-          </div>
-        </div>
-        <p class="text-headline-md text-primary-container">+ R$ 4.500,00</p>
-      </div>
-      <div class="card shadow-lift flex items-center justify-between cursor-pointer">
-        <div class="flex items-center gap-md">
-          <div class="icon-circle w-12 h-12 bg-surface-container text-on-surface">
-            <span class="material-symbols-outlined">directions_car</span>
-          </div>
-          <div>
-            <p class="text-body-md text-on-surface font-semibold">Posto Shell</p>
-            <p class="text-label-md text-on-surface-variant">Ontem, 18:15 • Transporte</p>
-          </div>
-        </div>
-        <p class="text-headline-md text-tertiary">- R$ 240,00</p>
-      </div>
+      <% end %>
     </div>
   </section>
 </main>
-
+<%= erb :"movimentacoes/modal", layout: false %>
 <!-- Botão flutuante de nova transação -->
-<button class="fixed bottom-24 right-margin w-16 h-16 bg-secondary text-on-secondary rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-transform z-40" type="button" aria-label="Adicionar transação">
+<a class="fixed bottom-24 right-6 w-14 h-14 bg-secondary-container text-on-secondary-container rounded-full shadow-lg flex items-center justify-center transition-transform active:scale-90 z-40" href="/movimentacoes/cadastrar" aria-label="Adicionar Receita">
   <span class="material-symbols-outlined text-[32px]">add</span>
-</button>
+</a>
 
 
 <script>

@@ -343,4 +343,10 @@
   .sheet-handle {
     @apply w-12 h-1 mx-auto mt-3 mb-2 rounded-full bg-outline-variant shrink-0;
   }
+  .active {
+    display: block;
+  }
+  .desable {
+    display: none;
+  }
 }

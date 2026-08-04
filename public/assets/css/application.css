@@ -24,7 +24,6 @@
     --text-4xl: 2.25rem;
     --text-4xl--line-height: calc(2.5 / 2.25);
     --font-weight-medium: 500;
-    --font-weight-semibold: 600;
     --font-weight-bold: 700;
     --tracking-tighter: -0.05em;
     --tracking-tight: -0.025em;
@@ -310,9 +309,6 @@
   }
   .right-6 {
     right: calc(var(--spacing) * 6);
-  }
-  .right-margin {
-    right: var(--spacing-margin);
   }
   .-bottom-4 {
     bottom: calc(var(--spacing) * -4);
@@ -983,9 +979,6 @@
   .px-6 {
     padding-inline: calc(var(--spacing) * 6);
   }
-  .px-base {
-    padding-inline: var(--spacing-base);
-  }
   .px-md {
     padding-inline: var(--spacing-md);
   }
@@ -1142,10 +1135,6 @@
     --tw-font-weight: var(--font-weight-medium);
     font-weight: var(--font-weight-medium);
   }
-  .font-semibold {
-    --tw-font-weight: var(--font-weight-semibold);
-    font-weight: var(--font-weight-semibold);
-  }
   .tracking-\[0\.2em\] {
     --tw-tracking: 0.2em;
     letter-spacing: 0.2em;
@@ -1236,6 +1225,12 @@
   }
   .text-tertiary {
     color: var(--color-tertiary);
+  }
+  .text-tertiary\/60 {
+    color: color-mix(in srgb, #a83639 60%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--color-tertiary) 60%, transparent);
+    }
   }
   .text-white {
     color: var(--color-white);
@@ -1331,6 +1326,10 @@
   .duration-200 {
     --tw-duration: 200ms;
     transition-duration: 200ms;
+  }
+  .duration-300 {
+    --tw-duration: 300ms;
+    transition-duration: 300ms;
   }
   .duration-500 {
     --tw-duration: 500ms;
@@ -1469,16 +1468,6 @@
       &::after {
         content: var(--tw-content);
         border-color: var(--color-white);
-      }
-    }
-  }
-  .hover\:scale-105 {
-    &:hover {
-      @media (hover: hover) {
-        --tw-scale-x: 105%;
-        --tw-scale-y: 105%;
-        --tw-scale-z: 105%;
-        scale: var(--tw-scale-x) var(--tw-scale-y);
       }
     }
   }
@@ -2183,6 +2172,12 @@
     flex-shrink: 0;
     border-radius: calc(infinity * 1px);
     background-color: var(--color-outline-variant);
+  }
+  .active {
+    display: block;
+  }
+  .desable {
+    display: none;
   }
 }
 @property --tw-translate-x {
