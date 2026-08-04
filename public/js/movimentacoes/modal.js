@@ -3,12 +3,32 @@ document.addEventListener('DOMContentLoaded', function () {
     const sheet = document.getElementById('mov-sheet')
 
     function abrir(dados) {
+        const despesa = dados.tipo === 'DESPESA'
+
         document.getElementById('mov-edit-id').value = dados.id || ''
+        document.getElementById('mov-edit-tipo').value = dados.tipo || 'RECEITA'
         document.getElementById('mov-edit-nome').value = dados.nome || ''
         document.getElementById('mov-edit-valor').value = dados.valor || ''
         document.getElementById('mov-edit-data').value = dados.data || ''
         document.getElementById('mov-edit-conta').value = dados.conta || '0'
-        document.getElementById('mov-edit-categoria').value = dados.categoria || '0'
+
+        const receitaSelect = document.getElementById('mov-categoria-receita')
+        const despesaSelect = document.getElementById('mov-categoria-despesa')
+        receitaSelect.classList.toggle('active', !despesa)
+        receitaSelect.classList.toggle('desable', despesa)
+        despesaSelect.classList.toggle('active', despesa)
+        despesaSelect.classList.toggle('desable', !despesa)
+        receitaSelect.value = despesa ? '0' : (dados.categoria || '0')
+        despesaSelect.value = despesa ? (dados.categoria || '0') : '0'
+
+        const valor = document.getElementById('mov-edit-valor')
+        valor.classList.toggle('text-primary', !despesa)
+        valor.classList.toggle('text-tertiary', despesa)
+
+        document.getElementById('mov-sheet-titulo').textContent = despesa ? 'Editar despesa' : 'Editar receita'
+        document.getElementById('mov-edit-icone').textContent = despesa ? 'shopping_cart' : 'payments'
+        document.getElementById('mov-edit-nome').placeholder = despesa ? 'Ex: Mercado, Aluguel...' : 'Ex: Salário, Freelance...'
+
         backdrop.classList.add('is-open')
         sheet.classList.add('is-open')
         sheet.setAttribute('aria-hidden', 'false')
@@ -43,7 +63,8 @@ function alterar() {
     let valor = document.getElementById('mov-edit-valor')
     let data = document.getElementById('mov-edit-data')
     let conta = document.getElementById('mov-edit-conta')
-    let categoria = document.getElementById('mov-edit-categoria')
+    let tipo = document.getElementById('mov-edit-tipo')
+    let categoria = document.getElementById(tipo.value === 'DESPESA' ? 'mov-categoria-despesa' : 'mov-categoria-receita')
 
     const notfy = new Notyf()
 
@@ -92,6 +113,7 @@ function alterar() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 id: id.value,
+                tipo: tipo.value,
                 nome: nome.value,
                 valor: valor.value,
                 data: data.value,
@@ -103,7 +125,7 @@ function alterar() {
             .then(r => {
                 if (r.ok) {
                     notfy.success({
-                        message: "Sucesso! Receita alterada.",
+                        message: "Sucesso! Movimentação alterada.",
                         icon: true,
                         duration: 3000,
                         position: { x: 'center', y: 'top' }

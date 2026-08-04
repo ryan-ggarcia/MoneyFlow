@@ -24,6 +24,7 @@ module MovimentacaoService
       return "Data inválida."                  if @dados["data"].to_s.strip.empty?
       return "Categoria inválida"              if @dados["categoria"].to_i.negative?
       return "A conta selecionada está inválida" if @dados["conta"].to_i.negative?
+      return "Selecione um tipo de movimentação." if @dados["tipo"].to_s.strip.empty?
 
       nil
     end

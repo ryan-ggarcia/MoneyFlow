@@ -14,4 +14,12 @@ class App < Sinatra::Base
     resultado = MovimentacaoService::Cadastrado.new(corpo_json, session[:usu_login]).call
     resultado.ok? ? sucesso : erro(resultado.msg)
   end
+  post "/movimentacoes/alterar" do
+    resultado = MovimentacaoService::Alterar.new(corpo_json, session[:usu_login]).call
+    resultado.ok? ? sucesso : erro(resultado.msg)
+  end
+  post "/movimentacoes/deletar" do
+    resultado = MovimentacaoService::Deletar.new(corpo_json, session[:usu_login]).call
+    resultado.ok? ? sucesso : erro(resultado.msg)
+  end
 end
