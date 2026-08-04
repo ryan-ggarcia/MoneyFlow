@@ -25,7 +25,7 @@ class MovimentacaoModel
 
   def self.list(usu_id, mov_tipo)
     Database.executa_select("SELECT m.mov_id, m.mov_nome, m.mov_valor, m.mov_data, m.mov_tipo, m.mov_parcela,
-                                    c.cat_nome, con.con_nome
+                                    m.cat_id, m.con_id, c.cat_nome, con.con_nome
                              FROM movimentacao m
                              LEFT JOIN categoria c ON c.cat_id = m.cat_id
                              LEFT JOIN conta con ON con.con_id = m.con_id

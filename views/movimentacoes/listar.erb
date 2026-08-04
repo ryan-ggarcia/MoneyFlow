@@ -1,3 +1,4 @@
+<script src="/js/movimentacoes/modal.js"></script>
 <!-- Barra superior -->
 <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-margin h-16 bg-surface">
   <div class="flex items-center gap-sm">
@@ -89,25 +90,36 @@
       <% if !@receitas.empty? %>
         <% @receitas.each do |r| %>
           <div class="card p-4 sm:p-md shadow-lift flex items-center justify-between gap-sm cursor-pointer">
-          <div class="flex items-center gap-3 sm:gap-4 min-w-0">
-            <div class="icon-circle w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 text-primary shrink-0">
-              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+            <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+              <div class="icon-circle w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 text-primary shrink-0">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+              </div>
+             <div class="min-w-0">
+                <p class="text-label-lg text-on-surface truncate"> <%= r["mov_nome"] %> </p>
+                <p class="text-label-md text-outline"> <%= r["mov_data"] %> </p>
+              </div>
             </div>
-            <div class="min-w-0">
-              <p class="text-label-lg text-on-surface truncate"> <%= r["mov_nome"] %> </p>
-              <p class="text-label-md text-outline"> <%= r["mov_data"] %> </p>
+           <div class="text-right shrink-0">
+             <p class="text-body-lg font-bold sm:text-headline-md text-primary whitespace-nowrap">+  <%= moeda(r["mov_valor"]) %></p>
+               <span class="text-label-md text-outline gap-x-[1]"> 
+                  <%= r["con_nome"] %>
+                  <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-surface-container-high text-on-surface-variant">
+                     <%= r["cat_nome"] %> 
+                  </span>
+               </span>
             </div>
+            <button
+                  class="js-opcoes-movimentacao material-symbols-outlined text-on-surface-variant shrink-0 cursor-pointer hover:opacity-80 transition-opacity active:scale-90"
+                  type="button"
+                  aria-label="Opções da receita"
+                  data-id="<%= r['mov_id'] %>"
+                  data-nome="<%= r['mov_nome'] %>"
+                  data-data="<%= r['mov_data'] %>"
+                  data-valor="<%= r['mov_valor'].to_f %>"
+                  data-conta="<%= r['con_id'] %>"
+                  data-categoria="<%= r['cat_id'] %>"
+                >more_vert</button>
           </div>
-          <div class="text-right shrink-0">
-            <p class="text-body-lg font-bold sm:text-headline-md text-primary whitespace-nowrap">+  <%= moeda(r["mov_valor"]) %></p>
-              <span class="text-label-md text-outline gap-x-[1]"> 
-                <%= r["con_nome"] %>
-                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-surface-container-high text-on-surface-variant">
-                   <%= r["cat_nome"] %> 
-                </span>
-              </span>
-          </div>
-      </div>
         <% end %>
       <% else %>
         <div class="flex flex-col items-center justify-center text-center gap-base py-xl px-md rounded-xl border-2 border-dashed border-outline-variant/50 bg-surface-container-low/40">
@@ -127,15 +139,12 @@
     </div>
   </section>
 </main>
-
-<!-- Botão flutuante de nova receita -->
+<%= erb :"movimentacoes/modal", layout: false %>
 <a class="fixed bottom-24 right-6 w-14 h-14 bg-secondary-container text-on-secondary-container rounded-full shadow-lg flex items-center justify-center transition-transform active:scale-90 z-40" href="/movimentacoes/cadastrar" aria-label="Adicionar Receita">
   <span class="material-symbols-outlined text-[32px]">add</span>
 </a>
 
 <script>
-  // Animação de entrada das barras: começam em 0% e crescem até a altura
-  // definida na classe h-[..%] de cada uma (limpar o style devolve a altura da classe)
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.js-barra').forEach((barra, i) => {
       barra.style.height = '0%';
