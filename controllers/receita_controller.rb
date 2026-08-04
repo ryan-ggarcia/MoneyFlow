@@ -1,15 +1,15 @@
 class App < Sinatra::Base
-  get "/receitas" do
-    @receitas = ReceitaModel.list(session[:usu_login])
-    erb :"receita/listar"
+  get "/movimentacoes" do
+    @receitas = MovimentacaoModel.list(session[:usu_login], "RECEITA")
+    erb :"movimentacoes/listar"
   end
-  get "/receitas/cadastrar" do
+  get "/movimentacoes/cadastrar" do
     @contas = ContaModel.list(session[:usu_login])
     @categorias = CategoriaModel.list
-    erb :"receita/cadastrar"
+    erb :"movimentacoes/cadastrar"
   end
-  post "/receitas/efetuarReceita" do
-    resultado = ReceitaService::Cadastrado.new(corpo_json, session[:usu_login]).call
+  post "/movimentacoes/efetuarCadastro" do
+    resultado = MovimentacaoService::Cadastrado.new(corpo_json, session[:usu_login]).call
     resultado.ok? ? sucesso : erro(resultado.msg)
   end
 end

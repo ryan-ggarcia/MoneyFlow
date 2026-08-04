@@ -29,9 +29,9 @@
         <span class="material-symbols-outlined" style="<%= preenchido if request.path_info.start_with?('/cartoes') %>">credit_card</span>
         <span class="text-label-md">Cartões</span>
       </a>
-      <a class="nav-item <%= ativo if request.path_info.start_with?('/receitas') %>" href="/receitas">
-        <span class="material-symbols-outlined" style="<%= preenchido if request.path_info.start_with?('/receitas') %>">credit_card</span>
-        <span class="text-label-md">receita</span>
+      <a class="nav-item <%= ativo if request.path_info.start_with?('/movimentacoes') %>" href="/movimentacoes">
+        <span class="material-symbols-outlined" style="<%= preenchido if request.path_info.start_with?('/movimentacoes') %>">credit_card</span>
+        <span class="text-label-md">Movimentações</span>
       </a>
       <a class="nav-item" href="#">
         <span class="material-symbols-outlined">person</span>

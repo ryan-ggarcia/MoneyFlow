@@ -1,4 +1,4 @@
-module ReceitaService
+module MovimentacaoService
   class Cadastrado
     def initialize(dados, usu_id)
       @dados = dados
@@ -9,8 +9,8 @@ module ReceitaService
       erro = valida
       return Resultado.erro(erro) if erro
 
-      receita = ReceitaModel.new(0, @dados["nome"], @dados["valor"], @dados["data"], @usu_id, @dados["categoria"],
-                                 @dados["conta"], 0, 0)
+      receita = MovimentacaoModel.new(0, @dados["nome"], @dados["valor"], @dados["data"], "RECEITA", 1, @usu_id,
+                                      @dados["categoria"], @dados["conta"], nil, nil)
       return Resultado.erro("Não foi possível cadastrar a reveita") unless receita.insert
 
       Resultado.ok(receita)

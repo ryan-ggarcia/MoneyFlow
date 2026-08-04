@@ -1,18 +1,18 @@
 class Fatura_Model
-  attr_accessor :fat_id, :fat_nome, :fat_data, :fat_pago, :cat_id
+  attr_accessor :fat_id, :fat_nome, :fat_data, :fat_pago, :car_id
 
-  def initialize(fat_id, fat_nome, fat_data, fat_pago, cat_id)
+  def initialize(fat_id, fat_nome, fat_data, fat_pago, car_id)
     @fat_id = fat_id
     @fat_nome = fat_nome
     @fat_data = fat_data
     @fat_pago = fat_pago
-    @cat_id = cat_id
+    @car_id = car_id
   end
 
   def self.insert
-    sql = "INSERT INTO fatura (fat_nome,fat_data,fat_pago,cat_id)
+    sql = "INSERT INTO fatura (fat_nome,fat_data,fat_pago,car_id)
      VALUES (?,?,?,?)"
-    Database.executa_comando(sql, @fat_nome, @fat_data, @fat_pago, @cat_id)
+    Database.executa_comando(sql, @fat_nome, @fat_data, @fat_pago, @car_id)
   end
 
   def self.list
@@ -24,8 +24,8 @@ class Fatura_Model
   end
 
   def self.update(_fat_id)
-    sql = "UPDATE fatura SET fat_nome = ?, fat_data = ?, fat_pago = ?,cat_id = ? WHERE fet_id = ?"
-    Database.executa_comando(sql, @fat_nome, @fat_data, @fat_pago, @cat_id, fet_id)
+    sql = "UPDATE fatura SET fat_nome = ?, fat_data = ?, fat_pago = ?,car_id = ? WHERE fet_id = ?"
+    Database.executa_comando(sql, @fat_nome, @fat_data, @fat_pago, @car_id, fet_id)
   end
 
   def self.search(fet_id)

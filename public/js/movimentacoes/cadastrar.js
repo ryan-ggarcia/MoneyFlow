@@ -36,7 +36,7 @@ function register() {
         if (inputCategoria) categoria.style.borderColor = "red"
     }
     if (!inputNome || !inputValor || !inputData || !inputConta || !inputCategoria) {
-        fetch("/receitas/efetuarReceita", {
+        fetch("/movimentacoes/efetuarCadastro", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body:JSON.stringify({
@@ -56,7 +56,7 @@ function register() {
                         duration: 3000,
                         position: { x: 'center', y: 'top' }
                     })
-                    setTimeout(() => { window.location.href = '/receitas' }, 4000)
+                    setTimeout(() => { window.location.href = '/movimentacoes' }, 4000)
                 }else{
                       notfy.error({
                         message: r.msg,
