@@ -1,4 +1,3 @@
-<script src="/js/movimentacoes/modal.js"></script>
 <!-- Barra superior -->
 <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-margin h-16 bg-surface">
   <div class="flex items-center gap-sm">
@@ -74,7 +73,7 @@
   <section>
     <div class="flex justify-between items-center gap-sm mb-md">
       <h3 class="text-headline-md text-on-surface">Transações Recentes</h3>
-      <button class="link-accent text-label-lg" type="button">Ver Todas</button>
+      <button class="link-accent text-label-lg" type="button"><a href="/movimentacoes">Ver Todos</a></button>
     </div>
 
     <div class="flex flex-col gap-gutter">
@@ -101,17 +100,6 @@
                   </span>
                </span>
             </div>
-            <button
-                  class="js-opcoes-movimentacao material-symbols-outlined text-on-surface-variant shrink-0 cursor-pointer hover:opacity-80 transition-opacity active:scale-90"
-                  type="button"
-                  aria-label="Opções da receita"
-                  data-id="<%= r['mov_id'] %>"
-                  data-nome="<%= r['mov_nome'] %>"
-                  data-data="<%= r['mov_data'] %>"
-                  data-valor="<%= r['mov_valor'].to_f %>"
-                  data-conta="<%= r['con_id'] %>"
-                  data-categoria="<%= r['cat_id'] %>"
-                >more_vert</button>
           </div>
         <% end %>
       <% else %>
@@ -132,7 +120,6 @@
     </div>
   </section>
 </main>
-<%= erb :"movimentacoes/modal", layout: false %>
 <!-- Botão flutuante de nova transação -->
 <a class="fixed bottom-24 right-6 w-14 h-14 bg-secondary-container text-on-secondary-container rounded-full shadow-lg flex items-center justify-center transition-transform active:scale-90 z-40" href="/movimentacoes/cadastrar" aria-label="Adicionar Receita">
   <span class="material-symbols-outlined text-[32px]">add</span>
