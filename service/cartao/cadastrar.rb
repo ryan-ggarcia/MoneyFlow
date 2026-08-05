@@ -9,7 +9,7 @@ module CartaoService
       erro = validacao
       return Resultado.erro(erro) if erro
 
-      if @dados["tipo"].to_s === "CREDITO"
+      if @dados["tipo"].to_s == "CREDITO"
         cartao = CartaoModel.new(0, @dados["nome"], @dados["limite"], @dados["tipo"], "ATIVO", @dados["vencimento"],
                                  @dados["conta"], @dados["fechamento"])
         Resultado.erro("Não foi possível fazer o cadastro do cartão.") unless cartao.insert_credito

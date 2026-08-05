@@ -24,9 +24,10 @@ class CartaoModel
     Database.executa_comando(sql, @car_nome, @car_tipo, @car_status, @con_id)
   end
 
-  # def self.list(con_id)
-  #   Database.executa_select("SELECT * FROM cartao WHERE usu_id = ?", con_id)
-  # end
+  def self.list(usu_id)
+    Database.executa_select("SELECT c.car_id,c.car_nome,c.car_limite,c.car_tipo,c.car_status,c.car_validade, con.con_nome  FROM cartao c
+                            INNER JOIN conta con ON con.con_id = c.con_id WHERE con.usu_id = ?", usu_id)
+  end
 
   def self.delete(car_id, usu_id)
     Database.executa_comando("DELETE FROM cartao WHERE car_id = ? AND usu_id = ?", car_id, usu_id)
