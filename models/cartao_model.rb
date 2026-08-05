@@ -41,6 +41,6 @@ class CartaoModel
   end
 
   def self.search(car_id, usu_id)
-    Database.executa_select("SELECT * FROM cartao WHERE car_id = ? AND usu_id", car_id, usu_id).first
+    Database.executa_select("SELECT * FROM cartao WHERE car_id = ? AND usu_id", car_id, usu_id)
   end
 end

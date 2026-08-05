@@ -215,6 +215,20 @@
     box-shadow: 0px 12px 32px rgba(52, 58, 64, 0.1);
   }
 
+  .credit-card-clicavel {
+    @apply cursor-pointer select-none;
+  }
+
+  .credit-card-clicavel:hover {
+    @apply -translate-y-1;
+    box-shadow: 0px 18px 40px rgba(52, 58, 64, 0.22);
+  }
+
+  .credit-card-selecionado {
+    @apply scale-102 blur-[1px];
+    box-shadow: 0px 12px 32px rgba(52, 58, 64, 0.18);
+  }
+
   /* Acabamento metálico do cartão premium (alternado pelo toggle no formulário) */
   .gold-finish {
     background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
