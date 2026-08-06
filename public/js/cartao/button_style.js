@@ -13,14 +13,21 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   cartoes.forEach(cartao => {
-    cartao.addEventListener('click', function () {
+    cartao.addEventListener('click', function (e) {
+        if (cartao.classList.contains('credit-card-selecionado')) {
+          e.stopImmediatePropagation();
+          return;
+        }
         selecionarCartao(cartao);
-        
     });
     cartao.addEventListener('keydown', function (e) {
       if (e.key !== 'Enter' && e.key !== ' ') return;
       e.preventDefault();
       selecionarCartao(cartao);
+    });
+    cartao.addEventListener('blur', function (e) {
+      if (e.relatedTarget && e.relatedTarget.closest('.credit-card')) return;
+      window.location.reload();
     });
   });
 });

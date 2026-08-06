@@ -41,6 +41,7 @@ class CartaoModel
   end
 
   def self.search(car_id, usu_id)
-    Database.executa_select("SELECT * FROM cartao WHERE car_id = ? AND usu_id", car_id, usu_id)
+    Database.executa_select("SELECT * FROM cartao c INNER JOIN conta con ON con.con_id = c.con_id 
+                              WHERE con.usu_id = ? AND c.car_id = ?", usu_id, car_id)
   end
 end

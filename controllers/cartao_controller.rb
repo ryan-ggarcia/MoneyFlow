@@ -11,7 +11,8 @@ class App < Sinatra::Base
     resultado = CartaoService::Cadastrar.new(corpo_json, session[:usu_login]).call
     resultado.ok? ? sucesso : erro(resultado.msg)
   end
-  post "/cartoes/listar" do
-    
+  get "/cartoes/listar/:id" do
+    resultado = CartaoService::Listar.new(params["id"].to_i, session[:usu_login]).call
+    resultado.ok? ? sucesso(cartoes: resultado.dado) : erro(resultado.msg)
   end
 end
