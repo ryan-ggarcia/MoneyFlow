@@ -7,6 +7,7 @@ class App < Sinatra::Base
   end
   get "/movimentacoes/cadastrar" do
     @contas = ContaModel.list(session[:usu_login])
+    @cartoes = CartaoModel.list(session[:usu_login])
     @categorias = CategoriaModel.list
     erb :"movimentacoes/cadastrar"
   end

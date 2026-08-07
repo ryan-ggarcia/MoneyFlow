@@ -7,10 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.getElementById('mov-edit-id').value = dados.id || ''
         document.getElementById('mov-edit-tipo').value = dados.tipo || 'RECEITA'
+        document.getElementById('mov-edit-grupo').value = dados.grupo || ''
         document.getElementById('mov-edit-nome').value = dados.nome || ''
         document.getElementById('mov-edit-valor').value = dados.valor || ''
         document.getElementById('mov-edit-data').value = dados.data || ''
         document.getElementById('mov-edit-conta').value = dados.conta || '0'
+
+        travarCampos(dados)
 
         const receitaSelect = document.getElementById('mov-categoria-receita')
         const despesaSelect = document.getElementById('mov-categoria-despesa')
@@ -32,6 +35,22 @@ document.addEventListener('DOMContentLoaded', function () {
         backdrop.classList.add('is-open')
         sheet.classList.add('is-open')
         sheet.setAttribute('aria-hidden', 'false')
+    }
+
+    // Compra no cartão: só nome e categoria podem mudar
+    function travarCampos(dados) {
+        const noCartao = !!dados.grupo
+        const aviso = document.getElementById('mov-aviso')
+
+        aviso.classList.toggle('active', noCartao)
+        aviso.classList.toggle('desable', !noCartao)
+        document.getElementById('mov-aviso-texto').textContent = noCartao
+            ? `Compra no cartão ${dados.cartao}${dados.parcela ? ` — parcela ${dados.parcela}` : ''}. O nome e a categoria valem para todas as parcelas; valor, data e conta não mudam por aqui.`
+            : ''
+
+        document.getElementById('mov-edit-valor').disabled = noCartao
+        document.getElementById('mov-edit-data').disabled = noCartao
+        document.getElementById('mov-edit-conta').disabled = noCartao
     }
 
     function fechar() {
@@ -145,9 +164,12 @@ function alterar() {
 
 function deletar() {
     let id = document.getElementById('mov-edit-id')
+    const parcelada = !!document.getElementById('mov-edit-grupo').value
     Swal.fire({
         title: "Tem certeza?",
-        text: "Você não conseguirá reverter isso!",
+        text: parcelada
+            ? "Essa movimentação é uma compra no cartão: todas as parcelas dela serão excluídas!"
+            : "Você não conseguirá reverter isso!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",

@@ -10,7 +10,7 @@ class UsuarioModel
 
   # CRUD
   def insert
-    sql = `INSERT INTO usuario (usu_nome,usu_senha,usu_email) VALUES (?,?,?)`
+    sql = "INSERT INTO usuario (usu_nome,usu_senha,usu_email) VALUES (?,?,?)"
     Database.executa_comando(sql, @usu_nome, @usu_senha, @usu_email)
   end
 

@@ -28,10 +28,15 @@
           <div class="card p-4 sm:p-md shadow-lift flex items-center justify-between gap-sm cursor-pointer">
             <div class="flex items-center gap-3 sm:gap-4 min-w-0">
               <div class="icon-circle w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 text-primary shrink-0">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;"><%= r["car_nome"] ? "credit_card" : "payments" %></span>
               </div>
              <div class="min-w-0">
-                <p class="text-label-lg text-on-surface truncate"> <%= r["mov_nome"] %> </p>
+                <p class="text-label-lg text-on-surface truncate">
+                  <%= r["mov_nome"] %>
+                  <% if !parcela_de(r).empty? %>
+                    <span class="text-label-md text-outline">(<%= parcela_de(r) %>)</span>
+                  <% end %>
+                </p>
                 <p class="text-label-md text-outline"> <%= r["mov_data"] %> </p>
               </div>
             </div>
@@ -39,10 +44,10 @@
              <p class="text-body-lg font-bold sm:text-headline-md <%= r["mov_tipo"] == "RECEITA" ? "text-primary" : "text-tertiary" %> whitespace-nowrap">
               <%= r["mov_tipo"] == "RECEITA" ? "+" : "-" %> <%= moeda(r["mov_valor"]) %>
               </p>
-               <span class="text-label-md text-outline gap-x-[1]"> 
-                  <%= r["con_nome"] %>
+               <span class="text-label-md text-outline gap-x-[1]">
+                  <%= r["con_nome"] || r["car_nome"] %>
                   <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-surface-container-high text-on-surface-variant">
-                     <%= r["cat_nome"] %> 
+                     <%= r["cat_nome"] %>
                   </span>
                </span>
             </div>
@@ -57,6 +62,9 @@
                   data-conta="<%= r['con_id'] %>"
                   data-tipo="<%= r['mov_tipo'] %>"
                   data-categoria="<%= r['cat_id'] %>"
+                  data-grupo="<%= r['mov_grupo'] %>"
+                  data-parcela="<%= parcela_de(r) %>"
+                  data-cartao="<%= r['car_nome'] %>"
                 >more_vert</button>
           </div>
         <% end %>

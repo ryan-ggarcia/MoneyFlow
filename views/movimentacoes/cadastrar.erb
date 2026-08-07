@@ -125,6 +125,35 @@
       </div>
     </div>
 
+    <!-- Cartão: só aparece quando a movimentação é uma despesa -->
+    <div class="desable" id="bloco-cartao">
+      <div class="grid grid-cols-2 gap-gutter">
+        <div class="flex flex-col gap-xs">
+          <label class="field-label text-on-surface-variant ml-1" for="cartao">Cartão</label>
+          <div class="relative">
+            <select class="campo-receita pr-10 text-body-md appearance-none" id="cartao" name="cartao" onchange="getCartao()">
+              <option value="0">--Pagar pela conta--</option>
+              <% if !@cartoes.empty? %>
+                <% @cartoes.each do |c| %>
+                  <% if c["car_status"] == "ATIVO" %>
+                    <option value="<%= c["car_id"] %>" data-tipo="<%= c["car_tipo"] %>">
+                      <%= c["car_nome"] %> (<%= c["car_tipo"] == "CREDITO" ? "Crédito" : "Débito" %>)
+                    </option>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </select>
+            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-xs">
+          <label class="field-label text-on-surface-variant ml-1" for="parcelas">Parcelas</label>
+          <input class="campo-receita text-body-md" id="parcelas" name="parcelas" type="number" min="1" max="99" value="1" disabled>
+        </div>
+      </div>
+      <p class="text-label-md text-outline mt-xs ml-1" id="aviso-cartao"></p>
+    </div>
+
     <!-- Notas -->
     <div class="flex flex-col gap-xs">
       <label class="field-label text-on-surface-variant ml-1" for="notas">Notas (Opcional)</label>
@@ -187,5 +216,29 @@
     document.getElementById('resceita').classList.toggle('desable', despesa);
     document.getElementById('despesa').classList.toggle('active', despesa);
     document.getElementById('despesa').classList.toggle('desable', !despesa);
+
+    document.getElementById('bloco-cartao').classList.toggle('active', despesa);
+    document.getElementById('bloco-cartao').classList.toggle('desable', !despesa);
+    if (!despesa) document.getElementById('cartao').value = '0';
+    getCartao();
+  }
+
+  // Escolheu cartão? a conta sai de cena; parcelas só valem no crédito
+  function getCartao() {
+    const cartao = document.getElementById('cartao');
+    const parcelas = document.getElementById('parcelas');
+    const conta = document.getElementById('conta');
+    const escolhido = cartao.options[cartao.selectedIndex];
+    const credito = cartao.value !== '0' && escolhido.dataset.tipo === 'CREDITO';
+
+    parcelas.disabled = !credito;
+    if (!credito) parcelas.value = '1';
+
+    conta.disabled = cartao.value !== '0';
+    if (conta.disabled) conta.value = '0';
+
+    document.getElementById('aviso-cartao').textContent = credito
+      ? 'A compra vira uma parcela por mês na fatura do cartão.'
+      : (cartao.value !== '0' ? 'No débito o valor sai direto da conta do cartão.' : '');
   }
 </script>
