@@ -1,5 +1,6 @@
 <script src="/js/cartao/button_style.js"></script>
-<script src="js/cartao/lista.js"></script>
+<script src="/js/cartao/lista.js"></script>
+<script src="/js/cartao/modal.js"></script>
 <!-- Barra superior -->
 <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-margin h-16 bg-surface">
   <div class="flex items-center gap-sm">
@@ -33,27 +34,51 @@
     <% if !@cartao.empty? %>
       <% @cartao.each do |c| %>
         <div class="credit-card credit-card-clicavel bg-[#2b3137] text-white" data-id="<%= c["car_id"] %>" role="button" tabindex="0" aria-pressed="false" aria-label="Cartão <%= c["car_nome"] %>">
-          <div class="flex justify-between items-start opacity-50">
-            <span class="material-symbols-outlined text-4xl">contactless</span>
-            <span class="font-bold text-xl tracking-tighter"><%= c["car_nome"] %></span>
+          <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-4xl opacity-50">contactless</span>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-xl tracking-tighter opacity-50"><%= c["car_nome"] %></span>
+              <button
+                class="js-opcoes-cartao material-symbols-outlined opacity-70 cursor-pointer hover:opacity-100 transition-opacity active:scale-90"
+                type="button"
+                aria-label="Opções do cartão <%= c["car_nome"] %>"
+                data-id="<%= c["car_id"] %>"
+                data-nome="<%= c["car_nome"] %>"
+                data-tipo="<%= c["car_tipo"] %>"
+                data-status="<%= c["car_status"] %>"
+                data-limite="<%= c["car_limite"].to_f %>"
+                data-fechamento="<%= c["car_fechamento"] %>"
+                data-vencimento="<%= c["car_validade"] %>"
+                data-conta="<%= c["con_id"] %>"
+              >more_vert</button>
+            </div>
           </div>
           <div>
-            <div class="font-mono text-lg tracking-[0.2em] mb-1"> <%= c["car_tipo"] %> </div>
+            <div class="font-mono text-lg tracking-[0.2em] mb-1 opacity-50"> <%= c["car_tipo"] %> </div>
             <div class="flex justify-between items-end">
               <span class="text-label-md uppercase opacity-60"> <%= c["con_nome"] %> </span>
-              <span class="italic font-bold text-xl tracking-tight">VISA</span>
+              <span class="text-label-md px-2 py-0.5 rounded-full <%= c["car_status"] == "ATIVO" ? "bg-white/15" : "bg-tertiary/60" %>"><%= c["car_status"] %></span>
             </div>
           </div>
       </div>
       <% end %>
     <% else %>
-
+      <div class="flex flex-col items-center justify-center text-center gap-base py-xl px-md w-full rounded-xl border-2 border-dashed border-outline-variant/50 bg-surface-container-low/40">
+        <div class="icon-circle w-20 h-20 bg-primary-container/20 mb-sm">
+          <span class="material-symbols-outlined text-primary text-[40px]">credit_card</span>
+        </div>
+        <h4 class="text-headline-md text-on-surface">Nenhum cartão por aqui ainda</h4>
+        <p class="text-body-md text-on-surface-variant max-w-[360px]">
+          Cadastre um cartão para lançar suas compras e acompanhar as faturas.
+        </p>
+      </div>
     <% end %>
   </section>
 
   <!-- Abaixo do carrossel: no mobile empilha; no desktop (lg) vira 2 colunas
        (esquerda = uso do limite + datas, direita = últimas compras). -->
   <div class="grid gap-md lg:grid-cols-2 lg:items-start" id="cartao-info">
-   
+
   </div>
 </main>
+<%= erb :"cartao/modal", layout: false %>

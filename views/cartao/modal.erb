@@ -1,0 +1,101 @@
+
+<div class="sheet-backdrop" id="car-backdrop"></div>
+
+<section class="bottom-sheet" id="car-sheet" role="dialog" aria-modal="true" aria-labelledby="car-sheet-titulo" aria-hidden="true">
+  <div class="sheet-handle"></div>
+
+  <div class="flex items-center justify-between px-md pb-sm shrink-0">
+    <h3 class="text-headline-md text-on-surface" id="car-sheet-titulo">Editar cartão</h3>
+    <button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-90 cursor-pointer" type="button" id="car-fechar" aria-label="Fechar">close</button>
+  </div>
+
+  <form class="flex flex-col gap-gutter px-md pb-md overflow-y-auto flex-1" id="form-editar-cartao">
+    <input type="hidden" id="car-edit-id" name="id">
+
+    <div class="flex flex-col gap-base">
+      <label class="field-label" for="car-edit-nome">Nome do Cartão</label>
+      <div class="relative">
+        <span class="material-symbols-outlined input-icon">credit_card</span>
+        <input class="input-field" id="car-edit-nome" name="nome" maxlength="20" placeholder="Ex: Principal Itaú" type="text">
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-gutter">
+      <div class="flex flex-col gap-base">
+        <label class="field-label" for="car-edit-tipo">Tipo</label>
+        <div class="relative">
+          <select class="input-field pl-4 pr-12 appearance-none" id="car-edit-tipo" name="tipo">
+            <option value="DEBITO">Débito</option>
+            <option value="CREDITO">Crédito</option>
+          </select>
+          <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-base">
+        <label class="field-label" for="car-edit-status">Situação</label>
+        <div class="relative">
+          <select class="input-field pl-4 pr-12 appearance-none" id="car-edit-status" name="status">
+            <option value="ATIVO">Ativo</option>
+            <option value="INATIVO">Inativo</option>
+          </select>
+          <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-base">
+      <label class="field-label" for="car-edit-conta">Conta</label>
+      <div class="relative">
+        <span class="material-symbols-outlined input-icon">account_balance</span>
+        <select class="input-field pr-12 appearance-none" id="car-edit-conta" name="conta">
+          <option value="0">--Selecionar--</option>
+          <% if !@conta.empty? %>
+            <% @conta.each do |c| %>
+              <option value="<%= c["con_id"] %>"> <%= c["con_nome"] %> </option>
+            <% end %>
+          <% else %>
+            <option value="0" disabled>Nenhuma conta cadastrada</option>
+          <% end %>
+        </select>
+        <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+      </div>
+    </div>
+
+    <div class="desable" id="car-edit-credito">
+      <div class="flex flex-col gap-base mb-gutter">
+        <label class="field-label" for="car-edit-limite">Limite de Crédito</label>
+        <div class="relative">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-outline">R$</span>
+          <input class="input-field" id="car-edit-limite" name="limite" placeholder="0,00" type="number" step="0.01" min="0">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-gutter">
+        <div class="flex flex-col gap-base">
+          <label class="field-label" for="car-edit-fechamento">Dia de Fechamento</label>
+          <div class="relative">
+            <span class="material-symbols-outlined input-icon">event_repeat</span>
+            <input class="input-field" id="car-edit-fechamento" name="fechamento" type="number" min="1" max="31" placeholder="01">
+          </div>
+        </div>
+        <div class="flex flex-col gap-base">
+          <label class="field-label" for="car-edit-vencimento">Dia de Vencimento</label>
+          <div class="relative">
+            <span class="material-symbols-outlined input-icon">calendar_today</span>
+            <input class="input-field" id="car-edit-vencimento" name="vencimento" type="number" min="1" max="31" placeholder="01">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex gap-sm pt-1 lg:justify-end">
+      <button class="flex-1 lg:flex-none lg:px-10 py-4 bg-secondary text-on-secondary font-bold rounded-xl shadow-lift flex items-center justify-center gap-2" id="btn-salvar-cartao" type="button">
+        <span class="material-symbols-outlined">save</span>
+        Salvar
+      </button>
+      <button class="py-4 px-6 bg-tertiary text-white font-bold rounded-xl shadow-lift flex items-center justify-center gap-2" id="btn-excluir-cartao" type="button">
+        <span class="material-symbols-outlined">delete</span>
+        Excluir
+      </button>
+    </div>
+  </form>
+</section>
