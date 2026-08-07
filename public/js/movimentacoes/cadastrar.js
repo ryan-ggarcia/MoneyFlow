@@ -1,19 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("btn").addEventListener("click", register)
 })
-function getTipo(event) {
-    if (event == "DESPESA") {
-        document.getElementById("despesa").classList.remove("desable")
-        document.getElementById("despesa").classList.add("active")
-        document.getElementById("resceita").classList.remove("active")
-        document.getElementById("resceita").classList.add("desable")
-    } else {
-        document.getElementById("resceita").classList.remove("desable")
-        document.getElementById("resceita").classList.add("active")
-        document.getElementById("despesa").classList.remove("active")
-        document.getElementById("despesa").classList.add("desable")
-    }
-}
 function pegarCategoria(){
     let resceita = document.getElementById("resceita")
     let despesa = document.getElementById("despesa")
@@ -27,12 +14,15 @@ function register() {
     let conta = document.getElementById("conta")
     let categoria = pegarCategoria()
     let tipo = document.getElementById("tipo")
+    let cartao = document.getElementById("cartao")
+    let parcelas = document.getElementById("parcelas")
     const notfy = new Notyf()
 
+    const usaCartao = cartao.value != "0"
     const inputNome = nome.value.trim() == ""
     const inputValor = valor.value.trim() == ""
     const inputData = data.value == ""
-    const inputConta = conta.value == "0"
+    const inputConta = !usaCartao && conta.value == "0"
     const inputCategoria = categoria.value == "0"
     const inputTipo = tipo.value == "0"
 
@@ -57,7 +47,7 @@ function register() {
         if (inputTipo) tipo.style.borderColor = "red"
         if (inputCategoria) categoria.style.borderColor = "red"
     }
-    if (!inputNome || !inputValor || !inputData || !inputConta || !inputCategoria) {
+    if (!inputNome && !inputValor && !inputData && !inputConta && !inputCategoria && !inputTipo) {
         fetch("/movimentacoes/efetuarCadastro", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -67,7 +57,9 @@ function register() {
                 data: data.value,
                 conta: conta.value,
                 categoria: categoria.value,
-                tipo: tipo.value
+                tipo: tipo.value,
+                cartao: cartao.value,
+                parcelas: parcelas.value
             })
         })
             .then(r => r.json())

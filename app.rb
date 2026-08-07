@@ -2,6 +2,7 @@ require "dotenv/load"
 require "sinatra/base"
 require_relative "db/db"
 require "json"
+require "date"
 require "bcrypt"
 # require "sinatra/reloader" if development?
 # carregam todos os models automaticamente.

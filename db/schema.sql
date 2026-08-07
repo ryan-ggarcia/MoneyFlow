@@ -79,61 +79,41 @@ INSERT IGNORE INTO categoria (cat_nome, cat_tipo) VALUES
   ('Presente',      'RECEITA'),
   ('Outros',        'RECEITA');
 
-CREATE TABLE IF NOT EXISTS compra (
-  com_id          INT UNSIGNED     NOT NULL AUTO_INCREMENT,
-  com_nome        VARCHAR(100)     NOT NULL,
-  com_valorTotal  DECIMAL(10, 2)   NOT NULL,
-  com_data        DATE             NOT NULL,
-  com_parcelas    SMALLINT UNSIGNED NOT NULL DEFAULT 1,
-  usu_id          INT UNSIGNED     NOT NULL,
-  cat_id          INT UNSIGNED         NULL DEFAULT NULL,
-
-  PRIMARY KEY (com_id),
-  KEY idx_compra_usuario   (usu_id),
-  KEY idx_compra_categoria (cat_id),
-  CONSTRAINT fk_compra_usuario
-    FOREIGN KEY (usu_id) REFERENCES usuario (usu_id)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_compra_categoria
-    FOREIGN KEY (cat_id) REFERENCES categoria (cat_id)
-    ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT ck_compra_valor    CHECK (com_valorTotal >= 0),
-  CONSTRAINT ck_compra_parcelas CHECK (com_parcelas >= 1)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS fatura (
   fat_id    INT UNSIGNED NOT NULL AUTO_INCREMENT,
   fat_nome  VARCHAR(50)  NOT NULL,
-  fat_data  DATE         NOT NULL,
+  fat_data  DATE         NOT NULL,          -- vencimento
   fat_pago  TINYINT(1)   NOT NULL DEFAULT 0,
   car_id    INT UNSIGNED NOT NULL,
 
   PRIMARY KEY (fat_id),
   KEY idx_fatura_cartao (car_id),
+  UNIQUE KEY uk_fatura_cartao_data (car_id, fat_data),
   CONSTRAINT fk_fatura_cartao
     FOREIGN KEY (car_id) REFERENCES cartao (car_id)
     ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS movimentacao (
-  mov_id       INT UNSIGNED   NOT NULL AUTO_INCREMENT,
-  mov_nome     VARCHAR(100)   NOT NULL,
-  mov_valor    DECIMAL(10, 2) NOT NULL,               -- valor DA PARCELA quando parcelado
-  mov_data     DATE           NOT NULL,
-  mov_tipo     ENUM('RECEITA', 'DESPESA') NOT NULL,
-  mov_parcela  SMALLINT UNSIGNED NOT NULL DEFAULT 1,
-  usu_id       INT UNSIGNED   NOT NULL,
-  cat_id       INT UNSIGNED       NULL DEFAULT NULL,
-  con_id       INT UNSIGNED       NULL DEFAULT NULL,
-  fat_id       INT UNSIGNED       NULL DEFAULT NULL,
-  com_id       INT UNSIGNED       NULL DEFAULT NULL,
+  mov_id             INT UNSIGNED   NOT NULL AUTO_INCREMENT,
+  mov_nome           VARCHAR(100)   NOT NULL,
+  mov_valor          DECIMAL(10, 2) NOT NULL,               -- valor DA PARCELA quando parcelado
+  mov_data           DATE           NOT NULL,
+  mov_tipo           ENUM('RECEITA', 'DESPESA') NOT NULL,
+  mov_parcela        SMALLINT UNSIGNED NOT NULL DEFAULT 1,
+  mov_parcela_total  SMALLINT UNSIGNED NOT NULL DEFAULT 1,
+  usu_id             INT UNSIGNED   NOT NULL,
+  cat_id             INT UNSIGNED       NULL DEFAULT NULL,
+  con_id             INT UNSIGNED       NULL DEFAULT NULL,
+  fat_id             INT UNSIGNED       NULL DEFAULT NULL,
+  mov_grupo          INT UNSIGNED       NULL DEFAULT NULL,  -- mov_id da 1ª parcela
 
   PRIMARY KEY (mov_id),
   KEY idx_movimentacao_usuario   (usu_id),
   KEY idx_movimentacao_categoria (cat_id, mov_tipo),
   KEY idx_movimentacao_conta     (con_id),
   KEY idx_movimentacao_fatura    (fat_id),
-  KEY idx_movimentacao_compra    (com_id),
+  KEY idx_movimentacao_grupo     (mov_grupo),
   KEY idx_movimentacao_extrato   (usu_id, mov_data),          -- relatórios por período
   KEY idx_movimentacao_tipo      (usu_id, mov_tipo, mov_data),
   CONSTRAINT fk_movimentacao_usuario
@@ -148,11 +128,8 @@ CREATE TABLE IF NOT EXISTS movimentacao (
   CONSTRAINT fk_movimentacao_fatura
     FOREIGN KEY (fat_id) REFERENCES fatura (fat_id)
     ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT fk_movimentacao_compra
-    FOREIGN KEY (com_id) REFERENCES compra (com_id)
-    ON DELETE CASCADE ON UPDATE CASCADE,   -- apagou a compra, somem as parcelas
   CONSTRAINT ck_movimentacao_valor   CHECK (mov_valor >= 0),
-  CONSTRAINT ck_movimentacao_parcela CHECK (mov_parcela >= 1),
-  CONSTRAINT ck_movimentacao_receita CHECK (mov_tipo = 'DESPESA' OR (fat_id IS NULL AND com_id IS NULL AND mov_parcela = 1))
+  CONSTRAINT ck_movimentacao_parcela CHECK (mov_parcela BETWEEN 1 AND mov_parcela_total),
+  CONSTRAINT ck_movimentacao_receita CHECK (mov_tipo = 'DESPESA' OR (fat_id IS NULL AND mov_grupo IS NULL AND mov_parcela = 1))
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 

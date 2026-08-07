@@ -12,6 +12,12 @@
   <form class="flex flex-col gap-gutter px-md pb-md overflow-y-auto flex-1" id="form-editar-movimentacao">
     <input type="hidden" id="mov-edit-id" name="id">
     <input type="hidden" id="mov-edit-tipo" name="tipo">
+    <input type="hidden" id="mov-edit-grupo" name="grupo">
+
+    <div class="desable p-3 rounded-lg bg-secondary-container/30 border border-secondary/30" id="mov-aviso">
+      <span class="material-symbols-outlined text-secondary align-middle mr-1">credit_card</span>
+      <span class="text-label-md text-on-surface" id="mov-aviso-texto"></span>
+    </div>
 
     <div class="flex flex-col gap-base">
       <label class="field-label" for="mov-edit-nome">Nome da Movimentação</label>

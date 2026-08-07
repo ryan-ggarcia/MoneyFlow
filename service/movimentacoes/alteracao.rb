@@ -9,14 +9,25 @@ module MovimentacaoService
       erro = valida
       return Resultado.erro(erro) if erro
 
-      movimentacao = MovimentacaoModel.new(@dados["id"], @dados["nome"], @dados["valor"], @dados["data"], @dados["tipo"], "1",
-                                           @usu_id, @dados["categoria"], @dados["conta"], nil, nil)
-      return "Erro ao atualizar a movimentação..." unless movimentacao.update(@dados["id"])
+      atual = MovimentacaoModel.search(@dados["id"], @usu_id)
+      return Resultado.erro("Movimentação não encontrada.") unless atual
+
+      movimentacao = MovimentacaoModel.new(@dados["id"], @dados["nome"], @dados["valor"], @dados["data"],
+                                           @dados["tipo"], atual["mov_parcela"], atual["mov_parcela_total"], @usu_id,
+                                           @dados["categoria"], @dados["conta"], atual["fat_id"], atual["mov_grupo"])
+      return Resultado.erro("Erro ao atualizar a movimentação...") unless altera(movimentacao, atual)
 
       Resultado.ok(movimentacao)
     end
 
     private
+
+    # Na compra parcelada o nome e a categoria valem para o grupo inteiro
+    def altera(movimentacao, atual)
+      return movimentacao.update_grupo(atual["mov_grupo"]) if atual["mov_grupo"]
+
+      movimentacao.update(@dados["id"])
+    end
 
     def valida
       return "Preencha o nome corretamente." if @dados["nome"].to_s.strip.empty?
