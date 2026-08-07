@@ -7,7 +7,7 @@ module ContaService
 
     def call
       erro = validacao
-      return Resultado.erro(msg) if erro
+      return Resultado.erro(erro) if erro
 
       conta = ContaModel.new(@dados["id"], @dados["nome"], @dados["saldo"], @dados["tipo"], @dados["pix"] || "Sem chave pix",
                              @usu_id, @dados["cor"])
